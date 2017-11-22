@@ -2,9 +2,22 @@
   "name": "andela-event-manager",
   "version": "1.0.0",
   "description": "[![Build Status](https://travis-ci.org/albert85/Andela-Event-Manager.svg?branch=develop)](https://travis-ci.org/albert85/Andela-Event-Manager)",
-  "main": "index.js",
+  "main": "./server/api/",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
+    "eslint": "^4.11.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "express": "^4.16.2",
+    "mocha": "^4.0.1",
+    "nodemon": "^1.12.1"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "js": "babel ./server/api -d ./server/dist -w"
   },
   "repository": {
     "type": "git",
