@@ -1,0 +1,20 @@
+{
+  "name": "andela-event-manager",
+  "version": "1.0.0",
+  "description": "[![Build Status](https://travis-ci.org/albert85/Andela-Event-Manager.svg?branch=develop)](https://travis-ci.org/albert85/Andela-Event-Manager)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/albert85/Andela-Event-Manager.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/albert85/Andela-Event-Manager/issues"
+  },
+  "homepage": "https://github.com/albert85/Andela-Event-Manager#readme"
+}
