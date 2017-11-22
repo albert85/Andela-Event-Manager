@@ -1,0 +1,66 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+#eventlist{
+    overflow-y: scroll;
+    height: 300px;
+}
+
+hr{
+    border-color: #ffffff;
+    /* border-width: 10px; */
+}
+
+#section-cover{
+    min-height: 82vh;
+}
+
+#coverpage-section{
+    background: #222 url('../img/lady-guitar.jpg') center center no-repeat;
+    background-size: cover;
+    padding: 50vh 0;
+}
+
+#cover-section-signin{
+    background: url('../img/eventcenter.jpg') center  center no-repeat;
+    background-size: cover;
+     min-height: 100vh;
+}
+
+#sigUpsection{
+    background: rgba(0,0,0,0.8);
+}
+
+#cover-section-signup{
+    background: url('../img/eventcenter.jpg') center center no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+#sigininnersection{
+    background: rgba(0,0,0,0.8);
+    margin-top: 80px;
+}
+
+#section-cover-user{
+    background: #222 url('../img/eventCenter2.jpg') center center no-repeat;
+    background-size: cover;
+}
+.event-body{
+    background: rgba(255,255,255,0.8);
+    color: #000000;
+}
+
+#section-cover-admin-home-page{
+    background: #222 url('../img/eventCenter3.jpg') center center no-repeat;
+    background-size: cover;
+    min-height: 85vh;
+}
+
+#section-cover-viewcenter{
+    background: #222 url('../img/eventCenter2.jpg') center center no-repeat;
+    background-size: cover;
+    min-height: 85vh;
+}
