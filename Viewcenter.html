@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Event Center Details</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+
+    <link rel="stylesheet" href="styles/font-awesome.min.css">
+
+
+    <link rel="stylesheet" href="styles/mystylesheet.css">
+
+
+</head>
+
+<body class="text-white bg-dark">
+    <!-- Setup the header -->
+
+    <div class="bg-darks container-fluid p-2 text-center">
+        <h3>EVENT CENTER MANAGEMENT</h3>
+    </div>
+
+    <!-- Create two columns for the management content -->
+    <!-- create a section -->
+    <div class="section">
+        <div id="section-cover-viewcenter">
+            <div class="container">
+                <div class="row event-body">
+                    <div class="col-md-5 col-sm-12 pl-4 pr-4 pb-4 mb-3">
+                        <form class="p-2 text-dark">
+                            <div class="bg-danger text-center text-white p-2 mb-3">
+                                <h6>EVENT CENTER</h4>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="eventname"> Event Name:</label>
+                                <input type="text" readonly id="eventname" class="form-control" placeholder="" aria-describedby="helpId">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="eventcenterlocation"> Event Location:</label>
+                                <input type="text" readonly name="eventcenterlocation" class="form-control" placeholder="" aria-describedby="helpId">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="eventcentercapacity"> Capacity:</label>
+                                <input type="text" readonly id="eventname" class="form-control" placeholder="" aria-describedby="helpId">
+                            </div>
+
+                            <a  class="btn btn-success btn-sm btn-block mb-3" href="Admin.html">
+                                <h4>
+                                    <i class="fa fa-home" aria-hidden="true"></i>
+                                </h4>
+                            </a>
+
+                        </form>
+                        <!-- <hr > -->
+                    </div>
+
+
+
+                    <div class="col-md-7 col-sm-12 mb-4 pt-2">
+                        <div class="text-center bg-danger text-white p-2 mb-2">
+                            <h6>EVENTS ACTIVITIES</h6>
+                        </div>
+
+                        <div class="scrollevent bg-primary text-center text-dark p-3" id="eventlist">
+                            <table class="table-sm text-center table-hover mx-auto bg-white table-responsive-sm table-striped">
+                                <thead class="text-center text-white bg-info border border-white">
+                                    <tr class="p-3">
+                                        <th scope="col" class="border border-white"> S/N</th>
+                                        <th scope="col" class="border border-white">Event Name</th>
+                                        <th scope="col" class="border border-white">Date</th>
+                                        <th scope="col" class="border border-white">Time </th>
+                                        <th scope="col" class="border border-white">Status </th>
+                                        <th scope="col">Re-book/Cancel bookings</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr id="#1" class="border border-white">
+                                        <td scope="row">1</td>
+                                        <td>Wedding</td>
+                                        <td>Apollan</td>
+                                        <td>500</td>
+                                        <td class="text-primary"><i class="fa fa-book" aria-hidden="true"></i> Booked</td>
+
+                                        <td>
+                                            <div class="row">
+                                                <div class="col mb-2">
+                                                    <a href="#" class="btn btn-success btn-block">
+                                                       <i class="fa fa-book" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="col">
+                                                    <a href="#" class="btn btn-danger btn-block">
+                                                        <i class="fa fa-close" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                                
+                                            </div>
+
+
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="footer p-1 bg-primary mt-0 text-center">
+            <h4>&copy; 2017</h4>
+        </div>
+    </div>
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="scripts/jquery-3.2.1.min.js"></script>
+    <script src="scripts/popper.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+</body>
+
+</html>
