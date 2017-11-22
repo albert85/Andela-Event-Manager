@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Event Management</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+
+    <link rel="stylesheet" href="styles/font-awesome.min.css">
+
+    
+    <link rel="stylesheet" href="styles/mystylesheet.css">
+    
+
+  </head>
+  
+  <body>
+    <!-- Setup the header -->
+    
+     <div class="bg-dark container-fluid p-2 text-center">
+    <h3>EVENT MANAGEMENT</h3>   
+    </div>
+
+    <!-- Create two columns for the management content -->
+    <!-- create a section -->
+    <div class="section">
+      <div id="section-cover-user">
+        <div class="container">
+          <div class="row event-body">
+            <div class="col-md-5 col-sm-12 pl-4 pr-4 pb-4 mb-3">
+                    <form class="p-2">
+                        <div class="bg-danger text-center text-white p-2 mb-3">
+                            <h6>ADD EVENT</h4>
+                        </div>
+
+                        <div class="form-group">
+                        <label for="eventname"> Event Name:</label>
+                        <input type="text" id="eventname" class="form-control" placeholder="Appolan Event Centre" aria-describedby="helpId" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="location">Location</label>
+                            <select class="form-control" name="eventcenter" id="location" required>
+                                <option></option>
+                                <option>Alojo Event centre</option>
+                                <option>Eyitayo Event  centre</option>
+                                <option>Rhema Event centre</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="eventdate"> Event Date:</label>
+                            <input type="date" id="eventdate" class="form-control" placeholder="12/22/2017" aria-describedby="helpId" required>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6"> 
+                                <div class="form-group">
+                                    <label for="eventstarttime"> Event Start Time:</label>
+                                    <input type="time" id="eventdate" class="form-control" placeholder="e.g.1.00AM" aria-describedby="helpId" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="eventendtime"> Event end Time:</label>
+                                    <input type="time" id="eventdate" class="form-control" placeholder="e.g 6.00AM" aria-describedby="helpId"  required>
+                                </div>
+                            </div>
+                        </div>
+                    
+
+                        <button type="submit" class="btn btn-success btn-sm btn-block mb-3">
+                            <h4 class="text-white"><i class="fa fa-plus" aria-hidden="true"></i></h4>
+                        </button>
+
+                        <!-- Viewing all booking at a particular date -->
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary btn-sm btn-block" data-toggle="modal" data-target="#exampleModal">
+                            <h6 class="text-white"><i class="fa fa-address-card-o" aria-hidden="true"></i> VIEW BOOKINGS </h6>
+                        </button>
+                                
+                                <!-- Modal -->
+                        <div class="modal fade text-dark" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header bg-primary text-white">
+                                    <h5 class="modal-title " id="exampleModalLabel">Bookings</h5>
+
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                <div class="modal-body text-dark">
+                                    <!-- create a column to view bookings of a particular date -->
+                                    <div class="row">
+                                    <!-- First Column comprise of the search options -->
+                                    <div class="col-md-12 col-sm-12">
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="selecteventcentre">Event Centre</label>
+                                                <select class="form-control" name="" id="selecteventcentre" required>
+                                                    <option></option>
+                                                    <option>Alojo Event centre</option>
+                                                    <option>Eyitayo Event centre</option>
+                                                    <option>Rhema Event centre</option>
+                                                </select>
+                
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="bookingdates">Choose a booking date</label>
+                                                <input type="date" id="bookingdates" class="form-control" placeholder="" aria-describedby="helpId">
+                                            
+                                            </div>
+                                        </form>
+                                    </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>  
+                    <!-- <hr > -->
+            </div>
+            
+            
+            
+            <div class="col-md-7 col-sm-12 mb-4 pt-2">
+                <div class="text-center bg-danger text-white p-2 mb-2">
+                            <h6>EVENTS</h6>
+                </div>
+
+                <div class="scrollevent bg-primary text-center text-dark p-3" id="eventlist">
+                    <table class="table-sm text-center table-hover mx-auto table-responsive-sm table-striped bg-white">
+                        <thead class="text-center bg-info border border-white text-white">
+                            <tr class="p-3">
+                                <th scope="col" class="border border-white"> S/N</th>
+                                <th scope="col" class="border border-white">Event Name</th>
+                                <th scope="col" class="border border-white">Venue</th>
+                                <th scope="col" class="border border-white">Date</th>
+                                <th scope="col" class="border border-white">Time</th>
+                                <th scope="col" class="border border-white">Status</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr id="#1" class="border border-white">
+                                <td scope="row">1</td>
+                                <td>Wedding</td>
+                                <td>Apollan</td>
+                                <td>11/12/2017</td>
+                                <td>1.00AM - 2.00AM</td>
+                                <td class="text-primary">Booked <i class="fa fa-book" aria-hidden="true"></i> </td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col mb-2"><a href="#" class="btn btn-success btn-block">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a></div>
+                                        <div class="col"><a href="#" class="btn btn-danger btn-block">
+                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                        </a></div>
+                                    </div>
+                                
+                               
+                                </td>
+                                
+                            </tr>
+                        
+                        <tr id="#2" class="border border-white">
+                                <td scope="row">2</td>
+                                <td>Wedding</td>
+                                <td>Apollan</td>
+                                <td>11/12/2017</td>
+                                <td>1.00AM - 2.00AM</td>
+                                <td class="text-danger">Canceled <i class="fa fa-close text-danger" aria-hidden="true"></i> </td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col mb-2">
+                                            <a href="#" class="btn btn-success btn-block">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                        <div class="col">
+                                            <a href="#" class="btn btn-danger btn-block">
+                                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                            
+                            
+                                </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+    <div class="footer p-1 bg-primary mt-0 text-center">
+        <h4>&copy; 2017</h4>
+    </div>
+    </div>
+
+
+  
+    
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="scripts/jquery-3.2.1.min.js"></script>
+    <script src="scripts/popper.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+  </body>
+</html>
