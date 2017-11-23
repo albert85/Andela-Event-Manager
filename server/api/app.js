@@ -3,7 +3,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 
 // importing event and center route
-import route from './index'
+import route from './controller/index.js'
 
 // instantiating express
 const app = express();
