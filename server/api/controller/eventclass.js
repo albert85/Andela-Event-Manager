@@ -5,11 +5,17 @@ import express from 'express';
 import eventDatabase from '../model/database.js';
 
 
-export class Eventmanager{
+export default class Eventmanager{
 
-	getNewEvent(req, resp){
-
+	
+	static getNewEvent(req, resp){
+		
 		return resp.json({ users: eventDatabase });
+	}
+
+	// check for the validity of the parameter supplied
+	static checkValidity(req, resp, next){
+		// if()
 	}
 
 }

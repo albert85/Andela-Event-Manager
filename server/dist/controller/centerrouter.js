@@ -1,0 +1,2 @@
+// export deafault
+"use strict";

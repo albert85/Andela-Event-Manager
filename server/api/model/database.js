@@ -1,4 +1,4 @@
-export const eventDatabase = {
+const eventDatabase = {
     "user":[
         {
             "id": 0,
@@ -38,3 +38,5 @@ export const eventDatabase = {
                 }
         ]
 }
+
+export default eventDatabase;

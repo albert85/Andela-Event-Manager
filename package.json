@@ -17,9 +17,9 @@
     "nodemon": "^1.12.1"
   },
   "scripts": {
-    "server": "nodemon ./server/dist/app.js",
-    "test": "mocha ./server/test/test.js",
-    "js": "babel ./server/api -d ./server/dist"
+    "start": "nodemon --watch server --exec babel-node -- server/api/app.js",
+    "test": "mocha ./server/test/test.js"
+  
   },
   "repository": {
     "type": "git",
