@@ -8,8 +8,6 @@ import eventclassrouter from '../controller/eventclass.js'
 const eventrouter = express.Router();
 
 eventrouter.route('/')
-    // get all events
-    .get(eventclassrouter.getAllEvent)
     // create a new event
     .post(eventclassrouter.addNewEvent)
     //check if an id to be deleted is supplied
@@ -19,5 +17,9 @@ eventrouter.route('/')
             Error: true
         })
     })
+
+eventrouter.route('/:eventid')
+    .put(eventclassrouter.editAnEvent)
+    .delete(eventclassrouter.deleteAnEvent)
 
 export default eventrouter;

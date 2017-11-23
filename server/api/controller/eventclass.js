@@ -5,12 +5,6 @@ import eventDatabase from '../model/database.js';
 
 export default class Eventmanager{
 
-	// get all events
-	static getAllEvent(req, resp){
-		
-		return resp.json({ result: eventDatabase, message: "success", error: false });
-	}
-
 	// Create an event
 	static addNewEvent(req, resp){
 		if(!req.body.name || !req.body.location|| !req.body.startTime || !req.body.endTime){
@@ -29,7 +23,8 @@ export default class Eventmanager{
 		eventDatabase.user.push(newEvent);
 		resp.json({
 			message: 'New event was created',
-			Error: false
+			Error: false,
+			return: eventDatabase.user
 		})
 
 	}
@@ -54,7 +49,7 @@ export default class Eventmanager{
 				return resp.json({
 					Message: `User ${x.id} updated`,
 					error: false,
-					user: eventDatabase.user[eventid]
+					user: eventDatabase.user[req.params.eventid]
 
 				})
 			}
@@ -65,7 +60,7 @@ export default class Eventmanager{
 			error: true
 		})
 	}
-
+// delete an event
 	static deleteAnEvent(req, resp){
 		for (val of eventDatabase.user){
 			if (val.id === parseInt(req.params.eventid, 10)) {
@@ -79,7 +74,8 @@ export default class Eventmanager{
 				}
 				return resp.json({
 					Message: `User deleted`,
-					Error: false
+					Error: false,
+					return: eventDatabase.user
 				})
 			}
 		}
@@ -90,6 +86,8 @@ export default class Eventmanager{
 		})
 
 	}
+
+
 
 
 }
