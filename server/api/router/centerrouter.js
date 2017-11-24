@@ -10,9 +10,12 @@ const centerrouter = express.Router();
 centerrouter.route('/')
     // create a new center
     .post(centersclasscontroller.addNewcenter)
+    //get all centers
+    .get(centersclasscontroller.getAllCenters)
 
 
-
-
+centerrouter.route('/:centerid')
+    .get(centersclasscontroller.getACenter)
+    .put(centersclasscontroller.editACenter)
 
 export default centerrouter;
