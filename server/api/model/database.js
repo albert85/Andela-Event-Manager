@@ -29,12 +29,12 @@ const eventDatabase = {
             "endTime": "2.00AM"
         }
     ],
-        "Admin": [{
-            "id":4,
-            "Center name": "meeting",
+        "admin": [{
+            "id":0,
+            "name": "meeting",
             "location": "Victoria Island",
             "capacity": 200,
-            "Booking amount": 100
+            "amount": 100
                 }
         ]
 }
