@@ -24,7 +24,7 @@ export default class Eventmanager{
 		resp.json({
 			message: 'New event was created',
 			Error: false,
-			return: eventDatabase.user
+			return: eventDatabase.user[eventDatabase.user.length]
 		})
 
 	}
@@ -66,16 +66,10 @@ export default class Eventmanager{
 			if (val.id === parseInt(req.params.eventid, 10)) {
 				eventDatabase.user.splice(val.id, 1);
 
-				//Updating the id in the database
-				let count = 0;
-				for (val of eventDatabase.user) {
-					eventDatabase.user[count].id = count;
-					count++;
-				}
 				return resp.json({
 					Message: `User deleted`,
 					Error: false,
-					return: eventDatabase.user
+					return: val
 				})
 			}
 		}

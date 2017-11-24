@@ -25,7 +25,7 @@ export default class centermanager {
         resp.json({
             message: 'New center was created',
             Error: false,
-            return: centerDatabase.admin,
+            return: centerDatabase.admin[centerDatabase.admin.length],
         });
 
     }
