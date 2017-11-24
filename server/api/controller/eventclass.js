@@ -39,15 +39,15 @@ export default class Eventmanager{
 			})
 		}
 		// Update the event using event id
-		for (x of eventDatabase.user) {
-			if (x.id === parseInt(req.params.eventid, 10)) {
+		for (let val of eventDatabase.user){
+			if (val.id === parseInt(req.params.eventid, 10)) {
 				eventDatabase.user[req.params.eventid].name = req.body.name;
 				eventDatabase.user[req.params.eventid].location = req.body.location;
 				eventDatabase.user[req.params.eventid].startTime = req.body.startTime;
 				eventDatabase.user[req.params.eventid].endTime = req.body.endTime;
 
 				return resp.json({
-					Message: `User ${x.id} updated`,
+					Message: `User ${val.id} updated`,
 					error: false,
 					user: eventDatabase.user[req.params.eventid]
 
@@ -62,14 +62,14 @@ export default class Eventmanager{
 	}
 // delete an event
 	static deleteAnEvent(req, resp){
-		for (val of eventDatabase.user){
+		for (let val of eventDatabase.user){
 			if (val.id === parseInt(req.params.eventid, 10)) {
-				events.splice(val.id, 1);
+				eventDatabase.user.splice(val.id, 1);
 
 				//Updating the id in the database
 				let count = 0;
 				for (val of eventDatabase.user) {
-					events[count].id = count;
+					eventDatabase.user[count].id = count;
 					count++;
 				}
 				return resp.json({

@@ -15,14 +15,14 @@ const eventDatabase = {
             "endTime": "2.00AM"
         },
         {
-            "id": 1,
+            "id": 2,
             "name": "conference",
             "location": "Ikorodu",
             "startTime": "1.00AM",
             "endTime": "2.00AM"
         },
         {
-            "id": 2,
+            "id": 3,
             "name": "meeting",
             "location": "Victoria Island",
             "startTime": "1.00AM",
@@ -30,7 +30,7 @@ const eventDatabase = {
         }
     ],
         "Admin": [{
-            "id": 0,
+            "id":4,
             "Center name": "meeting",
             "location": "Victoria Island",
             "capacity": 200,
