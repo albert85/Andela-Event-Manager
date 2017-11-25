@@ -2,20 +2,20 @@
 import express from 'express'
 
 // importing centerclass
-import centersclasscontroller from '../controller/centerclass.js'
+import centersClassController from '../controller/centerclass.js'
 
 // importing router for center manager
-const centerrouter = express.Router();
+const centerRouter = express.Router();
 
-centerrouter.route('/')
+centerRouter.route('/')
     // create a new center
-    .post(centersclasscontroller.addNewcenter)
+    .post(centersClassController.addNewcenter)
     //get all centers
-    .get(centersclasscontroller.getAllCenters)
+    .get(centersClassController.getAllCenters)
 
 
-centerrouter.route('/:centerid')
-    .get(centersclasscontroller.getACenter)
-    .put(centersclasscontroller.editACenter)
+centerRouter.route('/:centerid')
+    .get(centersClassController.getACenter)
+    .put(centersClassController.editACenter)
 
-export default centerrouter;
+export default centerRouter;
