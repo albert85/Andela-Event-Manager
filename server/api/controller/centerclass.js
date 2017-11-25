@@ -15,17 +15,17 @@ export default class centermanager {
 
         // creating a new center
         const newcenter = {
-            id: centerDatabase.admin.length,
+            id: centerDatabase.centers.length,
             name: req.body.name,
             location: req.body.location,
             capacity: req.body.capacity,
             amount: req.body.amount,
         };
-        centerDatabase.admin.push(newcenter);
+        centerDatabase.centers.push(newcenter);
         resp.json({
             message: 'New center was created',
             Error: false,
-            return: centerDatabase.admin[centerDatabase.admin.length],
+            output: centerDatabase.centers[centerDatabase.centers.length-1]
         });
 
     }
@@ -34,7 +34,7 @@ export default class centermanager {
     // get a center
     static getACenter(req, resp) {
         // Search for a center with an id
-        for (let val of centerDatabase.admin) {
+        for (let val of centerDatabase.centers) {
             if (val.id === parseInt(req.params.centerid, 10)) {
                 return resp.json({
                     val,
@@ -51,7 +51,7 @@ export default class centermanager {
 
     // get all centers
     static getAllCenters(req, resp) {
-        return resp.json({ centers: centerDatabase.admin });
+        return resp.json({ centers: centerDatabase.centers });
     }
 
     // Edit an center with a user id
@@ -65,18 +65,18 @@ export default class centermanager {
     }
     
     // Update the center using center id
-    for (let val of centerDatabase.admin) {
+    for (let val of centerDatabase.centers) {
         console.log(val)
       if (val.id === parseInt(req.params.centerid, 10)) {
-        centerDatabase.admin[req.params.centerid].name = req.body.name;
-        centerDatabase.admin[req.params.centerid].location = req.body.location;
-        centerDatabase.admin[req.params.centerid].capacity = req.body.capacity;
-        centerDatabase.admin[req.params.centerid].amount = req.body.amount;
+        centerDatabase.centers[req.params.centerid].name = req.body.name;
+        centerDatabase.centers[req.params.centerid].location = req.body.location;
+        centerDatabase.centers[req.params.centerid].capacity = req.body.capacity;
+        centerDatabase.centers[req.params.centerid].amount = req.body.amount;
 
         return resp.json({
           Message: `User ${val.id} updated`,
           error: false,
-          user: centerDatabase.admin[req.params.centerid],
+          user: centerDatabase.centers[req.params.centerid],
 
         });
       }

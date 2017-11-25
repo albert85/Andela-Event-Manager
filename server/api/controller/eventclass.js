@@ -14,17 +14,17 @@ export default class Eventmanager{
 
 		// creating a new event
 		const newEvent = {
-			id: eventDatabase.user.length,
+			id: eventDatabase.events.length,
 			name: req.body.name,
 			location: req.body.location,
 			startTime: req.body.startTime,
 			endTime: req.body.endTime
 		}
-		eventDatabase.user.push(newEvent);
+		eventDatabase.events.push(newEvent);
 		resp.json({
 			message: 'New event was created',
 			Error: false,
-			return: eventDatabase.user[eventDatabase.user.length]
+			output: eventDatabase.events[eventDatabase.events.length-1]
 		})
 
 	}
@@ -39,17 +39,17 @@ export default class Eventmanager{
 			})
 		}
 		// Update the event using event id
-		for (let val of eventDatabase.user){
+		for (let val of eventDatabase.events){
 			if (val.id === parseInt(req.params.eventid, 10)) {
-				eventDatabase.user[req.params.eventid].name = req.body.name;
-				eventDatabase.user[req.params.eventid].location = req.body.location;
-				eventDatabase.user[req.params.eventid].startTime = req.body.startTime;
-				eventDatabase.user[req.params.eventid].endTime = req.body.endTime;
+				eventDatabase.events[req.params.eventid].name = req.body.name;
+				eventDatabase.events[req.params.eventid].location = req.body.location;
+				eventDatabase.events[req.params.eventid].startTime = req.body.startTime;
+				eventDatabase.events[req.params.eventid].endTime = req.body.endTime;
 
 				return resp.json({
 					Message: `User ${val.id} updated`,
 					error: false,
-					user: eventDatabase.user[req.params.eventid]
+					events: eventDatabase.events[req.params.eventid]
 
 				})
 			}
@@ -62,14 +62,14 @@ export default class Eventmanager{
 	}
 // delete an event
 	static deleteAnEvent(req, resp){
-		for (let val of eventDatabase.user){
+		for (let val of eventDatabase.events){
 			if (val.id === parseInt(req.params.eventid, 10)) {
-				eventDatabase.user.splice(val.id, 1);
+				eventDatabase.events.splice(val.id, 1);
 
 				return resp.json({
 					Message: `User deleted`,
 					Error: false,
-					return: val
+					deleteOutput: val
 				})
 			}
 		}
