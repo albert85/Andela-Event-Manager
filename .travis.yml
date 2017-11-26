@@ -5,7 +5,7 @@ services:
 
   node_js:
 
- - stable
+ - "stable"
 
 before_script:
 
