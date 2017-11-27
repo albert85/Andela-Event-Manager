@@ -1,18 +1,13 @@
 language: node_js
-
 services:
-  - postgresgl
+ - postgresgl
+node_js:
 
-  node_js:
-
- - "stable"
-
+ - stable
 before_script:
 
  - npm install
 
-
-
 script:
-
- - npm test
+ - npm run start
+ - npm run test
