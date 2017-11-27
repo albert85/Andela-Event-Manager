@@ -1,7 +1,6 @@
 import chaihhtp from 'chai-http'
 import server from '../api/app.js'
 import chai from 'chai'
-// const server = 'localhost:8080'
 
 const {expect } = chai;
 
