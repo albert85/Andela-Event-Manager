@@ -27,7 +27,7 @@
     "start": "babel-node -- server/api/app.js",
     "js": "nyc  --reporter=html --reporter=test mocha --compilers js:babel-register server/test/test.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "test": "mocha --require babel-core/register --require babel-polyfill server/test/test.js"
+    "test": "mocha --require babel-core/register --require babel-polyfill server/test/test.js --exit"
   },
   "repository": {
     "type": "git",

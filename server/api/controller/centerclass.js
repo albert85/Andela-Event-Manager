@@ -66,7 +66,6 @@ export default class centermanager {
     
     // Update the center using center id
     for (let val of centerDatabase.centers) {
-        console.log(val)
       if (val.id === parseInt(req.params.centerid, 10)) {
         centerDatabase.centers[req.params.centerid].name = req.body.name;
         centerDatabase.centers[req.params.centerid].location = req.body.location;
