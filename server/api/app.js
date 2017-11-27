@@ -14,8 +14,12 @@ app.use(bodyParser.json());
 
 // configuring the event and center route
 app.use(routecontroller);
+// app.use('/api/v1/users/events',routecontroller)
+// app.use('/api/v1/admin/centers',routecontroller)
 
 // listening to server at port localhost:3000
 app.listen(8080,()=>{
     console.log("server listening")
 })
+
+export default app
