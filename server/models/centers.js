@@ -1,17 +1,19 @@
-'use strict';
+
 module.exports = (sequelize, DataTypes) => {
-  var centers = sequelize.define('centers', {
+  const centers = sequelize.define('centers', {
     name: DataTypes.STRING,
     location: DataTypes.STRING,
     capacity: DataTypes.INTEGER,
     amount: DataTypes.DECIMAL,
-    userId: DataTypes.INTEGER
-  }, {
-    classMethods: {
-      associate: function(models) {
-        // associations can be defined here
-      }
-    }
+    userId: DataTypes.INTEGER,
   });
+
+  // Associates with user table
+  centers.associate = (models) => {
+    centers.belongsTo(models.user, {
+      foreignKey: 'userId',
+    });
+  };
+
   return centers;
 };
