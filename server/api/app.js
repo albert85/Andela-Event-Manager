@@ -6,7 +6,7 @@ import swaggerUiExpress from 'swagger-ui-express'
 
 // importing event and center route
 import routecontroller from './index';
-
+import path from 'path';
 // instantiating express
 const app = express();
 
@@ -20,13 +20,14 @@ const options = {
       version: '1.0.0',
       description: 'Demonstrating how to describe a RESTful API with Swagger',
     },
-    host: 'localhost:9100',
+    host: 'localhost:3000',
     basePath: '/',
   },
   // path to the API docs
-  apis: ['./controller/*.js']
+  apis: [path.join(path.resolve(__dirname), './controller/*.js')]
 };
 
+console.log(path.join(path.resolve(__dirname), './controller/*.js'), ' the path ++++++++++++++++++');
 // initialize swagger-jsdoc
 const swaggerSpec = swaggerJSDoc(options);
 
@@ -45,7 +46,7 @@ app.use('/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(options));
 app.use(routecontroller);
 
 // listening to server at port localhost:8090
-app.listen(9100, () => {
+app.listen(3000, () => {
   console.log('server listening');
 });
 
