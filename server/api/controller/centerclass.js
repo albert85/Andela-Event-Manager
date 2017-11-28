@@ -3,11 +3,7 @@ import centerDatabase from '../model/database';
 
 
 export default class centermanager {
-  /**
-     * @swagger
-     *
-     *
-     */
+
 
   // Create a new center
   static addNewcenter(req, resp) {
