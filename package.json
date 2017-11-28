@@ -27,6 +27,7 @@
     "nyc": "^11.3.0",
     "pg": "^7.4.0",
     "pg-hstore": "^2.3.2",
+    "sequelize-cli": "^3.1.0",
     "swagger-jsdoc": "^1.9.7",
     "swagger-ui-express": "^2.0.11"
   },
@@ -46,5 +47,8 @@
   "bugs": {
     "url": "https://github.com/albert85/Andela-Event-Manager/issues"
   },
-  "homepage": "https://github.com/albert85/Andela-Event-Manager#readme"
+  "homepage": "https://github.com/albert85/Andela-Event-Manager#readme",
+  "dependencies": {
+    "morgan": "^1.9.0"
+  }
 }

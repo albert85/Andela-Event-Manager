@@ -1,72 +1,68 @@
 
 // import database
-import eventDatabase from '../model/database.js';
+import eventDatabase from '../model/database';
 
 export default class Eventmanager {
- /**
-  * @swagger
-  * /api/v1/events:
-  *   post:
-  *     summary: Creates a new user
-  *     description:
-  *       "Required roles: `user`"
-  *     tags:
-  *       - Users
-  *     parameters:
-  *       - name: body
-  *         in: body
-  *         required: true
-  *         schema:
-  *           type: object
-  *           required:
-  *             - name
-  *             - location
-  *             - startTime
-  *             - endTime
-  *             - date
-  *           properties:
-  *             name:
-  *               type: string
-  *             location:
-  *                 type: string
-  *             startTime:
-  *               type: string
-  *             endTime:
-  *                 type: string
-  *             date:
-  *               type: date
-  *           example: {
-  *             "name": "someUser",
-  *             "location": "somePassword",
-  *             "startTime": "someTime",
-  *             "endTime": "someTime",
-  *             "date": "someDate",
-  *           }
-  *     resonses:
-  *       200:
-  *         schema:
-  *           type: object
-  *           properties:
-  *             id:
-  *               type: integer
-  *             name:
-  *               type: string
-  *             location:
-  *                 type: string
-  *             startTime:
-  *               type: string
-  *             endTime:
-  *                 type: string
-  *             date:
-  *               type: date
-  *         examples:
-  *           application/json: {
-  *             "id": 1,
-  *             "username": "someuser"
-  *           }
-  *       409:
-  *         description: When the username is already in use
-*/
+  /**
+    *@swagger
+    * /api/v1/events:
+    *   post:
+    *     summary: Creates a new user
+    *     description:
+    *       "Required roles: `user`"
+    *     tags:
+    *       - Users
+    *     parameters:
+    *       - name: body
+    *         in: body
+    *         required: true
+    *         schema:
+    *           type: object
+    *           required:
+    *             - name
+    *             - location
+    *             - startTime
+    *             - endTime
+    *             - date
+    *     properties:
+    *             name:
+    *               type: string
+    *             location:
+    *                 type: string
+    *             startTime:
+    *               type: string
+    *             endTime:
+    *                 type: string
+    *             eventDate:
+    *               type: date
+    *     example: {
+    *             "name": "someUser",
+    *             "location": "somePassword",
+    *             "startTime": "someTime",
+    *             "endTime": "someTime",
+    *             "date": "someDate",
+    *           }
+    *     resonses:
+    *       200:
+    *         schema:
+    *           type: object
+    *         properties:
+    *           id:
+    *             type: integer
+    *           name:
+    *             type: string
+    *           location:
+    *             type: string
+    *           startTime:
+    *             type: string
+    *           endTime:
+    *             type: string
+    *           eventDate:
+    *               type: date
+    *
+    *       409:
+    *         description: When the username is already in use
+  */
 
   // Create an event
   static addNewEvent(req, res) {

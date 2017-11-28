@@ -20,7 +20,7 @@ const options = {
       version: '1.0.0',
       description: 'Demonstrating how to describe a RESTful API with Swagger',
     },
-    host: 'localhost:9098',
+    host: 'localhost:9100',
     basePath: '/',
   },
   // path to the API docs
@@ -45,7 +45,7 @@ app.use('/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(options));
 app.use(routecontroller);
 
 // listening to server at port localhost:8090
-app.listen(9098, () => {
+app.listen(9100, () => {
   console.log('server listening');
 });
 
