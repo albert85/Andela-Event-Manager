@@ -5,13 +5,12 @@ module.exports = (sequelize, DataTypes) => {
     location: DataTypes.STRING,
     capacity: DataTypes.INTEGER,
     amount: DataTypes.DECIMAL,
-    userId: DataTypes.INTEGER
   });
-// Associates with user table
-Center.associate = (models) => {
-  Center.belongsTo(models.user, {
-    foreignKey: 'userId',
-  });
-};
+  // Associates with user table
+  Center.associate = (models) => {
+    Center.belongsTo(models.user, {
+      foreignKey: 'userId',
+    });
+  };
   return Center;
 };
