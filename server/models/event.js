@@ -1,5 +1,5 @@
 
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   const Event = sequelize.define('Event', {
     name: DataTypes.STRING,
     bookingStatus: DataTypes.INTEGER,

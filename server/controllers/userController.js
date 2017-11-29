@@ -1,10 +1,10 @@
-const userModel = require('../models').user;
+import { user } from '../models';
 // get users models
 // const { user } = allModel;
 
-module.exports = {
-  create(req, res) {
-    return userModel
+export default class UserControllerClass {
+  static create(req, res) {
+    return user
       .create({
         firstName: req.body.firstName,
         email: req.body.email,
@@ -18,5 +18,8 @@ module.exports = {
       .catch((error) => {
         return res.status(400).send(error);
       });
-  },
+  };
+
+
+
 };

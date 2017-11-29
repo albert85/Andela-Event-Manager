@@ -1,14 +1,21 @@
-const userControllers = require('../controllers').userDetails;
-// import user controller
-// const { userController } = allControllers;
+import userDetails from '../controllers/userController';
+import eventDetails from '../controllers/eventController';
+import centerDetails from '../controllers/centerController';
 
-module.exports = (app) => {
+
+export default (app) => {
   app.get('/api/v1/', (req, res) => {
     res.status(200).send({
       message: 'api working',
     });
   });
 
-  app.post('/api/v1/users', userControllers.create);
+  // create a new user
+  app.post('/api/v1/users/signUp', userDetails.create);
+
+  // creating a new Event
+  app.post('/api/v1/events', eventDetails.create);
+
+  // creating new center
+  app.post('/api/v1/:userId/centers', centerDetails.create);
 };
-// export default exportUser;
