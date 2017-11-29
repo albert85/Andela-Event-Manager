@@ -8,13 +8,14 @@ import centersClassController from '../controller/centerclass.js';
 const centerRouter = express.Router();
 
 centerRouter.route('/')
-
-  .get(centersClassController.getAllCenters);
+// create a new center
+.post(centersClassController.addNewcenter)
+//get all centers
+.get(centersClassController.getAllCenters)
 
 
 centerRouter.route('/:centerid')
-
-  .put(centersClassController.editACenter)
-  .get(centersClassController.getACenter);
+.get(centersClassController.getACenter)
+.put(centersClassController.editACenter)
 
 export default centerRouter;
