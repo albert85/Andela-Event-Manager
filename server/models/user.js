@@ -9,13 +9,13 @@ module.exports = (sequelize, DataTypes) => {
   });
   // Associates with user table
   user.associate = (models) => {
-    user.hasMany(models.events, {
+    user.hasMany(models.Event, {
       foreignKey: 'userId',
     });
   };
   // Associates with centers table
   user.associate = (models) => {
-    user.hasMany(models.centers, {
+    user.hasMany(models.Center, {
       foreignKey: 'userId',
     });
   };
