@@ -1,18 +1,18 @@
 // importing express lib
-import express from 'express'
+import express from 'express';
 
 // importing the event router
-import event from './router/eventrouter.js'
+import event from './router/eventrouter';
 
 // importing the event center router
-import center from './router/centerrouter.js'
+import center from './router/centerrouter';
 
 // importing router for event and center manager
 const router = express.Router();
 
 
 // creating api for event and center manager
-router.use('/api/v1/users/events',event)
-router.use('/api/v1/admin/centers',center)
+router.use('/api/v1/users/events', event);
+router.use('/api/v1/admin/centers', center);
 
-export default router
+export default router;

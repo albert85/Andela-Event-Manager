@@ -19,9 +19,9 @@ const options = {
   // import swaggerDefinitions
   swaggerDefinition: {
     info: {
-      title: 'Node Swagger API',
+      title: 'Event Manager',
       version: '1.0.0',
-      description: 'Demonstrating how to describe a RESTful API with Swagger',
+      description: 'API Documentation of Event Manager',
     },
     host: 'localhost:3000',
     basePath: '/',
