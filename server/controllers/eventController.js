@@ -1,6 +1,4 @@
 import { Event } from '../models';
-// get users models
-// const { user } = allModel;
 
 export default class EventControllerClass {
   static create(req, res) {
@@ -9,7 +7,7 @@ export default class EventControllerClass {
       .create({
         name: req.body.name,
         bookingStatus: req.body.bookingStatus,
-        userId: 5,
+        userId: req.body.userId,
         centerId: req.body.centerId,
         eventDate: req.body.eventDate,
       })
@@ -19,7 +17,7 @@ export default class EventControllerClass {
       .catch((error) => {
         return res.status(400).send(error);
       });
-  };
+  }
 
   static updateEvent(req, res) {
     // find by id
@@ -28,26 +26,42 @@ export default class EventControllerClass {
       .then((eventDetails) => {
 
         // check if the id exists
-        console.log(eventDetails);
-        if(!eventDetails){
-          return res.status(404).send({message: 'Event not found'});
+        if (!eventDetails) {
+          return res.status(404).send({ message: 'Event not found' });
         }
         // if the event exist update
-        return eventDetails
+      return eventDetails
         .update({
           name: req.body.name || eventDetails.name,
           bookingStatus: req.body.bookingStatus || eventDetails.bookingStatus,
-          userId: 5,
+          userId: 5 || eventDetails.userId,
           centerId: req.body.centerId || eventDetails.centerId,
           eventDate: req.body.eventDate || eventDate.eventDate,
         }).then(() => res.status(200).send(eventDetails))  // Send back the updated todo.
         .catch((error) => res.status(400).send(error));
 
-      })
+    })
       .catch((error) => {
         return res.status(400).send(error);
       });
   };
+
+  static deleteAnEvent(req, res){
+    return Event
+    .findById(req.params.eventId)
+    .then((eventDetails) => {
+      // check if the event exist
+      if(!eventDetails){
+        return res.status(404).json({message: 'Event not found'});
+      }
+
+      return eventDetails
+      .destroy()
+      .then(()=> res.json({message:'Successful',eventDetails}))
+
+    })
+    .catch((error) => res.status(404).json({message: 'operation failed', error}));
+  }
 
 
 };
