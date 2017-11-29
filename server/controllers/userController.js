@@ -1,4 +1,4 @@
-import { user } from '../models';
+import { user, Event } from '../models';
 // get users models
 // const { user } = allModel;
 
@@ -13,13 +13,24 @@ export default class UserControllerClass {
         lastName: req.body.lastName,
       })
       .then((userDetails) => {
-        return res.status(201).send(userDetails);
+        return res.status(200).send(userDetails);
       })
       .catch((error) => {
         return res.status(400).send(error);
       });
   };
-
+/*
+  static getUser(req,res){
+    return Event
+    .findAll()
+    .then((userDel) => {
+      return res.status(200).send(userDel)
+    })
+    .catch ((error) => {
+      return res.status(400).send(error);
+    });
+  }
+*/
 
 
 };

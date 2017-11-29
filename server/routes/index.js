@@ -15,6 +15,8 @@ export default (app) => {
 
   // creating a new Event
   app.post('/api/v1/events', eventDetails.create);
+  // creating get An event operation
+  app.put('/api/v1/events/:eventId', eventDetails.updateEvent);
 
   // creating new center
   app.post('/api/v1/:userId/centers', centerDetails.create);
