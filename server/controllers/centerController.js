@@ -1,6 +1,5 @@
+// import validator from 'validatorjs';
 import { Center } from '../models';
-// get users models
-// const { user } = allModel;
 
 export default class CenterControllerClass {
   static create(req, res) {
@@ -25,7 +24,7 @@ export default class CenterControllerClass {
     return Center
       .findById(req.params.centerId)
       .then((centerDetails) => { return res.status(200).json({ message: 'sucessful', centerDetails }); })
-      .catch((error) => { return res.status(400).json({ message: 'Center not found!!!' }); });
+      .catch(() => { return res.status(400).json({ message: 'Center not found!!!' }); });
   }
 
   // get All centers
@@ -33,7 +32,7 @@ export default class CenterControllerClass {
     return Center
       .findAll()
       .then((centerDetails) => { return res.status(200).json({ message: 'sucessful', centerDetails }); })
-      .catch((error) => { return res.status(400).json({ message: 'No Center not found!!!' }); });
+      .catch(() => { return res.status(400).json({ message: 'No Center not found!!!' }); });
   }
 
   static updateACenterDetails(req, res) {
@@ -41,7 +40,7 @@ export default class CenterControllerClass {
       .findById(req.params.centerId)
       .then((centerDetails) => {
         if (!centerDetails) {
-          return res.status(401).json({ message: 'Center not found' });
+          return res.status(400).json({ message: 'Center not found' });
         }
 
         return centerDetails
@@ -52,10 +51,10 @@ export default class CenterControllerClass {
             amount: req.body.amount || centerDetails.amount,
           })
           .then(() => { return res.json({ message: 'sucessful', centerDetails }); })
-          .catch((error) => { return res.json({ message: 'failes to update' }); });
+          .catch(() => { return res.json({ message: 'failes to update' }); });
       })
-      .catch((error) => {
-        res.status(404).json({ message: 'updates failed' });
+      .catch(() => {
+        res.status(400).json({ message: 'updates failed' });
       });
   }
 }

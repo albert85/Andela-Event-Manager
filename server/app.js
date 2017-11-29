@@ -2,8 +2,7 @@ import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import validator from 'express-validator';
-import routeIndex from './routes';
-
+import router from './routes';
 
 //  Set up the express
 const app = express();
@@ -14,12 +13,11 @@ app.use(logger('dev'));
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(validator());
 
 // import routes into application
-routeIndex(app);
+router(app);
 
-// initialising express validator
-app.use(validator());
 
 // Setup a welcome message in JSON format.
 app.get('*', (req, res) => {

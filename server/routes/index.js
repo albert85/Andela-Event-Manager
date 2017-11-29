@@ -1,12 +1,15 @@
 import userDetails from '../controllers/userController';
 import eventDetails from '../controllers/eventController';
 import centerDetails from '../controllers/centerController';
+import loginAuth from '../controllers/loginController';
+import validator from '../controllers/validator';
 
 
 export default (app) => {
-
+  // signing in
+  app.post('/api/users/login', validator.loginValidator, loginAuth.signIn);
   // create a new user
-  app.post('/api/v1/users/signUp', userDetails.create);
+  app.post('/api/v1/users/signUp', userDetails.signUp);
 
   // creating a new Event
   app.post('/api/v1/events', eventDetails.create);
@@ -28,6 +31,4 @@ export default (app) => {
 
   // Get a center
   app.get('/api/v1/centers/:centerId', centerDetails.getACenter);
-
-
 };

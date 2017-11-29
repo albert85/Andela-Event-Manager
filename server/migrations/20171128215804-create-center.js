@@ -42,5 +42,5 @@ module.exports = {
       },
     });
   },
-  down: (queryInterface, Sequelize) =>  queryInterface.dropTable('Centers'),
+  down: (queryInterface) => { return queryInterface.dropTable('Centers'); },
 };
