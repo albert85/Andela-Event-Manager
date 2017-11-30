@@ -21,7 +21,7 @@
 <body class="text-white bg-dark">
     <!-- Setup the header -->
 
-    <div class="bg-dark container-fluid p-2 text-center">
+    <div class="bg-primary container-fluid p-2 text-center">
         <h3>EVENT CENTER MANAGEMENT</h3>
     </div>
 
@@ -34,16 +34,16 @@
                     <div class="col-md-5 col-sm-12 pl-4 pr-4 pb-4 mb-3">
                         <form class="p-2">
                             <div class="bg-danger text-center text-white p-2 mb-3">
-                                <h6>ADD NEW EVENT CENTER</h6>
+                                <h4>ADD NEW EVENT CENTER</h4>
                             </div>
 
                             <div class="form-group">
-                                <label for="eventname"> Event Name:</label>
+                                <label for="eventname"> Name:</label>
                                 <input type="text" id="eventname" class="form-control" placeholder="" aria-describedby="helpId" required>
                             </div>
 
                             <div class="form-group">
-                                <label for="eventcenterlocation"> Event Location:</label>
+                                <label for="eventcenterlocation"> Location:</label>
                                 <input type="text" name="eventcenterlocation" class="form-control" placeholder="" aria-describedby="helpId" required>
                             </div>
 
@@ -54,64 +54,12 @@
 
                             <button type="submit" class="btn btn-success btn-sm btn-block mb-3">
                                 <h4>
-                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    <i class="fa fa-save"></i>
                                 </h4>
                             </button>
 
                             <!-- Viewing all booking at a particular date -->
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary btn-sm btn-block" data-toggle="modal" data-target="#exampleModal">
-                                <h6>
-                                    <i class="fa fa-search-plus" aria-hidden="true"></i> SEARCH CENTERS </h5>
-                            </button>
-
-                            <!-- Modal -->
-                            <div class="modal fade text-dark" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-primary text-white">
-                                            <h5 class="modal-title " id="exampleModalLabel">Bookings</h5>
-
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-
-                                        <div class="modal-body text-dark">
-                                            <!-- create a column to view bookings of a particular date -->
-                                            <div class="row">
-                                                <!-- First Column comprise of the search options -->
-                                                <div class="col-md-12 col-sm-12">
-                                                    <form>
-                                                        <div class="form-group">
-                                                            <label for="selecteventcentre">Event Centre</label>
-                                                            <select class="form-control" name="" id="selecteventcentre" required>
-                                                                <option></option>
-                                                                <option>Alojo Event centre</option>
-                                                                <option>Eyitayo Event centre</option>
-                                                                <option>Rhema Event centre</option>
-                                                            </select>
-
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label for="bookingdates">Choose a booking date</label>
-                                                            <input type="date" id="bookingdates" class="form-control" placeholder="" aria-describedby="helpId">
-
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
+                            
                         </form>
                         <!-- <hr > -->
                     </div>
@@ -141,7 +89,7 @@
                                         <td>Wedding</td>
                                         <td>Apollan</td>
                                         <td>500</td>
-                                       
+
                                         <td>
                                             <div class="row">
                                                 <div class="col mb-2">
@@ -155,8 +103,8 @@
                                                     </a>
                                                 </div>
                                                 <div class="col">
-                                                    <a href="#" class="btn btn-danger btn-block">
-                                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                                    <a href="Viewcenter.html" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-street-view" aria-hidden="true"></i>
                                                     </a>
                                                 </div>
                                             </div>

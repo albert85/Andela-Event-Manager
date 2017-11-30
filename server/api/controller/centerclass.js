@@ -3,11 +3,6 @@ import centerDatabase from '../model/database';
 
 
 export default class centermanager {
-  /**
-     * @swagger
-     *
-     *
-     */
 
   // Create a new center
   static addNewcenter(req, resp) {
@@ -27,12 +22,11 @@ export default class centermanager {
       amount: req.body.amount,
     };
     centerDatabase.centers.push(newcenter);
-    resp.json({
+    return resp.json({
       message: 'New center was created',
       Error: false,
       output: centerDatabase.centers[centerDatabase.centers.length - 1],
     });
-
   }
 
 
@@ -51,7 +45,6 @@ export default class centermanager {
       messsage: 'Center not found',
       Error: true,
     });
-
   }
 
   // get all centers
@@ -61,6 +54,7 @@ export default class centermanager {
 
   // Edit an center with a user id
   static editACenter(req, resp) {
+
     // check if the validity of the input
     if (!req.body.name || !req.body.location || !req.body.capacity || !req.body.amount) {
       return resp.json({
@@ -91,7 +85,4 @@ export default class centermanager {
       error: true,
     });
   }
-
-
-
 }
