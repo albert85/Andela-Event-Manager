@@ -25,7 +25,7 @@ export default class AuthUser {
             const payloader = {
               isAdmin: user.isAdmin,
             };
-            const userToken = jwt.sign(payloader, '12345', { expiresIn: 60 * 60 });
+            const userToken = jwt.sign(payloader, req.body.password, { expiresIn: 60 * 60 });
             if (userToken) return res.json({ message: 'successful' });
           }
           // Passwords don't match
