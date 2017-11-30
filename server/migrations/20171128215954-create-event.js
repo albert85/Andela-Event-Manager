@@ -33,7 +33,7 @@ module.exports = {
         },
       },
       eventDate: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: false,
       },
       createdAt: {

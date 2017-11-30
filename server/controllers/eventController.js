@@ -2,21 +2,32 @@ import { Event } from '../models';
 
 export default class EventControllerClass {
   static create(req, res) {
-    // check if user logged in
+    // check if date is available
     return Event
-      .create({
-        name: req.body.name,
-        bookingStatus: req.body.bookingStatus,
-        userId: req.body.userId,
-        centerId: req.body.centerId,
-        eventDate: req.body.eventDate,
-      })
-      .then((eventDetails) => {
-        return res.status(201).send(eventDetails);
-      })
-      .catch((error) => {
-        return res.status(400).send(error);
-      });
+      .findAll({
+        where: {
+          eventDate: new Date(req.body.eventDate),
+        },
+      }).then((dateAvailability) => {
+        // console.log(dateAvailability)
+        if (dateAvailability.length === 0) {
+          return Event
+            .create({
+              name: req.body.name,
+              bookingStatus: req.body.bookingStatus,
+              userId: req.body.userId,
+              centerId: req.body.centerId,
+              eventDate: req.body.eventDate,
+            })
+            .then((eventDetails) => {
+              return res.status(200).json({ newCreate: eventDetails });
+            })
+            .catch((error) => {
+              return res.status(400).json({ message: 'error', error });
+            });
+        }
+        return res.json({ message: 'The date is not available, please choose another' });
+      }).catch(() => { return res.json({ message: 'Check your credentials' }); });
   }
 
   static updateEvent(req, res) {

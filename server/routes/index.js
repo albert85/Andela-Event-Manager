@@ -4,7 +4,6 @@ import centerDetails from '../controllers/centerController';
 import loginAuth from '../controllers/loginController';
 import validator from '../controllers/validator';
 
-
 export default (app) => {
   // signing in
   app.post('/api/users/login', validator.loginValidator, loginAuth.signIn);
@@ -12,7 +11,7 @@ export default (app) => {
   app.post('/api/v1/users/signUp', userDetails.signUp);
 
   // creating a new Event
-  app.post('/api/v1/events', eventDetails.create);
+  app.post('/api/v1/events', validator.createEventValidation, eventDetails.create);
 
   // updating event operation
   app.put('/api/v1/events/:eventId', eventDetails.updateEvent);
