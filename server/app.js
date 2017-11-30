@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import validator from 'express-validator';
 import router from './routes';
 
+
 //  Set up the express
 const app = express();
 

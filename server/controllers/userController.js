@@ -21,7 +21,7 @@ export default class UserControllerClass {
           return res.status(200).send({ firstName, lastName, email });
         })
         .catch((error) => {
-          return res.status(400).json({ message: 'Email Address exists' });
+          return res.status(400).json({ message: 'Credential exists' });
         });
     });
   }

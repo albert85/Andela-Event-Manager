@@ -22,8 +22,7 @@ export default class Eventmanager {
       eventDate: req.body.eventDate,
     };
     eventDatabase.events.push(newEvent);
-    return;
-    res.json({
+    return res.json({
       message: 'New event was created',
       Error: false,
       output: eventDatabase.events[eventDatabase.events.length - 1],

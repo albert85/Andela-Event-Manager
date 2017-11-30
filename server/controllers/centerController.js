@@ -1,21 +1,35 @@
 // import validator from 'validatorjs';
-import { Center } from '../models';
+import { Center, Event } from '../models';
 
 export default class CenterControllerClass {
+  // Creating a new center
   static create(req, res) {
+    // check if center is available on the database
     return Center
-      .create({
-        name: req.body.name,
-        location: req.body.location,
-        capacity: req.body.capacity,
-        amount: req.body.amount,
-        userId: req.params.userId,
-      })
-      .then((centerDetail) => {
-        return res.status(201).send(centerDetail);
-      })
-      .catch((error) => {
-        return res.status(400).send(error);
+      .findAll({
+        where: {
+          name: req.body.name,
+        },
+      }).then((centerResult) => {
+        // If not available, create and save center details
+        if (centerResult.length === 0) {
+          return Center
+            .create({
+              name: req.body.name,
+              location: req.body.location,
+              capacity: req.body.capacity,
+              amount: req.body.amount,
+              userId: req.params.userId,
+            })
+            .then((centerDetail) => {
+              // Output the result
+              return res.status(201).send(centerDetail);
+            })
+            .catch((error) => {
+              return res.status(400).send(error);
+            });
+        }
+        res.status(400).json({ message: 'Center exists!!!' });
       });
   }
 
@@ -23,7 +37,16 @@ export default class CenterControllerClass {
   static getACenter(req, res) {
     return Center
       .findById(req.params.centerId)
-      .then((centerDetails) => { return res.status(200).json({ message: 'sucessful', centerDetails }); })
+      .then((centerDetails) => {
+        Event
+          .findAll({
+            where: {
+              centerId: req.params.centerId,
+            },
+          }).then((eventDetail) => {
+            return res.status(200).json({ center: centerDetails, eventDetails: eventDetail });
+          });
+      })
       .catch(() => { return res.status(400).json({ message: 'Center not found!!!' }); });
   }
 
@@ -35,6 +58,7 @@ export default class CenterControllerClass {
       .catch(() => { return res.status(400).json({ message: 'No Center not found!!!' }); });
   }
 
+  // Updating a center detail
   static updateACenterDetails(req, res) {
     return Center
       .findById(req.params.centerId)
