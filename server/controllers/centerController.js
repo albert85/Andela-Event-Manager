@@ -21,16 +21,13 @@ export default class CenterControllerClass {
               amount: req.body.amount,
               userId: req.params.userId,
             })
-            .then((centerDetail) => {
+            .then(centerDetail =>
               // Output the result
-              return res.status(201).send(centerDetail);
-            })
-            .catch((error) => {
-              return res.status(400).send(error);
-            });
+              res.status(201).send(centerDetail))
+            .catch(error => res.status(400).send(error));
         }
-        res.status(400).json({ message: 'Center exists!!!' });
-      });
+        return res.status(400).json({ message: 'Center exists!!!' });
+      }).catch(() => res.json({ message: 'Operation failed' }));
   }
 
   // get A center
@@ -43,19 +40,17 @@ export default class CenterControllerClass {
             where: {
               centerId: req.params.centerId,
             },
-          }).then((eventDetail) => {
-            return res.status(200).json({ center: centerDetails, eventDetails: eventDetail });
-          });
+          }).then(eventDetail => res.status(200).json({ center: centerDetails, eventDetails: eventDetail }));
       })
-      .catch(() => { return res.status(400).json({ message: 'Center not found!!!' }); });
+      .catch(() => res.status(400).json({ message: 'Center not found!!!' }));
   }
 
   // get All centers
   static getAllCenter(req, res) {
     return Center
       .findAll()
-      .then((centerDetails) => { return res.status(200).json({ message: 'sucessful', centerDetails }); })
-      .catch(() => { return res.status(400).json({ message: 'No Center not found!!!' }); });
+      .then(centerDetails => res.status(200).json({ message: 'sucessful', centerDetails }))
+      .catch(() => res.status(400).json({ message: 'No Center not found!!!' }));
   }
 
   // Updating a center detail
@@ -74,8 +69,8 @@ export default class CenterControllerClass {
             capacity: req.body.capacity || centerDetails.capacity,
             amount: req.body.amount || centerDetails.amount,
           })
-          .then(() => { return res.json({ message: 'sucessful', centerDetails }); })
-          .catch(() => { return res.json({ message: 'failes to update' }); });
+          .then(() => res.json({ message: 'sucessful', centerDetails }))
+          .catch(() => res.json({ message: 'failes to update' }));
       })
       .catch(() => {
         res.status(400).json({ message: 'updates failed' });

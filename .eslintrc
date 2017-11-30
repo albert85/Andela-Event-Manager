@@ -28,17 +28,13 @@
     "rules": {
         "max-len": [
             "error",
-            80,
+            200,
             {
                 "ignoreStrings": true,
                 "ignoreTemplateLiterals": true
             }
         ],
         "one-var": 0,
-        "arrow-body-style": [
-            "error",
-            "always"
-        ],
         "import/no-unresolved": [
             2,
             {

@@ -19,8 +19,7 @@ export default class AuthUser {
         // check password
         bcrypt.compare(req.body.password, result.dataValues.password, (err, resp) => {
           if (resp) {
-            // Passwords match
-            // return res.json({ message: 'Authenticated' });
+            // if passwords match
             // declare a payload
             const payloader = {
               isAdmin: user.isAdmin,
@@ -28,9 +27,10 @@ export default class AuthUser {
             const userToken = jwt.sign(payloader, req.body.password, { expiresIn: 60 * 60 });
             if (userToken) return res.json({ message: 'successful' });
           }
-          // Passwords don't match
-          return res.json({ message: 'Wrong password' });
         });
+
+        // Passwords don't match
+        return res.json({ message: 'Wrong password' });
       });
   }
 }
