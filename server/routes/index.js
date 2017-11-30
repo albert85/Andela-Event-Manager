@@ -1,38 +1,39 @@
+import express from 'express';
 import userDetails from '../controllers/userController';
 import eventDetails from '../controllers/eventController';
 import centerDetails from '../controllers/centerController';
-import loginAuth from '../controllers/loginController';
 import oauthClass from '../auth/authController';
 import validator from '../controllers/validator';
 
-export default (app) => {
-  // creating a secure API
-  app.post('/api/auth/users', oauthClass.authenUser);
-  // signin in as authenticated user
-  app.post('/api/users/login', validator.loginValidator, loginAuth.signIn);
+const app = express.Router();
 
-  // app.use(oauthClass.authenUser);
-  // create a new user
-  app.post('/api/v1/users/signUp', userDetails.signUp);
+// creating a secure API
+app.post('/api/auth/users', oauthClass.authenUser);
 
-  // creating a new Event
-  app.post('/api/v1/events/:userId', validator.createEventValidation, eventDetails.create);
+// create a new user
+app.post('/api/v1/users/signUp', userDetails.signUp);
 
-  // updating event operation
-  app.put('/api/v1/events/:eventId', eventDetails.updateEvent);
+// creating a new Event
+app.post('/api/v1/events/:userId', validator.createEventValidation, eventDetails.create)
 
-  // Deleting an event
-  app.delete('/api/v1/events/:eventId', eventDetails.deleteAnEvent);
+// updating event operation
+  .put('/api/v1/events/:eventId', eventDetails.updateEvent)
 
-  // creating new center
-  app.post('/api/v1/centers/:userId', centerDetails.create);
+// Deleting an event
+  .delete('/api/v1/events/:eventId', eventDetails.deleteAnEvent);
 
-  // updates a center's detail
-  app.put('/api/v1/centers/:centerId', centerDetails.updateACenterDetails);
+// get all centers
+app.get('/api/v1/centers/', centerDetails.getAllCenter);
 
-  // get all centers
-  app.get('/api/v1/centers/', centerDetails.getAllCenter);
+// creating new center
+app.post('/api/v1/centers/:userId', centerDetails.create)
 
-  // Get a center
-  app.get('/api/v1/centers/:centerId', centerDetails.getACenter);
-};
+// updates a center's detail
+  .put('/api/v1/centers/:centerId', centerDetails.updateACenterDetails)
+
+
+// Get a center
+  .get('/api/v1/centers/:centerId', centerDetails.getACenter);
+
+
+export default app;

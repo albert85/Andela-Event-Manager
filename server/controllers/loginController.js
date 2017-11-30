@@ -13,9 +13,9 @@ export default class LogInControllerClass {
         if (result.length === 0) {
           return res.json('No record found, please check your credential or signup');
         }
-        
+
         return res.json({ message: `Welcome ${result.firstName}` });
       })
-      .catch(() => { return res.send({ message: 'Please check email and password' }); });
+      .catch(() => res.send({ message: 'Please check email and password' }));
   }
 }

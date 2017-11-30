@@ -19,15 +19,11 @@ export default class EventControllerClass {
               centerId: req.body.centerId,
               eventDate: req.body.eventDate,
             })
-            .then((eventDetails) => {
-              return res.status(200).json({ newCreate: eventDetails });
-            })
-            .catch((error) => {
-              return res.status(400).json({ message: 'error', error });
-            });
+            .then(eventDetails => res.status(200).json({ newCreate: eventDetails }))
+            .catch(error => res.status(400).json({ message: 'error', error }));
         }
         return res.json({ message: 'The date is not available, please choose another' });
-      }).catch(() => { return res.json({ message: 'Check your credentials' }); });
+      }).catch(() => res.json({ message: 'Check your credentials' }));
   }
 
   static updateEvent(req, res) {
@@ -56,12 +52,10 @@ export default class EventControllerClass {
                   userId: 5 || eventDetails.userId,
                   centerId: req.body.centerId || eventDetails.centerId,
                   eventDate: req.body.eventDate || eventDetails.eventDate,
-                }).then(() => { return res.status(200).send(eventDetails); }) // Send back the updated todo.
-                .catch((error) => { return res.status(400).send(error); });
+                }).then(() => res.status(200).send(eventDetails)) // Send back the updated todo.
+                .catch(error => res.status(400).send(error));
             })
-            .catch((error) => {
-              return res.status(400).send(error);
-            });
+            .catch(error => res.status(400).send(error));
         }
         // Returns pre-define error meesage if data not available
         return res.json({ message: 'date not available' });
@@ -79,8 +73,8 @@ export default class EventControllerClass {
         // delete the records
         return eventDetails
           .destroy()
-          .then(() => { return res.json({ message: 'Successful', eventDetails }); });
+          .then(() => res.json({ message: 'Successful', eventDetails }));
       })
-      .catch((error) => { return res.status(401).json({ message: 'operation failed', error }); });
+      .catch(error => res.status(401).json({ message: 'operation failed', error }));
   }
 }

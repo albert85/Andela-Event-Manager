@@ -2,7 +2,7 @@
 import express from 'express';
 
 // importing centerclass
-import centersClassController from '../controller/centerclass';
+import centersClassController from '../controller/centerClass';
 
 // importing router for center manager
 const centerRouter = express.Router();
@@ -38,7 +38,7 @@ centerRouter.route('/')
   *             amount:
   *               type: decimal
   *           example: {
-  *    	        "message":  "Center sucessful created",
+  *             "message":  "Center sucessful created",
   *             "name": "Apollan Hall",
   *             "location": "Ikeja",
   *             "capacity": 2000,
@@ -267,8 +267,6 @@ centerRouter.route('/:centerid')
   *       400:
   *         description: When center does not exist
   */
-
-
 
   .put(centersClassController.editACenter);
 
