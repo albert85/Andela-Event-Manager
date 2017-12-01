@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">89.47% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>9/9</span>
+        <span class='fraction'>17/19</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">50% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/1</span>
+        <span class='fraction'>1/2</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">89.47% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>9/9</span>
+        <span class='fraction'>17/19</span>
       </div>
     </div>
   </div>
@@ -69,7 +69,50 @@
 24
 25
 26
-27</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -77,6 +120,19 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -86,8 +142,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -98,25 +160,56 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// importing express and body-parser library
 import express from 'express';
 import bodyParser from 'body-parser';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express';
 &nbsp;
 // importing event and center route
+&nbsp;
+import path from 'path';
+&nbsp;
 import routecontroller from './index';
 &nbsp;
 // instantiating express
 const app = express();
+const swaggerPath = path.join(__dirname, './router/*.js');
+&nbsp;
+// options for the swagger docs
+const options = {
+  // import swaggerDefinitions
+  swaggerDefinition: {
+    info: {
+      title: 'Event Manager',
+      version: '1.0.0',
+      description: 'API Documentation of Event Manager',
+    },
+    host: 'localhost:3000',
+    basePath: '/',
+  },
+  // path to the API docs
+  apis: [swaggerPath],
+};
+&nbsp;
+// initialize swagger-jsdoc
+const swaggerSpec = swaggerJSDoc(options);
 &nbsp;
 &nbsp;
 // configuring body-parser to json property
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 &nbsp;
+// serve swagger
+app.get('/swagger.json', <span class="fstat-no" title="function not covered" >(</span>req, res) =&gt; {
+<span class="cstat-no" title="statement not covered" >  res.setHeader('Content-Type', 'application/json');</span>
+<span class="cstat-no" title="statement not covered" >  res.send(swaggerSpec);</span>
+});
+&nbsp;
+app.use('/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerSpec));
+&nbsp;
 // configuring the event and center route
 app.use(routecontroller);
-// app.use('/api/v1/users/events',routecontroller)
-// app.use('/api/v1/admin/centers',routecontroller)
 &nbsp;
-// listening to server at port localhost:8089
-app.listen(8090, () =&gt; {
+// listening to server at port localhost:8090
+app.listen(3000, () =&gt; {
   console.log('server listening');
 });
 &nbsp;
@@ -127,7 +220,7 @@ export default app;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Nov 28 2017 05:04:59 GMT+0100 (W. Central Africa Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Dec 01 2017 17:19:21 GMT+0100 (W. Central Africa Standard Time)
 </div>
 </div>
 <script src="..\prettify.js"></script>

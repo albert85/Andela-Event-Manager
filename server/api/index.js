@@ -2,10 +2,10 @@
 import express from 'express';
 
 // importing the event router
-import event from './router/eventRouter';
+import event from './router/eventrouter';
 
 // importing the event center router
-import center from './router/centerRouter';
+import center from './router/centerrouter';
 
 // importing router for event and center manager
 const router = express.Router();
