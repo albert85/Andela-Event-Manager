@@ -6,7 +6,7 @@
   "devDependencies": {},
   "scripts": {
     "start": "nodemon --exec babel-node -- server/api/app.js",
-    "start:dev": "nodemon --exec babel-node server/bin/www.js",
+    "start:dev": "nodemon --exec babel-node server/app.js",
     "js": "nyc  --reporter=html --reporter=test mocha --compilers js:babel-register server/test/test.js",
     "test": "nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register --require babel-polyfill --recursive server/test/ --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls"

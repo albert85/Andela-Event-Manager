@@ -17,10 +17,10 @@ module.exports = {
         default: 0,
       },
       userId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         references: {
           model: 'users',
-          key: 'id',
+          key: 'email',
           as: 'userId',
         },
       },
