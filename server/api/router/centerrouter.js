@@ -2,7 +2,7 @@
 import express from 'express';
 
 // importing centerclass
-import centersClassController from '../controller/centerClass';
+import centersClassController from '../controller/centerclass';
 
 // importing router for center manager
 const centerRouter = express.Router();

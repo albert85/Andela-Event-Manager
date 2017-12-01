@@ -2,7 +2,7 @@
 import express from 'express';
 
 // importing eventclas
-import eventclassrouter from '../controller/eventClass';
+import eventclassrouter from '../controller/eventclass';
 
 // importing router for event and center manager
 const eventrouter = express.Router();
