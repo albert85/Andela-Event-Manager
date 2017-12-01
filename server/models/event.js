@@ -4,13 +4,8 @@ export default (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     bookingStatus: DataTypes.INTEGER,
     eventDate: DataTypes.DATE,
+    userId: DataTypes.INTEGER,
   });
-  // Associates with user table
-  Event.associate = (models) => {
-    Event.belongsTo(models.user, {
-      foreignKey: 'userId',
-    });
-  };
   // Associates with centers table
   Event.associate = (models) => {
     Event.belongsTo(models.Center, {

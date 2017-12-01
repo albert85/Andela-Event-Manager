@@ -1,7 +1,13 @@
+import jwt from 'jsonwebtoken';
 import { Event } from '../models';
 
 export default class EventControllerClass {
   static create(req, res) {
+    // get the id of thr user
+    const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
+    if (!decoded) {
+      return res.json({ message: 'Token ezpired' });
+    }
     // check if date is available
     return Event
       .findAll({
@@ -14,7 +20,7 @@ export default class EventControllerClass {
           return Event
             .create({
               name: req.body.name,
-              userId: req.body.userId,
+              userId: decoded.id,
               bookingStatus: req.body.bookingStatus,
               centerId: req.body.centerId,
               eventDate: req.body.eventDate,

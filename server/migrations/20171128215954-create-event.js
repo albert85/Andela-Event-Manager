@@ -17,12 +17,7 @@ module.exports = {
         default: 0,
       },
       userId: {
-        type: Sequelize.STRING,
-        references: {
-          model: 'users',
-          key: 'email',
-          as: 'userId',
-        },
+        type: Sequelize.INTEGER,
       },
       centerId: {
         type: Sequelize.INTEGER,

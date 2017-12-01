@@ -27,7 +27,6 @@ export default class ValidatorClass {
     req.checkBody('name', 'Name of the event is required').notEmpty();
     req.checkBody('bookingStatus', 'Please indicate if your booking').notEmpty();
     req.checkBody('eventDate', 'supply the date of event').notEmpty();
-    req.checkBody('userId', 'supply email address').notEmpty();
     if (!req.validationErrors()) {
       return next();
     }
