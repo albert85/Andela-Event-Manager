@@ -24,7 +24,7 @@ export default class LogInControllerClass {
           // declare a payload
             const payloader = {
               isAdmin: user.isAdmin,
-              email: user.email,
+              id: result.id,
             };
             const userToken = jwt.sign(payloader, process.env.TOKEN_PASSWORD, { expiresIn: 60 * 60 });
             if (userToken) return res.json({ message: 'successfully login', token: userToken });
@@ -32,6 +32,6 @@ export default class LogInControllerClass {
           // Passwords don't match
           return res.json({ message: 'Wrong password' });
         });
-      });
+      }).catch(error => res.json({ message: error }));
   }
 }

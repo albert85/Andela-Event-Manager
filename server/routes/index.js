@@ -25,17 +25,17 @@ app.post('/api/v1/events/', validator.createEventValidation, auth.checkIfAuthori
   .delete('/api/v1/events/:eventId', auth.checkIfAuthorize, eventDetails.deleteAnEvent);
 
 // get all centers
-app.get('/api/v1/centers/', auth.checkIfAuthorize, centerDetails.getAllCenter);
+app.get('/api/v1/centers/', auth.checkIfAuthorize, auth.checkIfAuthToManage, centerDetails.getAllCenter);
 
 // creating new center
-app.post('/api/v1/centers/', auth.checkIfAuthorize, centerDetails.create)
+app.post('/api/v1/centers/', auth.checkIfAuthorize, auth.checkIfAuthToManage, centerDetails.create)
 
 // updates a center's detail
-  .put('/api/v1/centers/:centerId', auth.checkIfAuthorize, centerDetails.updateACenterDetails)
+  .put('/api/v1/centers/:centerId', auth.checkIfAuthorize, auth.checkIfAuthToManage, centerDetails.updateACenterDetails)
 
 
 // Get a center
-  .get('/api/v1/centers/:centerId', auth.checkIfAuthorize, centerDetails.getACenter);
+  .get('/api/v1/centers/:centerId', auth.checkIfAuthorize, auth.checkIfAuthToManage, centerDetails.getACenter);
 
 
 export default app;

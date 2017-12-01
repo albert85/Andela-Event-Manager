@@ -4,9 +4,9 @@ import centerDatabase from '../model/database';
 
 export default class Centermanager {
   // Create a new center
-  static addNewcenter(req, resp) {
+  static addNewcenter(req, res) {
     if (!req.body.name || !req.body.location || !req.body.capacity || !req.body.amount) {
-      return resp.json({
+      return res.json({
         status: 'error',
         message: 'Please fill all field',
       });
@@ -21,7 +21,7 @@ export default class Centermanager {
       amount: req.body.amount,
     };
     centerDatabase.centers.push(newcenter);
-    return resp.json({
+    return res.json({
       message: 'New center was created',
       Error: false,
       output: centerDatabase.centers[centerDatabase.centers.length - 1],
@@ -30,15 +30,15 @@ export default class Centermanager {
 
 
   // get a center
-  static getACenter(req, resp) {
+  static getACenter(req, res) {
     // Search for a center with an id
     centerDatabase.centers.forEach((value) => {
       if (value.id === parseInt(req.params.centerid, 10)) {
-        return resp.json({
+        return res.json({
           value,
         });
       }
-      return resp.json({
+      return res.json({
         messsage: 'Center not found',
         Error: true,
       });
@@ -46,15 +46,15 @@ export default class Centermanager {
   }
 
   // get all centers
-  static getAllCenters(req, resp) {
-    return resp.json({ centers: centerDatabase.centers });
+  static getAllCenters(req, res) {
+    return res.json({ centers: centerDatabase.centers });
   }
 
   // Edit an center with a user id
-  static editACenter(req, resp) {
+  static editACenter(req, res) {
     // check if the validity of the input
     if (!req.body.name || !req.body.location || !req.body.capacity || !req.body.amount) {
-      return resp.json({
+      res.json({
         message: 'Please supply name, location capacity and amount of the center',
         Error: true,
       });
@@ -68,7 +68,7 @@ export default class Centermanager {
         centerDatabase.centers[req.params.centerid].capacity = req.body.capacity;
         centerDatabase.centers[req.params.centerid].amount = req.body.amount;
 
-        return resp.json({
+        return res.json({
           Message: `User ${value.id} updated`,
           error: false,
           user: centerDatabase.centers[req.params.centerid],
@@ -76,7 +76,7 @@ export default class Centermanager {
         });
       }
     });
-    return resp.status(404).json({
+    return res.status(404).json({
       status: 'User not found',
       error: true,
     });

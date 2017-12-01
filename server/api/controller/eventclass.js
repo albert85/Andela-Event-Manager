@@ -47,7 +47,7 @@ export default class Eventmanager {
         eventDatabase.events[req.params.eventid].startTime = req.body.startTime;
         eventDatabase.events[req.params.eventid].endTime = req.body.endTime;
         eventDatabase.events[req.params.eventid].eventDate = req.body.eventDate;
-        return res.status(200).json({
+        res.status(200).json({
           Message: `User ${val.id} updated`,
           error: false,
           events: eventDatabase.events[req.params.eventid],
@@ -66,7 +66,7 @@ export default class Eventmanager {
     eventDatabase.events.forEach((val) => {
       if (val.id === parseInt(req.params.eventid, 10)) {
         eventDatabase.events.splice(val.id, 1);
-        return res.status(200).json({
+        res.status(200).json({
           Message: 'User deleted',
           Error: false,
           deleteOutput: val,
@@ -75,7 +75,7 @@ export default class Eventmanager {
     });
 
 
-    return res.status(409).json({
+    res.status(409).json({
       Message: 'User id not found',
       Error: true,
     });
