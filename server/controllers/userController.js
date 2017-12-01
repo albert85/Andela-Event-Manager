@@ -12,7 +12,7 @@ export default class UserControllerClass {
         firstName: req.body.firstName,
         email: req.body.email,
         password: hash,
-        isAdmin: req.body.isAdmin,
+        isAdmin: req.body.isAdmin || user.isAdmin,
         lastName: req.body.lastName,
       })
       .then((userDetails) => {

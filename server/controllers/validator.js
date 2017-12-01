@@ -6,8 +6,6 @@ export default class ValidatorClass {
     req.checkBody('email', 'check email').notEmpty().isEmail();
     req.checkBody('password', 'Password required').notEmpty();
 
-    // req.sanitize('email').escape();
-    // req.sanitize('email').trim();
     if (!req.validationErrors()) {
       return next();
     }
@@ -15,20 +13,21 @@ export default class ValidatorClass {
   }
 
   static signUpValidator(req, res, next) {
-    req.checkBody('fistName', 'Firstname is required').notEmpty();
+    req.checkBody('firstName', 'Firstname is required').notEmpty();
     req.checkBody('lastName', 'Lastname is required').notEmpty();
     req.checkBody('email', 'check email').notEmpty().isEmail();
     req.checkBody('password', 'Password required').notEmpty();
+    console.log(req.validationErrors())
     if (!req.validationErrors()) {
       return next();
     }
-    return res.json({ result: 'Please too check all your credentials are supplied' });
+    return res.json({ result: 'Please too check all your credentials are supplied: firstName, lastname, email, password' });
   }
 
   static createEventValidation(req, res, next) {
-    req.checkBody('name', 'Firstname is required').notEmpty();
-    req.checkBody('bookingStatus', 'Lastname is required').notEmpty();
-    req.checkBody('eventDate', 'Password required').notEmpty();
+    req.checkBody('name', 'Name of the event is required').notEmpty();
+    req.checkBody('bookingStatus', 'Please indicate if your booking').notEmpty();
+    req.checkBody('eventDate', 'supply the date of event').notEmpty();
     if (!req.validationErrors()) {
       return next();
     }

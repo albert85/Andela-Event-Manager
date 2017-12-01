@@ -1,6 +1,9 @@
 import bcrypt from 'bcrypt';
+import dotenv from 'dotenv'; 
 import jwt from 'jsonwebtoken';
 import { user } from '../models';
+
+dotenv.config();
 
 export default class AuthUser {
   static authenUser(req, res) {
@@ -23,14 +26,16 @@ export default class AuthUser {
             // declare a payload
             const payloader = {
               isAdmin: user.isAdmin,
+              email: user.email,
             };
-            const userToken = jwt.sign(payloader, req.body.password, { expiresIn: 60 * 60 });
-            if (userToken) return res.json({ message: 'successful' });
+            const userToken = jwt.sign(payloader, process.env.TOKEN_PASSWORD, { expiresIn: 60 * 60 });
+            if (userToken) return res.json({ message: 'successful', token: userToken });
           }
+          // Passwords don't match
+          return res.json({ message: 'Wrong password' });
         });
-
-        // Passwords don't match
-        return res.json({ message: 'Wrong password' });
       });
   }
+
+  // create a login controller
 }
