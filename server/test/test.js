@@ -34,11 +34,12 @@ describe('API for Centers and Events', () => {
       chai.request(server)
         .get('/api/v1/admin/centers/0')
         .end((err, res) => {
-          expect(res.body.val.id).to.be.eql(data[0].id);
-          expect(res.body.val.name).to.be.eql(data[0].name);
-          expect(res.body.val.location).to.be.eql(data[0].location);
-          expect(res.body.val.capacity).to.be.eql(data[0].capacity);
-          expect(res.body.val.amount).to.be.eql(data[0].amount);
+          console.log(res.body);
+          expect(res.body.value.id).to.be.eql(data[0].id);
+          expect(res.body.value.name).to.be.eql(data[0].name);
+          expect(res.body.value.location).to.be.eql(data[0].location);
+          expect(res.body.value.capacity).to.be.eql(data[0].capacity);
+          expect(res.body.value.amount).to.be.eql(data[0].amount);
           done(err);
         });
     });

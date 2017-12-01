@@ -20,7 +20,7 @@ export default class EventControllerClass {
               eventDate: req.body.eventDate,
             })
             .then(eventDetails => res.status(200).json({ newCreate: eventDetails }))
-            .catch((error) => res.status(400).json({ message: 'location does not exist', error: error }));
+            .catch(error => res.status(400).json({ message: 'location does not exist', error }));
         }
         return res.json({ message: 'The date is not available, please choose another' });
       }).catch(() => res.json({ message: 'Check your credentials' }));
