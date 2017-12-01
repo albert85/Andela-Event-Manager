@@ -2,14 +2,13 @@ import express from 'express';
 import userDetails from '../controllers/userController';
 import eventDetails from '../controllers/eventController';
 import centerDetails from '../controllers/centerController';
-import oauthClass from '../auth/authController';
 import validator from '../controllers/validator';
 import loginController from '../controllers/loginController';
+import auth from '../controllers/checkAuth';
 
 const app = express.Router();
 
 // creating a secure API
-app.post('/api/auth/users', oauthClass.authenUser);
 
 app.post('/api/v1/user/login', loginController.signIn);
 
@@ -17,26 +16,26 @@ app.post('/api/v1/user/login', loginController.signIn);
 app.post('/api/v1/users/signUp', validator.signUpValidator, userDetails.signUp);
 
 // creating a new Event
-app.post('/api/v1/events/:userId', validator.createEventValidation, eventDetails.create)
+app.post('/api/v1/events/', validator.createEventValidation, auth.checkIfAuthorize, eventDetails.create)
 
 // updating event operation
-  .put('/api/v1/events/:eventId', eventDetails.updateEvent)
+  .put('/api/v1/events/:eventId', auth.checkIfAuthorize, eventDetails.updateEvent)
 
 // Deleting an event
-  .delete('/api/v1/events/:eventId', eventDetails.deleteAnEvent);
+  .delete('/api/v1/events/:eventId', auth.checkIfAuthorize, eventDetails.deleteAnEvent);
 
 // get all centers
-app.get('/api/v1/centers/', centerDetails.getAllCenter);
+app.get('/api/v1/centers/', auth.checkIfAuthorize, centerDetails.getAllCenter);
 
 // creating new center
-app.post('/api/v1/centers/', centerDetails.create)
+app.post('/api/v1/centers/', auth.checkIfAuthorize, centerDetails.create)
 
 // updates a center's detail
-  .put('/api/v1/centers/:centerId', centerDetails.updateACenterDetails)
+  .put('/api/v1/centers/:centerId', auth.checkIfAuthorize, centerDetails.updateACenterDetails)
 
 
 // Get a center
-  .get('/api/v1/centers/:centerId', centerDetails.getACenter);
+  .get('/api/v1/centers/:centerId', auth.checkIfAuthorize, centerDetails.getACenter);
 
 
 export default app;

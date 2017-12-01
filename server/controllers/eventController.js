@@ -14,13 +14,13 @@ export default class EventControllerClass {
           return Event
             .create({
               name: req.body.name,
-              userId: req.params.userId,
+              userId: req.body.userId,
               bookingStatus: req.body.bookingStatus,
               centerId: req.body.centerId,
               eventDate: req.body.eventDate,
             })
             .then(eventDetails => res.status(200).json({ newCreate: eventDetails }))
-            .catch(error => res.status(400).json({ message: 'error', error }));
+            .catch(() => res.status(400).json({ message: 'location does not exist' }));
         }
         return res.json({ message: 'The date is not available, please choose another' });
       }).catch(() => res.json({ message: 'Check your credentials' }));
@@ -49,7 +49,7 @@ export default class EventControllerClass {
                 .update({
                   name: req.body.name || eventDetails.name,
                   bookingStatus: req.body.bookingStatus || eventDetails.bookingStatus,
-                  userId: 5 || eventDetails.userId,
+                  userId: req.body.userId || eventDetails.userId,
                   centerId: req.body.centerId || eventDetails.centerId,
                   eventDate: req.body.eventDate || eventDetails.eventDate,
                 }).then(() => res.status(200).send(eventDetails)) // Send back the updated todo.

@@ -1,34 +1,37 @@
+import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import { user } from '../models';
 
+dotenv.config();
 export default class LogInControllerClass {
-  static signIn(req, res, next) {
+  static signIn(req, res) {
     return user
-      .findAll({
+      .findOne({
         where: {
           email: req.body.email,
         },
-      })
-      .then((result) => {
-        if (result.length === 0) {
-          return res.json('No record found, please check your credential or signup');
+      }).then((result) => {
+      // compare the supplied information with the database
+      // check if its record exist
+        if (!result) {
+          return res.json({ message: 'No record found' });
         }
-
-        const bearerHeader = req.headers.authorization;
-        if (typeof bearerHeader !== 'undefined') {
-          const bearer = bearerHeader.split(' ');
-          const bearerToken = bearer[1];
-          req.token = bearerToken;
-          // verify the token
-          jwt.verify(req.token, process.env.TOKEN_PASSWORD, (err, data) => {
-            if (err) {
-              return res.json({ message: 'Unauthorized Entry' });
-            }
-            next(res.json({ message: 'sucessfull login', result: data }));
-          });
-        }
-        return res.status(403).json({ message: 'Unauthorized Action' });
-      })
-      .catch(() => res.send({ message: 'Please check email and password' }));
+        // check password
+        bcrypt.compare(req.body.password, result.dataValues.password, (err, resp) => {
+          if (resp) {
+          // if passwords match
+          // declare a payload
+            const payloader = {
+              isAdmin: user.isAdmin,
+              email: user.email,
+            };
+            const userToken = jwt.sign(payloader, process.env.TOKEN_PASSWORD, { expiresIn: 60 * 60 });
+            if (userToken) return res.json({ message: 'successfully login', token: userToken });
+          }
+          // Passwords don't match
+          return res.json({ message: 'Wrong password' });
+        });
+      });
   }
 }

@@ -1,4 +1,5 @@
 // import validator from 'validatorjs';
+import jwt from 'jsonwebtoken';
 import { Center, Event } from '../models';
 
 export default class CenterControllerClass {
@@ -36,6 +37,13 @@ export default class CenterControllerClass {
 
   // get All centers
   static getAllCenter(req, res) {
+    // verify the token
+    jwt.verify(req.token, process.env.TOKEN_PASSWORD, (err, data) => {
+      if (err) {
+        return res.json({ message: 'Unauthorized Entry', error: err });
+      }
+    });
+
     return Center
       .findAll()
       .then(centerDetails => res.status(200).json({ message: 'sucessful', centerDetails }))

@@ -17,7 +17,6 @@ export default class ValidatorClass {
     req.checkBody('lastName', 'Lastname is required').notEmpty();
     req.checkBody('email', 'check email').notEmpty().isEmail();
     req.checkBody('password', 'Password required').notEmpty();
-    console.log(req.validationErrors())
     if (!req.validationErrors()) {
       return next();
     }
@@ -28,9 +27,10 @@ export default class ValidatorClass {
     req.checkBody('name', 'Name of the event is required').notEmpty();
     req.checkBody('bookingStatus', 'Please indicate if your booking').notEmpty();
     req.checkBody('eventDate', 'supply the date of event').notEmpty();
+    req.checkBody('userId', 'supply the date of event').notEmpty();
     if (!req.validationErrors()) {
       return next();
     }
-    return res.json({ result: 'Please check all your credentials are supplied' });
+    return res.json({ result: 'Please supply: name, bookingStatus, eventDate and centerId' });
   }
 }
