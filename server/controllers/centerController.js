@@ -1,33 +1,23 @@
 // import validator from 'validatorjs';
+import jwt from 'jsonwebtoken';
 import { Center, Event } from '../models';
 
 export default class CenterControllerClass {
   // Creating a new center
   static create(req, res) {
-    // check if center is available on the database
+    // create a center
     return Center
-      .findAll({
-        where: {
-          name: req.body.name,
-        },
-      }).then((centerResult) => {
-        // If not available, create and save center details
-        if (centerResult.length === 0) {
-          return Center
-            .create({
-              name: req.body.name,
-              location: req.body.location,
-              capacity: req.body.capacity,
-              amount: req.body.amount,
-              userId: req.params.userId,
-            })
-            .then(centerDetail =>
-              // Output the result
-              res.status(201).send(centerDetail))
-            .catch(error => res.status(400).send(error));
-        }
-        return res.status(400).json({ message: 'Center exists!!!' });
-      }).catch(() => res.json({ message: 'Operation failed' }));
+      .create({
+        name: req.body.name,
+        location: req.body.location,
+        capacity: req.body.capacity,
+        amount: req.body.amount,
+        userId: req.body.userId,
+      })
+      .then(centerDetail =>
+        // Output the result
+        res.status(201).send(centerDetail))
+      .catch(error => res.status(400).send(error));
   }
 
   // get A center
@@ -47,6 +37,13 @@ export default class CenterControllerClass {
 
   // get All centers
   static getAllCenter(req, res) {
+    // verify the token
+    jwt.verify(req.token, process.env.TOKEN_PASSWORD, (err, data) => {
+      if (err) {
+        return res.json({ message: 'Unauthorized Entry', error: err });
+      }
+    });
+
     return Center
       .findAll()
       .then(centerDetails => res.status(200).json({ message: 'sucessful', centerDetails }))

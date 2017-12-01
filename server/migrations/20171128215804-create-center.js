@@ -42,5 +42,5 @@ module.exports = {
       },
     });
   },
-  down: (queryInterface) => { return queryInterface.dropTable('Centers'); },
+  down: queryInterface => queryInterface.dropTable('Centers'),
 };

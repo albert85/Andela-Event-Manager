@@ -1,5 +1,5 @@
 // import database
-import eventDatabase from '../model/database.js';
+import eventDatabase from '../model/database';
 
 
 export default class Eventmanager {
@@ -39,7 +39,8 @@ export default class Eventmanager {
       });
     }
     // Update the event using event id
-    for (const val of eventDatabase.events) {
+
+    eventDatabase.events.forEach((val) => {
       if (val.id === parseInt(req.params.eventid, 10)) {
         eventDatabase.events[req.params.eventid].name = req.body.name;
         eventDatabase.events[req.params.eventid].location = req.body.location;
@@ -53,7 +54,7 @@ export default class Eventmanager {
 
         });
       }
-    }
+    });
 
     return res.status(409).json({
       status: 'User not found',
@@ -62,17 +63,17 @@ export default class Eventmanager {
   }
   // delete an event
   static deleteAnEvent(req, res) {
-    for (const val of eventDatabase.events) {
+    eventDatabase.events.forEach((val) => {
       if (val.id === parseInt(req.params.eventid, 10)) {
         eventDatabase.events.splice(val.id, 1);
-
         return res.status(200).json({
           Message: 'User deleted',
           Error: false,
           deleteOutput: val,
         });
       }
-    }
+    });
+
 
     return res.status(409).json({
       Message: 'User id not found',

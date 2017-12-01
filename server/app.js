@@ -11,21 +11,19 @@ const app = express();
 //  Log request to console
 app.use(logger('dev'));
 
-// Parse incoming requests data (https://github.com/expressjs/body-parser)
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(validator());
 
 
 // import routes into application
-router(app);
+app.use(router);
 
 
-// Setup a welcome message in JSON format.
-app.get('*', (req, res) => {
-  res.status(200).send({
-    message: 'Welcome to the beginning of nothingness.',
-  });
-});
+const port = parseInt(process.env.PORT, 10) || 3000;
+app.set('port', port);
 
-export default app;
+app.listen(port);
+
+// export default app;

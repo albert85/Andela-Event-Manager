@@ -2,7 +2,7 @@
 import express from 'express';
 
 // importing eventclas
-import eventclassrouter from '../controller/eventclass';
+import eventclassrouter from '../controller/eventClass';
 
 // importing router for event and center manager
 const eventrouter = express.Router();
@@ -183,7 +183,7 @@ eventrouter.route('/:eventid')
   *               type: date
   *         examples:
   *           application/json: {
-	*             "message": "sucessful deleted",
+  *             "message": "sucessful deleted",
   *             "id": 1,
   *             "name": "Wedding",
   *             "location": "ikeja",
