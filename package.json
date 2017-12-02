@@ -10,7 +10,8 @@
     "start": "nodemon --exec npm run babel-node server/app.js",
     "js": "nyc  --reporter=html --reporter=test mocha --compilers js:babel-register server/test/test.js",
     "test": "nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register --require babel-polyfill --recursive server/test/ --exit",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "db:migrate": "node_modules/.bin/sequelize db:migrate"
   },
   "repository": {
     "type": "git",
