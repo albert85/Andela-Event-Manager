@@ -14,7 +14,7 @@
     "dialect": "mysql"
   },
   "production": {
-    "use_env_variable": "postgres://mfsajtwkpsobjj:511ee4513171307b14981d20c342e4a4eb72b648f1f9c95e685b6750abdd2e21@ec2-54-235-254-251.compute-1.amazonaws.com:5432/d57q03kgalfdec",
+    "use_env_variable": "postgres://oveptpduzwqwyt:f2a3cfbf36dcdcdb6b1c3dd08015a236661c97479d7dbda0b7ca263398d5c315@ec2-54-225-192-243.compute-1.amazonaws.com:5432/d58i0tskn8cd02",
     "dialect": "postgres"
   }
 }
