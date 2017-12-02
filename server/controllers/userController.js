@@ -9,24 +9,28 @@ export default class UserControllerClass {
         email: req.body.email,
       },
     }).then((result) => {
-      if (result.length !== 0) res.json({ message: 'Credential exists' });
-    }).catch(() => res.json({ message: 'Credential exists' }));
-    // Setting up password for hash
-    const saltRound = 10;
-    const { password } = req.body;
+      console.log(result.length);
+      if (result.length !== 0) {
+        return res.json({ message: 'Credential exist' });
+      }
 
-    bcrypt.hash(password, saltRound, (err, hash) => user
-      .create({
-        firstName: req.body.firstName,
-        email: req.body.email,
-        password: hash,
-        isAdmin: req.body.isAdmin,
-        lastName: req.body.lastName,
-      })
-      .then((userDetails) => {
-        const { firstName, lastName, email } = userDetails;
-        res.status(200).send({ firstName, lastName, email });
-      })
-      .catch(() => res.status(400).json({ message: 'Signing Up not completed' })));
+      // Setting up password for hash
+      const saltRound = 10;
+      const { password } = req.body;
+
+      bcrypt.hash(password, saltRound, (err, hash) => user
+        .create({
+          firstName: req.body.firstName,
+          email: req.body.email,
+          password: hash,
+          isAdmin: req.body.isAdmin,
+          lastName: req.body.lastName,
+        })
+        .then((userDetails) => {
+          const { firstName, lastName, email } = userDetails;
+          res.status(200).send({ firstName, lastName, email });
+        })
+        .catch(() => res.status(400).json({ message: 'Signing Up not completed' })));
+    }).catch(() => res.json({ message: 'Credential exists' }));
   }
 }
