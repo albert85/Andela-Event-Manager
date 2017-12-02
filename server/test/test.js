@@ -1,7 +1,7 @@
 
 import chaihhtp from 'chai-http';
-import server from '../api/app';
 import chai from 'chai';
+import server from '../api/app';
 
 const { expect } = chai;
 
@@ -34,7 +34,6 @@ describe('API for Centers and Events', () => {
       chai.request(server)
         .get('/api/v1/admin/centers/0')
         .end((err, res) => {
-          console.log(res.body);
           expect(res.body.value.id).to.be.eql(data[0].id);
           expect(res.body.value.name).to.be.eql(data[0].name);
           expect(res.body.value.location).to.be.eql(data[0].location);
@@ -75,7 +74,7 @@ describe('API for Centers and Events', () => {
         amount: 100,
       };
       chai.request(server)
-
+      
         .put('/api/v1/admin/centers/1')
         .send(newData)
         .end((err, res) => {

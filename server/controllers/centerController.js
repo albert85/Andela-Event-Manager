@@ -5,6 +5,11 @@ import { Center, Event } from '../models';
 export default class CenterControllerClass {
   // Creating a new center
   static create(req, res) {
+    // get the id of thr user
+    const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
+    if (!decoded) {
+      return res.json({ message: 'Token ezpired' });
+    }
     // create a center
     return Center
       .create({
@@ -12,7 +17,7 @@ export default class CenterControllerClass {
         location: req.body.location,
         capacity: req.body.capacity,
         amount: req.body.amount,
-        userId: req.body.userId,
+        userId: decoded.id,
       })
       .then(centerDetail =>
         // Output the result
@@ -38,7 +43,7 @@ export default class CenterControllerClass {
   // get All centers
   static getAllCenter(req, res) {
     // verify the token
-    jwt.verify(req.token, process.env.TOKEN_PASSWORD, (err, data) => {
+    jwt.verify(req.token, process.env.TOKEN_PASSWORD, (err) => {
       if (err) {
         return res.json({ message: 'Unauthorized Entry', error: err });
       }
@@ -67,7 +72,7 @@ export default class CenterControllerClass {
             amount: req.body.amount || centerDetails.amount,
           })
           .then(() => res.json({ message: 'sucessful', centerDetails }))
-          .catch(() => res.json({ message: 'failes to update' }));
+          .catch(() => res.json({ message: 'fails to update' }));
       })
       .catch(() => {
         res.status(400).json({ message: 'updates failed' });

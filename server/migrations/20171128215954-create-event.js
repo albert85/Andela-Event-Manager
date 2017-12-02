@@ -17,12 +17,7 @@ module.exports = {
         default: 0,
       },
       userId: {
-        type: Sequelize.STRING,
-        references: {
-          model: 'users',
-          key: 'email',
-          as: 'userId',
-        },
+        type: Sequelize.INTEGER,
       },
       centerId: {
         type: Sequelize.INTEGER,
@@ -46,5 +41,5 @@ module.exports = {
       },
     });
   },
-  down: (queryInterface, Sequelize) => { return queryInterface.dropTable('Events'); },
+  down: (queryInterface, Sequelize) => queryInterface.dropTable('Events'),
 };

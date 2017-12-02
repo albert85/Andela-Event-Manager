@@ -7,6 +7,8 @@ node_js:
 before_script:
 
  - npm install
+ - psql -c 'create database <database-name>;' -U postgres
+ - npm run db:migrate
 
 script:
  - npm run test

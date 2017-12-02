@@ -38,6 +38,7 @@ export default class Eventmanager {
         Error: true,
       });
     }
+
     // Update the event using event id
 
     eventDatabase.events.forEach((val) => {
@@ -55,7 +56,6 @@ export default class Eventmanager {
         });
       }
     });
-
     return res.status(409).json({
       status: 'User not found',
       error: true,
@@ -66,7 +66,7 @@ export default class Eventmanager {
     eventDatabase.events.forEach((val) => {
       if (val.id === parseInt(req.params.eventid, 10)) {
         eventDatabase.events.splice(val.id, 1);
-        return res.status(200).json({
+        res.status(200).json({
           Message: 'User deleted',
           Error: false,
           deleteOutput: val,
@@ -75,7 +75,7 @@ export default class Eventmanager {
     });
 
 
-    return res.status(409).json({
+    res.status(409).json({
       Message: 'User id not found',
       Error: true,
     });
