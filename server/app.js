@@ -21,9 +21,9 @@ app.use(validator());
 app.use(router);
 
 
-const port = parseInt(process.env.PORT, 10) || 3000;
+const port = parseInt(process.env.PORT, 10) || 8080;
 app.set('port', port);
 
 app.listen(port);
 
-// export default app;
+export default app;

@@ -55,11 +55,10 @@ export default class Eventmanager {
 
         });
       }
-
-      return res.status(409).json({
-        status: 'User not found',
-        error: true,
-      });
+    });
+    return res.status(409).json({
+      status: 'User not found',
+      error: true,
     });
   }
   // delete an event
