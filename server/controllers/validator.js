@@ -27,6 +27,19 @@ export default class ValidatorClass {
     req.checkBody('name', 'Name of the event is required').notEmpty();
     req.checkBody('bookingStatus', 'Please indicate if your booking').notEmpty();
     req.checkBody('eventDate', 'supply the date of event').notEmpty();
+    req.checkBody('isAdmin', 'Select if the user is admin or not').notEmpty();
+    req.checkBody('centerId', 'Select center for the event based on ID no').notEmpty();
+    if (!req.validationErrors()) {
+      return next();
+    }
+    return res.json({ result: 'Please supply: name, bookingStatus, eventDate, centerId and userId' });
+  }
+
+  static creatCenterValidation(req, res, next) {
+    req.checkBody('name', 'Name of the center is required').notEmpty();
+    req.checkBody('location', 'Please indicate location of the event center').notEmpty();
+    req.checkBody('amount', 'Cost for booking the center').notEmpty();
+    req.checkBody('capacity', 'capacity of the event').notEmpty();
     if (!req.validationErrors()) {
       return next();
     }

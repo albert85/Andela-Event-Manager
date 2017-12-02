@@ -38,6 +38,7 @@ export default class Eventmanager {
         Error: true,
       });
     }
+
     // Update the event using event id
 
     eventDatabase.events.forEach((val) => {
@@ -47,18 +48,18 @@ export default class Eventmanager {
         eventDatabase.events[req.params.eventid].startTime = req.body.startTime;
         eventDatabase.events[req.params.eventid].endTime = req.body.endTime;
         eventDatabase.events[req.params.eventid].eventDate = req.body.eventDate;
-        res.status(200).json({
+        return res.status(200).json({
           Message: `User ${val.id} updated`,
           error: false,
           events: eventDatabase.events[req.params.eventid],
 
         });
       }
-    });
 
-    return res.status(409).json({
-      status: 'User not found',
-      error: true,
+      return res.status(409).json({
+        status: 'User not found',
+        error: true,
+      });
     });
   }
   // delete an event

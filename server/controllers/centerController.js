@@ -43,7 +43,7 @@ export default class CenterControllerClass {
   // get All centers
   static getAllCenter(req, res) {
     // verify the token
-    jwt.verify(req.token, process.env.TOKEN_PASSWORD, (err, data) => {
+    jwt.verify(req.token, process.env.TOKEN_PASSWORD, (err) => {
       if (err) {
         return res.json({ message: 'Unauthorized Entry', error: err });
       }

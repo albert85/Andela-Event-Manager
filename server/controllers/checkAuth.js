@@ -14,22 +14,22 @@ export default class Auth {
   }
 
   static checkIfAuthToManage(req, res, next) {
-    const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
-    if (!decoded) {
-      return res.json({ message: 'Token ezpired' });
-    }
-
-    // find if authorize
-    return user
-      .findOne({
-        where: {
-          id: decoded.id,
-        },
-      }).then((result) => {
-        if (!result.isAdmin) {
-          return res.json({ message: 'You are not authorized' });
-        }
-        return next();
-      }).catch(() => res.json({ message: 'Record does not exist' }));
+    const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD, () => {
+      if (!decoded) {
+        return res.json({ message: 'Token expired, please login to get another token' });
+      }
+      // find if authorize
+      return user
+        .findOne({
+          where: {
+            id: decoded.id,
+          },
+        }).then((result) => {
+          if (!result.isAdmin) {
+            return res.json({ message: 'You are not authorized' });
+          }
+          return next();
+        }).catch(() => res.json({ message: 'Record does not exist' }));
+    });
   }
 }
