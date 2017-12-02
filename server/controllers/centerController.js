@@ -8,7 +8,7 @@ export default class CenterControllerClass {
     // get the id of thr user
     const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
     if (!decoded) {
-      return res.json({ message: 'Token ezpired' });
+      return res.json({ message: 'Token expired' });
     }
     // create a center
     return Center
