@@ -5,7 +5,7 @@ Event Manager
 
 ## Getting Started
 This API endpoint allows access to a postgres database using POSTMAN on port number 8080.
-## How to use
+## How to use 
 - First, type npm run start on your command
 - Create a new account by signing Up
 - login using the account you have created ###How to create an event
