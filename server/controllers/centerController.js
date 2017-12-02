@@ -72,7 +72,7 @@ export default class CenterControllerClass {
             amount: req.body.amount || centerDetails.amount,
           })
           .then(() => res.json({ message: 'sucessful', centerDetails }))
-          .catch(() => res.json({ message: 'failes to update' }));
+          .catch(() => res.json({ message: 'fails to update' }));
       })
       .catch(() => {
         res.status(400).json({ message: 'updates failed' });
