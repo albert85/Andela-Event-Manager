@@ -17,6 +17,7 @@ export default class LogInControllerClass {
         if (!result) {
           return res.json({ message: 'No record found' });
         }
+        console.log(result.id)
         // check password
         bcrypt.compare(req.body.password, result.dataValues.password, (err, resp) => {
           if (resp) {
@@ -26,7 +27,7 @@ export default class LogInControllerClass {
               isAdmin: user.isAdmin,
               id: result.id,
             };
-            const userToken = jwt.sign(payloader, process.env.TOKEN_PASSWORD, { expiresIn: 60 * 60 });
+            const userToken = jwt.sign(payloader, process.env.TOKEN_PASSWORD, { expiresIn: 60 * 3600 });
             if (userToken) return res.json({ message: 'successfully login', token: userToken });
           }
           // Passwords don't match
