@@ -16,7 +16,7 @@ export default class Auth {
   static checkIfAuthToManage(req, res, next) {
     jwt.verify(req.token, process.env.TOKEN_PASSWORD, (err, decoded) => {
       if (!decoded) {
-        return res.json({ message: 'Token expired, please login to get another token', err});
+        return res.json({ message: 'Token expired, please login to get another token'});
       }
       // find if authorize
       return user
