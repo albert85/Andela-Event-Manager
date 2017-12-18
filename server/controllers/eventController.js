@@ -6,7 +6,7 @@ export default class EventControllerClass {
     // get the id of thr user
     const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
     if (!decoded) {
-      return res.json({ message: 'Token ezpired' });
+      return res.json({ message: 'Token expired' });
     }
     // check if date is available
     return Event

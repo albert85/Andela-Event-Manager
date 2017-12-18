@@ -2,11 +2,11 @@ import chaihhtp from 'chai-http';
 import chai from 'chai';
 import server from '../../app';
 
-let { expect } = chai;
+const { expect } = chai;
 
 chai.use(chaihhtp);
 
-let signUpData = {
+const signUpData = {
   firstName: 'Shemilore',
   email: 'adenike@yahoo.com',
   password: '123456',
@@ -14,42 +14,37 @@ let signUpData = {
   lastName: 'Adeniji',
 };
 
-let centerData = {
+const centerData = {
   name: 'Apollian',
   location: 'ikeja',
   capacity: 200,
   amount: 30000,
 };
 
-let loginData = {
+const loginData = {
   email: 'adenike@yahoo.com',
   password: '123456',
 };
 
+let tokenId = '';
 
 describe('Testing of data on Postgress database', () => {
   describe('Testing API for signing Up', () => {
-    let tokenId = '';
     it('it should return user\'s details', ((done) => {
       // Sign up
-     
-      try {
-        chai.request(server)
-          .post('/api/v1/users/signUp')
-          .send(signUpData)
-          .end((err, res) => {
-            console.log(res.statusCode)
-            expect(res.statusCode).to.be.eq(200);
-            done(err);
-          });
-      } catch (e) {
-        done(e);
-      }
+      chai.request(server)
+        .post('/api/v1/users/signUp')
+        .send(signUpData)
+        .end((err, res) => {
+          console.log(res.body);
+          expect(res.statusCode).to.be.eql(200);
+          done(err);
+        });
     }));
 
     it('it should return users login token', ((done) => {
-      // Sign up
-     
+      // Login
+
       chai.request(server)
         .post('/api/v1/user/login')
         .send(loginData)
@@ -59,14 +54,14 @@ describe('Testing of data on Postgress database', () => {
           done(err);
         });
     }));
-
+    /*
     it('it should return center\'s details', ((done) => {
       // Creating centers with authentication
 
       chai.request(server)
         .post('/api/v1/centers/')
         .send(centerData)
-        .set('Authorization','Bearer ' + tokenId)
+        .set('Authorization', `Bearer ${tokenId}`)
         .end((err, res) => {
           console.log(res.statusCode);
           expect(res.statusCode).to.be.eql(200);
@@ -75,19 +70,19 @@ describe('Testing of data on Postgress database', () => {
     }));
 
     // creating an event
-    it('it should return ', ((done) => {
+    it('it should return event created details', ((done) => {
       // Creating centers with authentication
 
       chai.request(server)
         .post('/api/v1/centers/')
         .send(centerData)
-        .set('Authorization','Bearer ' + tokenId)
+        .set('Authorization', `Bearer ${tokenId}`)
         .end((err, res) => {
           console.log(res.statusCode);
           expect(res.statusCode).to.be.eql(200);
           done(err);
         });
     }));
-    
+    */
   });
 });
