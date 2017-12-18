@@ -27,7 +27,7 @@ export default class LogInControllerClass {
               isAdmin: user.isAdmin,
               id: result.id,
             };
-            const userToken = jwt.sign(payloader, process.env.TOKEN_PASSWORD, { expiresIn: 60 * 3600 });
+            const userToken = jwt.sign(payloader, process.env.TOKEN_PASSWORD, { expiresIn: 60 * 60 });
             if (userToken) return res.status(200).json({ message: 'successfully login', token: userToken });
           }
           // Passwords don't match

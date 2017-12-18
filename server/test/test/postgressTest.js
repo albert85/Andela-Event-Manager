@@ -1,10 +1,11 @@
-import chaihhtp from 'chai-http';
+import chaihttp from 'chai-http';
 import chai from 'chai';
 import server from '../../app';
 
 const { expect } = chai;
 
-chai.use(chaihhtp);
+chai.use(chaihttp);
+
 
 const signUpData = {
   firstName: 'Shemilore',
@@ -29,20 +30,23 @@ const loginData = {
 let tokenId = '';
 
 describe('Testing of data on Postgress database', () => {
+
   describe('Testing API for signing Up', () => {
-    it('it should return user\'s details', ((done) => {
+
+
+    it('it should return user\'s details', (() => {
       // Sign up
       chai.request(server)
         .post('/api/v1/users/signUp')
         .send(signUpData)
         .end((err, res) => {
-          console.log(res.body);
+          console.log(res);
           expect(res.statusCode).to.be.eql(200);
-          done(err);
+          // done(err);
         });
     }));
 
-    it('it should return users login token', ((done) => {
+    it('it should return users login token', (() => {
       // Login
 
       chai.request(server)
@@ -50,8 +54,9 @@ describe('Testing of data on Postgress database', () => {
         .send(loginData)
         .end((err, res) => {
           tokenId = res.body.token;
+          console.log(tokenId);
           expect(res.body.token).to.be.a('string');
-          done(err);
+          // done(err);
         });
     }));
     /*
