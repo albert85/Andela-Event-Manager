@@ -3,10 +3,10 @@ import { Event } from '../models';
 
 export default class EventControllerClass {
   static create(req, res) {
-    // get the id of thr user
+    // get the id of the user
     const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
     if (!decoded) {
-      return res.json({ message: 'Token expired' });
+      return res.status(401).json({ message: 'Token expired' });
     }
     // check if date is available
     return Event
@@ -25,14 +25,46 @@ export default class EventControllerClass {
               centerId: req.body.centerId,
               eventDate: req.body.eventDate,
             })
-            .then(eventDetails => res.status(200).json({ newCreate: eventDetails }))
-            .catch(error => res.status(400).json({ message: 'location does not exist', error }));
+            .then(eventDetails => res.status(201).json({ newCreate: eventDetails }))
+            .catch(error => res.status(404).json({ message: 'location does not exist', error }));
         }
         return res.json({ message: 'The date is not available, please choose another' });
-      }).catch(() => res.json({ message: 'Check your credentials' }));
+      }).catch(() => res.status(400).json({ message: 'Check your credentials' }));
+  }
+
+  // get An event
+  static getAnEvent(req, res) {
+    // get the id of the user
+    const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
+    if (!decoded) {
+      return res.json({ message: 'Token expired' });
+    }
+    return Event
+      .findById(req.params.eventId)
+      .then(eventDetails => res.status(200).json({ event: eventDetails }))
+      .catch(() => res.status(404).json({ message: 'Event not found!!!' }));
+  }
+
+  // get All centers
+  static getAllEvents(req, res) {
+    // get the id of the user
+    const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
+    if (!decoded) {
+      return res.status(403).json({ message: 'Token expired' });
+    }
+
+    return Event
+      .findAll()
+      .then(eventDetails => res.status(200).json({ message: 'sucessful', eventDetails }))
+      .catch(() => res.status(404).json({ message: 'No event was found!!!' }));
   }
 
   static updateEvent(req, res) {
+    // get the id of the user
+    const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
+    if (!decoded) {
+      return res.status(403).json({ message: 'Token expired' });
+    }
     // check if date is available
     return Event
       .findAll({
@@ -40,7 +72,6 @@ export default class EventControllerClass {
           eventDate: new Date(req.body.eventDate),
         },
       }).then((checkAvailability) => {
-        console.log(checkAvailability);
         // if data is available, update records
         if (checkAvailability.length === 0) {
           // if the record to be updated
@@ -49,7 +80,7 @@ export default class EventControllerClass {
             .then((eventDetails) => {
             // check if the id exists
               if (!eventDetails) {
-                return res.status(400).send({ message: 'Event not found' });
+                return res.status(404).send({ message: 'Event not found' });
               }
               // if the event exist update
               return eventDetails
@@ -75,7 +106,7 @@ export default class EventControllerClass {
       .then((eventDetails) => {
       // check if the event exist
         if (!eventDetails) {
-          return res.status(400).json({ message: 'Event not found' });
+          return res.status(404).json({ message: 'Event not found' });
         }
         // delete the records
         return eventDetails

@@ -15,11 +15,19 @@ app.post('/api/v1/user/login', loginController.signIn);
 // create a new user
 app.post('/api/v1/users/signUp', validator.signUpValidator, userDetails.signUp);
 
+
 // creating a new Event
 app.post('/api/v1/events/', validator.createEventValidation, auth.checkIfAuthorize, eventDetails.create)
 
+// get all event
+  .get('/api/v1/events/', auth.checkIfAuthorize, eventDetails.getAllEvents)
+
 // updating event operation
   .put('/api/v1/events/:eventId', auth.checkIfAuthorize, eventDetails.updateEvent)
+
+// get an event
+  .get('/api/v1/events/:eventId', auth.checkIfAuthorize, eventDetails.getAnEvent)
+
 
 // Deleting an event
   .delete('/api/v1/events/:eventId', auth.checkIfAuthorize, eventDetails.deleteAnEvent);
