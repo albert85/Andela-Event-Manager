@@ -11,7 +11,7 @@
     "password": null,
     "database": "database_test",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   },
   "production": {
     "use_env_variable": "postgres://hsvlvfiftirerv:dee4089befb46726114d991e069d90b12c7d7ed5fb5708098018fffba4466571@ec2-174-129-37-15.compute-1.amazonaws.com:5432/d43tie6ebj7inn",

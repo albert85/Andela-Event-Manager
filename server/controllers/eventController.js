@@ -40,6 +40,7 @@ export default class EventControllerClass {
           eventDate: new Date(req.body.eventDate),
         },
       }).then((checkAvailability) => {
+        console.log(checkAvailability);
         // if data is available, update records
         if (checkAvailability.length === 0) {
           // if the record to be updated
@@ -64,7 +65,7 @@ export default class EventControllerClass {
             .catch(error => res.status(400).send(error));
         }
         // Returns pre-define error meesage if data not available
-        return res.json({ message: 'date not available' });
+        return res.status(401).json({ message: 'date not available' });
       });
   }
 
