@@ -249,7 +249,7 @@ describe('Testing of data on Postgress database', () => {
     it('it should return a predefined error message', (done) => {
       // creating an event
       chai.request(server)
-        .get('/api/v1/events/one')
+        .get('/api/v1/events/1000')
         .set('Authorization', `Bearer ${tokenId}`)
         .end((err, res) => {
           expect(res).to.have.status(404);
