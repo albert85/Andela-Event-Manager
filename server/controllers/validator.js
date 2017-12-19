@@ -9,7 +9,7 @@ export default class ValidatorClass {
     if (!req.validationErrors()) {
       return next();
     }
-    return res.json({ result: 'Please check your email and password' });
+    return res.status(400).json({ result: 'Please check your email and password' });
   }
 
   static signUpValidator(req, res, next) {
@@ -20,7 +20,7 @@ export default class ValidatorClass {
     if (!req.validationErrors()) {
       return next();
     }
-    return res.json({ result: 'Please too check all your credentials are supplied: firstName, lastname, email, password' });
+    return res.status(400).json({ result: 'Please too check all your credentials are supplied: firstName, lastname, email, password' });
   }
 
   static createEventValidation(req, res, next) {
@@ -31,7 +31,7 @@ export default class ValidatorClass {
     if (!req.validationErrors()) {
       return next();
     }
-    return res.json({ result: 'Please supply: name, bookingStatus, eventDate, centerId and centerId' });
+    return res.status(400).json({ result: 'Please supply: name, bookingStatus, eventDate, centerId and centerId' });
   }
 
   static creatCenterValidation(req, res, next) {
@@ -42,6 +42,6 @@ export default class ValidatorClass {
     if (!req.validationErrors()) {
       return next();
     }
-    return res.json({ result: 'Please supply: name, bookingStatus, eventDate, centerId and userId' });
+    return res.status(400).json({ result: 'Please supply: name, bookingStatus, eventDate, centerId and userId' });
   }
 }

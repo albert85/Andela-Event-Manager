@@ -25,10 +25,10 @@ export default class EventControllerClass {
               centerId: req.body.centerId,
               eventDate: req.body.eventDate,
             })
-            .then(eventDetails => res.status(201).json({ newCreate: eventDetails }))
+            .then(eventDetails => res.status(201).json({ message: 'sucessfully created', eventDetails }))
             .catch(error => res.status(404).json({ message: 'location does not exist', error }));
         }
-        return res.json({ message: 'The date is not available, please choose another' });
+        return res.status(400).json({ message: 'The date is not available, please choose another' });
       }).catch(() => res.status(400).json({ message: 'Check your credentials' }));
   }
 
@@ -41,11 +41,16 @@ export default class EventControllerClass {
     }
     return Event
       .findById(req.params.eventId)
-      .then(eventDetails => res.status(200).json({ event: eventDetails }))
+      .then((eventDetails) => {
+        if (!eventDetails) {
+          res.status(404).json({ message: 'Event not found!!!' });
+        }
+        res.status(200).json({ event: eventDetails });
+      })
       .catch(() => res.status(404).json({ message: 'Event not found!!!' }));
   }
 
-  // get All centers
+  // get All events
   static getAllEvents(req, res) {
     // get the id of the user
     const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
@@ -78,7 +83,7 @@ export default class EventControllerClass {
           return Event
             .findById(req.params.eventId)
             .then((eventDetails) => {
-            // check if the id exists
+              // check if the id exists
               if (!eventDetails) {
                 return res.status(404).send({ message: 'Event not found' });
               }
@@ -90,7 +95,7 @@ export default class EventControllerClass {
                   userId: req.body.userId || eventDetails.userId,
                   centerId: req.body.centerId || eventDetails.centerId,
                   eventDate: req.body.eventDate || eventDetails.eventDate,
-                }).then(() => res.status(200).send(eventDetails)) // Send back the updated todo.
+                }).then(() => res.status(200).send(eventDetails))
                 .catch(error => res.status(400).send(error));
             })
             .catch(error => res.status(400).send(error));
@@ -104,14 +109,14 @@ export default class EventControllerClass {
     return Event
       .findById(req.params.eventId)
       .then((eventDetails) => {
-      // check if the event exist
+        // check if the event exist
         if (!eventDetails) {
           return res.status(404).json({ message: 'Event not found' });
         }
         // delete the records
         return eventDetails
           .destroy()
-          .then(() => res.json({ message: 'Successful', eventDetails }));
+          .then(() => res.status(200).json({ message: 'Successful', eventDetails }));
       })
       .catch(error => res.status(401).json({ message: 'operation failed', error }));
   }
