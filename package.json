@@ -9,9 +9,9 @@
     "start:dev": "nodemon --exec npm run babel-node -- server/app.js",
     "start": "nodemon --exec npm run babel-node server/app.js",
     "js": "nyc --reporter=html --reporter=text mocha --compilers js:babel-register --require babel-polyfill --recursive server/test/test --timeout 15000 --exit",
-    "test": "nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register --require babel-polyfill --recursive server/test/ --exit",
+    "test": "nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register --require babel-polyfill --recursive server/test/ --timeout 15000 --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "db:migrate": "sequelize --config ./server/config && sequelize db:migrate:undo:all && sequelize --config ./server/config && sequelize db:migrate"
+    "db:migrate": "sequelize db:migrate"
   },
   "repository": {
     "type": "git",
