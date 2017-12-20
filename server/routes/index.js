@@ -12,7 +12,7 @@ const app = express.Router();
 app.post('/api/v1/users/signUp', validator.signUpValidator, userDetails.signUp);
 
 // creating a secure API
-app.post('/api/v1/user/login', loginController.signIn);
+app.post('/api/v1/user/login', validator.loginValidator, loginController.signIn);
 
 // creating a new Event
 app.post('/api/v1/events', validator.createEventValidation, auth.checkIfAuthorize, eventDetails.create);
@@ -34,7 +34,7 @@ app.delete('/api/v1/events/:eventId', auth.checkIfAuthorize, eventDetails.delete
 app.get('/api/v1/centers', auth.checkIfAuthorize, auth.checkIfAuthToManage, centerDetails.getAllCenter);
 
 // creating new center
-app.post('/api/v1/centers', auth.checkIfAuthorize, auth.checkIfAuthToManage, centerDetails.create);
+app.post('/api/v1/centers', validator.creatCenterValidation, auth.checkIfAuthorize, auth.checkIfAuthToManage, centerDetails.create);
 
 // updates a center's detail
 app.put('/api/v1/centers/:centerId', auth.checkIfAuthorize, auth.checkIfAuthToManage, centerDetails.updateACenterDetails);
