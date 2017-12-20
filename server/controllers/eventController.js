@@ -3,10 +3,10 @@ import { Event } from '../models';
 
 export default class EventControllerClass {
   static create(req, res) {
-    // get the id of thr user
+    // get the id of the user
     const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
     if (!decoded) {
-      return res.json({ message: 'Token ezpired' });
+      return res.status(401).json({ message: 'Token expired' });
     }
     // check if date is available
     return Event
@@ -25,14 +25,51 @@ export default class EventControllerClass {
               centerId: req.body.centerId,
               eventDate: req.body.eventDate,
             })
-            .then(eventDetails => res.status(200).json({ newCreate: eventDetails }))
-            .catch(error => res.status(400).json({ message: 'location does not exist', error }));
+            .then(eventDetails => res.status(201).json({ message: 'sucessfully created', eventDetails }))
+            .catch(error => res.status(404).json({ message: 'location does not exist', error }));
         }
-        return res.json({ message: 'The date is not available, please choose another' });
-      }).catch(() => res.json({ message: 'Check your credentials' }));
+        return res.status(400).json({ message: 'The date is not available, please choose another' });
+      }).catch(() => res.status(400).json({ message: 'Check your credentials' }));
+  }
+
+  // get An event
+  static getAnEvent(req, res) {
+    // get the id of the user
+    const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
+    if (!decoded) {
+      return res.json({ message: 'Token expired' });
+    }
+    return Event
+      .findById(req.params.eventId)
+      .then((eventDetails) => {
+        if (!eventDetails) {
+          res.status(404).json({ message: 'Event not found!!!' });
+        }
+        res.status(200).json({ event: eventDetails });
+      })
+      .catch(() => res.status(404).json({ message: 'Event not found!!!' }));
+  }
+
+  // get All events
+  static getAllEvents(req, res) {
+    // get the id of the user
+    const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
+    if (!decoded) {
+      return res.status(403).json({ message: 'Token expired' });
+    }
+
+    return Event
+      .findAll()
+      .then(eventDetails => res.status(200).json({ message: 'sucessful', eventDetails }))
+      .catch(() => res.status(404).json({ message: 'No event was found!!!' }));
   }
 
   static updateEvent(req, res) {
+    // get the id of the user
+    const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
+    if (!decoded) {
+      return res.status(403).json({ message: 'Token expired' });
+    }
     // check if date is available
     return Event
       .findAll({
@@ -46,9 +83,9 @@ export default class EventControllerClass {
           return Event
             .findById(req.params.eventId)
             .then((eventDetails) => {
-            // check if the id exists
+              // check if the id exists
               if (!eventDetails) {
-                return res.status(400).send({ message: 'Event not found' });
+                return res.status(404).send({ message: 'Event not found' });
               }
               // if the event exist update
               return eventDetails
@@ -58,13 +95,13 @@ export default class EventControllerClass {
                   userId: req.body.userId || eventDetails.userId,
                   centerId: req.body.centerId || eventDetails.centerId,
                   eventDate: req.body.eventDate || eventDetails.eventDate,
-                }).then(() => res.status(200).send(eventDetails)) // Send back the updated todo.
+                }).then(() => res.status(200).send(eventDetails))
                 .catch(error => res.status(400).send(error));
             })
             .catch(error => res.status(400).send(error));
         }
         // Returns pre-define error meesage if data not available
-        return res.json({ message: 'date not available' });
+        return res.status(401).json({ message: 'date not available' });
       });
   }
 
@@ -72,14 +109,14 @@ export default class EventControllerClass {
     return Event
       .findById(req.params.eventId)
       .then((eventDetails) => {
-      // check if the event exist
+        // check if the event exist
         if (!eventDetails) {
-          return res.status(400).json({ message: 'Event not found' });
+          return res.status(404).json({ message: 'Event not found' });
         }
         // delete the records
         return eventDetails
           .destroy()
-          .then(() => res.json({ message: 'Successful', eventDetails }));
+          .then(() => res.status(200).json({ message: 'Successful', eventDetails }));
       })
       .catch(error => res.status(401).json({ message: 'operation failed', error }));
   }

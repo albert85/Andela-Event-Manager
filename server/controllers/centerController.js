@@ -5,24 +5,37 @@ import { Center, Event } from '../models';
 export default class CenterControllerClass {
   // Creating a new center
   static create(req, res) {
-    // get the id of thr user
-    const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
-    if (!decoded) {
-      return res.json({ message: 'Token expired' });
-    }
-    // create a center
+    // check if details exist
     return Center
-      .create({
-        name: req.body.name,
-        location: req.body.location,
-        capacity: req.body.capacity,
-        amount: req.body.amount,
-        userId: decoded.id,
-      })
-      .then(centerDetail =>
-        // Output the result
-        res.status(201).send(centerDetail))
-      .catch(error => res.status(400).send(error));
+      .findAll({
+        where: {
+          name: req.body.name,
+          location: req.body.location,
+        },
+      }).then((resultOne) => {
+        if (resultOne.length !== 0) {
+          return res.status(400).json({ message: 'Center already exist' });
+        }
+
+        // get the id of thr user
+        const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
+        if (!decoded) {
+          return res.json({ message: 'Token expired' });
+        }
+        // create a center
+        return Center
+          .create({
+            name: req.body.name,
+            location: req.body.location,
+            capacity: req.body.capacity,
+            amount: req.body.amount,
+            userId: decoded.id,
+          })
+          .then(centerDetail =>
+            // Output the result
+            res.status(201).send(centerDetail))
+          .catch(error => res.status(400).send(error));
+      }).catch(error => res.status(400).send(error));
   }
 
   // get A center
@@ -71,8 +84,8 @@ export default class CenterControllerClass {
             capacity: req.body.capacity || centerDetails.capacity,
             amount: req.body.amount || centerDetails.amount,
           })
-          .then(() => res.json({ message: 'sucessful', centerDetails }))
-          .catch(() => res.json({ message: 'fails to update' }));
+          .then(() => res.status(200).json({ message: 'sucessful', centerDetails }))
+          .catch(() => res.status(400).json({ message: 'fails to update' }));
       })
       .catch(() => {
         res.status(400).json({ message: 'updates failed' });

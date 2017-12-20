@@ -2,16 +2,16 @@
   "name": "andela-event-manager",
   "version": "1.0.0",
   "description": "[![Build Status](https://travis-ci.org/albert85/Andela-Event-Manager.svg?branch=develop)](https://travis-ci.org/albert85/Andela-Event-Manager)",
-  "main": "./server/bin/www.js",
+  "main": "./server/app.js",
   "devDependencies": {},
   "scripts": {
     "babel-node": "babel-node --presets=latest",
     "start:dev": "nodemon --exec npm run babel-node -- server/app.js",
     "start": "nodemon --exec npm run babel-node server/app.js",
-    "js": "nyc  --reporter=html --reporter=test mocha --compilers js:babel-register server/test/test.js",
-    "test": "nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register --require babel-polyfill --recursive server/test/ --exit",
+    "js": "nyc --reporter=html --reporter=text mocha --compilers js:babel-register --require babel-polyfill --recursive server/test/test --timeout 15000 --exit",
+    "test": "nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register --require babel-polyfill --recursive server/test/ --timeout 15000 --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "db:migrate": "node_modules/.bin/sequelize db:migrate"
+    "db:migrate": "sequelize db:migrate"
   },
   "repository": {
     "type": "git",
@@ -54,6 +54,10 @@
     "nyc": "^11.3.0",
     "pg": "^7.4.0",
     "pg-hstore": "^2.3.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
     "sequelize": "^4.24.0",
     "sequelize-cli": "^3.1.0",
     "swagger-jsdoc": "^1.9.7",

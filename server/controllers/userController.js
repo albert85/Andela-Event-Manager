@@ -9,9 +9,8 @@ export default class UserControllerClass {
         email: req.body.email,
       },
     }).then((result) => {
-      console.log(result.length);
       if (result.length !== 0) {
-        return res.json({ message: 'Credential exist' });
+        return res.status(400).json({ message: 'Credential exist' });
       }
 
       // Setting up password for hash
@@ -28,9 +27,9 @@ export default class UserControllerClass {
         })
         .then((userDetails) => {
           const { firstName, lastName, email } = userDetails;
-          res.status(200).send({ firstName, lastName, email });
+          res.status(201).send({ firstName, lastName, email });
         })
-        .catch(() => res.status(400).json({ message: 'Signing Up not completed' })));
-    }).catch(() => res.json({ message: 'Credential exists' }));
+        .catch(() => res.status(400).json({ message: 'Resource not Created' })));
+    }).catch(() => res.status(400).json({ message: 'Resource not Found' }));
   }
 }
