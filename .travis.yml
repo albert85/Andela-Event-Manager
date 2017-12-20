@@ -4,8 +4,8 @@ node_js:
 
  - stable
 before_script:
-- sequelize --url process.env.DATABASE_URL db:migrate:undo:all
-- sequelize --url process.env.DATABASE_URL db:migrate
+- sequelize --config ./server --url postgres://sfmsdcys:DI9XoAJIExLqpPIkdlO4Xx9q1RMw0_yh@baasu.db.elephantsql.com:5432/sfmsdcys db:migrate:undo:all
+- sequelize --config ./server --url postgres://sfmsdcys:DI9XoAJIExLqpPIkdlO4Xx9q1RMw0_yh@baasu.db.elephantsql.com:5432/sfmsdcys db:migrate
 
 after_success:
 - npm run coverage
