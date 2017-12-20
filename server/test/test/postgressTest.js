@@ -22,6 +22,7 @@ describe('Testing of data on Postgress database', () => {
     email: 'adenike@gmail.com',
     password: '123456',
   };
+
   const loginData2 = {
     password: '123456',
   };
@@ -75,7 +76,6 @@ describe('Testing of data on Postgress database', () => {
           done(err);
         });
     });
-
   });
 
   describe('Testing API for login ', () => {
@@ -264,11 +264,47 @@ describe('Testing of data on Postgress database', () => {
     it('it should return status code 200 for sucessfully updated', (done) => {
       // creating an event
       chai.request(server)
-        .get('/api/v1/events/1')
+        .put('/api/v1/events/1')
         .send(updateEventData)
         .set('Authorization', `Bearer ${tokenId}`)
         .end((err, res) => {
           expect(res).to.have.status(200);
+          done();
+        });
+    });
+
+    it('it should return status code 401 resource already existed', (done) => {
+      // creating an event
+      chai.request(server)
+        .put('/api/v1/events/1')
+        .send(updateEventData)
+        .set('Authorization', `Bearer ${tokenId}`)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          done();
+        });
+    });
+
+    it('it should return status code 401 resource already existed', (done) => {
+      // creating an event
+      chai.request(server)
+        .put('/api/v1/events/one')
+        .send(updateEventData)
+        .set('Authorization', `Bearer ${tokenId}`)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          done();
+        });
+    });
+    // Updating a non-existing event
+    it('it should return status code 404', (done) => {
+      // creating an event
+      chai.request(server)
+        .put('/api/v1/events/1000')
+        .send(updateEventData)
+        .set('Authorization', `Bearer ${tokenId}`)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
           done();
         });
     });
@@ -288,12 +324,23 @@ describe('Testing of data on Postgress database', () => {
     });
 
     it('it should return status code 404 for event not found', (done) => {
-      // delting an event
+      // deleting an event
       chai.request(server)
         .delete('/api/v1/events/1')
         .set('Authorization', `Bearer ${tokenId}`)
         .end((err, res) => {
           expect(res).to.have.status(404);
+          done();
+        });
+    });
+
+    it('it should return status code 401 invalid eventId', (done) => {
+      // deleting an event
+      chai.request(server)
+        .delete('/api/v1/events/onee')
+        .set('Authorization', `Bearer ${tokenId}`)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
           done();
         });
     });
@@ -395,7 +442,198 @@ describe('Testing of data on Postgress database', () => {
           done();
         });
     });
+    // creating an event with wrong input
+    it('it should return the detail of the event created', (done) => {
+      // creating an event
+      chai.request(server)
+        .post('/api/v1/events')
+        .send({
+          name: eventData.name,
+          bookingStatus: eventData.bookingStatus,
+          centerId: eventData.centerId,
+          eventDate: 'andela',
+        })
+        .set('Authorization', `Bearer ${tokenId}`)
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
+    });
+
+    // creating an event with wrong input
+    it('it should return the detail of the event created', (done) => {
+      // creating an event
+      chai.request(server)
+        .post('/api/v1/events')
+        .send({
+          name: eventData.name,
+          bookingStatus: 'one',
+          centerId: eventData.centerId,
+          eventDate: eventData.eventDate,
+        })
+        .set('Authorization', `Bearer ${tokenId}`)
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          done();
+        });
+    });
   });
 
+  describe('Testing middleware ', () => {
+    // testing login validator
+    it('it should return status 400 for Bad request', (done) => {
+      chai.request(server)
+        .post('/api/v1/user/login')
+        .send({ email: loginData.email })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          expect(res.body).to.have.property('result').eql('Please check your email and password');
+          done();
+        });
+    });
 
+    // testing login validator
+    it('it should return status 400 for Bad request', (done) => {
+      chai.request(server)
+        .post('/api/v1/user/login')
+        .send({ password: loginData.password })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          expect(res.body).to.have.property('result').eql('Please check your email and password');
+          done();
+        });
+    });
+
+    // testing signUp validator
+    it('it should return status 400 for Bad request', (done) => {
+      chai.request(server)
+        .post('/api/v1/users/signUp')
+        .send({ firstName: signUpData.firstName })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
+    });
+
+    // testing signUp validator
+    it('it should return status 400 for Bad request', (done) => {
+      chai.request(server)
+        .post('/api/v1/users/signUp')
+        .send({ lastName: signUpData.lastName })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
+    });
+
+    // testing signUp validator
+    it('it should return status 400 for Bad request', (done) => {
+      chai.request(server)
+        .post('/api/v1/users/signUp')
+        .send({ email: signUpData.email })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
+    });
+
+    // testing signUp validator
+    it('it should return status 400 for Bad request', (done) => {
+      chai.request(server)
+        .post('/api/v1/users/signUp')
+        .send({ password: signUpData.password })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
+    });
+
+    // testing create event validator
+    it('it should return status 400 for Bad request', (done) => {
+      chai.request(server)
+        .post('/api/v1/events')
+        .send({ name: eventData.name })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
+    });
+
+    // testing create event validator
+    it('it should return status 400 for Bad request', (done) => {
+      chai.request(server)
+        .post('/api/v1/events')
+        .send({ bookingStatus: eventData.bookingStatus })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
+    });
+
+    // testing create event validator
+    it('it should return status 400 for Bad request', (done) => {
+      chai.request(server)
+        .post('/api/v1/events')
+        .send({ eventDate: eventData.eventDate })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
+    });
+
+    // testing create event validator
+    it('it should return status 400 for Bad request', (done) => {
+      chai.request(server)
+        .post('/api/v1/events')
+        .send({ centerId: eventData.centerId })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
+    });
+
+    // testing create center validator
+    it('it should return status 400 for Bad request', (done) => {
+      chai.request(server)
+        .post('/api/v1/centers')
+        .send({ name: centerData.name })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
+    });
+
+    // testing create center validator
+    it('it should return status 400 for Bad request', (done) => {
+      chai.request(server)
+        .post('/api/v1/centers')
+        .send({ location: centerData.location })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
+    });
+
+    // testing create center validator
+    it('it should return status 400 for Bad request', (done) => {
+      chai.request(server)
+        .post('/api/v1/centers')
+        .send({ amount: centerData.amount })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
+    });
+
+    // testing create center validator
+    it('it should return status 400 for Bad request', (done) => {
+      chai.request(server)
+        .post('/api/v1/centers')
+        .send({ capacity: centerData.capacity })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
+    });
+  });
 });

@@ -61,7 +61,7 @@ export default class EventControllerClass {
     return Event
       .findAll()
       .then(eventDetails => res.status(200).json({ message: 'sucessful', eventDetails }))
-      .catch(() => res.status(404).json({ message: 'No event was found!!!' }));
+      .catch(() => res.status(404).json('No Events Found'));
   }
 
   static updateEvent(req, res) {
@@ -95,14 +95,14 @@ export default class EventControllerClass {
                   userId: req.body.userId || eventDetails.userId,
                   centerId: req.body.centerId || eventDetails.centerId,
                   eventDate: req.body.eventDate || eventDetails.eventDate,
-                }).then(() => res.status(200).send(eventDetails))
-                .catch(error => res.status(400).send(error));
+                }).then(() => res.status(200).send(eventDetails));
             })
-            .catch(error => res.status(400).send(error));
+            .catch(() => res.status(400).json('Bad request'));
         }
         // Returns pre-define error meesage if data not available
         return res.status(401).json({ message: 'date not available' });
-      });
+      })
+      .catch(() => res.status(400));
   }
 
   static deleteAnEvent(req, res) {
