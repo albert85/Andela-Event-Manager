@@ -4,6 +4,8 @@ node_js:
 
  - stable
 before_script:
+- sequelize --url process.env.DATABASE_URL db:migrate:undo:all
+- sequelize --url process.env.DATABASE_URL db:migrate
 
 after_success:
 - npm run coverage
