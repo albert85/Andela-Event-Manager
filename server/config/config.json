@@ -7,10 +7,10 @@
     "dialect": "postgres"
   },
   "test": {
-    "username": "postgres",
+    "username": "root",
     "password": null,
-    "database": "postgres",
-    "use_env_variable": "postgres://sfmsdcys:DI9XoAJIExLqpPIkdlO4Xx9q1RMw0_yh@baasu.db.elephantsql.com:5432/sfmsdcys",
+    "database": "database_test",
+    "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
