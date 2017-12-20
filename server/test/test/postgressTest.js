@@ -187,8 +187,6 @@ describe('Testing of data on Postgress database', () => {
           done();
         });
     });
-
-    
   });
 
   // Creating an event with the same date
@@ -306,7 +304,6 @@ describe('Testing of data on Postgress database', () => {
         .send(updateEventData)
         .set('Authorization', `Bearer ${tokenId}`)
         .end((err, res) => {
-          console.log(res.body)
           expect(res).to.have.status(401);
           done();
         });
