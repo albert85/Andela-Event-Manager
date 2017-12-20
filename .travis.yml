@@ -1,16 +1,11 @@
 language: node_js
-services:
- - postgresgl
+
 node_js:
 
  - stable
 before_script:
-
- - psql -c 'create database postgres;' -U postgres
- - npm run db:migrate
-
-script:
- - npm run test
+- sequelize --config ./server --migrations-path ./server/migrations --url postgres://sfmsdcys:DI9XoAJIExLqpPIkdlO4Xx9q1RMw0_yh@baasu.db.elephantsql.com:5432/sfmsdcys db:migrate:undo:all
+- sequelize --config ./server --migrations-path ./server/migrations --url postgres://sfmsdcys:DI9XoAJIExLqpPIkdlO4Xx9q1RMw0_yh@baasu.db.elephantsql.com:5432/sfmsdcys db:migrate
 
 after_success:
 - npm run coverage
