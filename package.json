@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "[![Build Status](https://travis-ci.org/albert85/Andela-Event-Manager.svg?branch=develop)](https://travis-ci.org/albert85/Andela-Event-Manager)",
   "main": "./server/app.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "protractor": "^5.2.2"
+  },
   "scripts": {
     "babel-node": "babel-node --presets=latest",
     "start:dev": "nodemon --exec npm run babel-node -- server/app.js",
