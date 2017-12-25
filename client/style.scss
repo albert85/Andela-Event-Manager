@@ -1,12 +1,12 @@
-.sectionSignIn{
+.section-sign-in{
 
-#coverSectionSignin{
-    background: #222 url('./public/img/eventcenter.jpg') center  center no-repeat;
+.cover-section-signin{
+    background: url('./public/img/eventcenter.jpg') center  center no-repeat;
     background-size: cover;
      min-height: 100vh;
 }
 
-#sigininnersection{
+.sigininnersection{
     background: rgba(0,0,0,0.8);
     margin-top: 80px;
 }

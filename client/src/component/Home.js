@@ -11,13 +11,13 @@ import '../../style.scss';
 class Home extends React.Component {
   render() {
     return (
-      <div className="sectionSignIn">
-        <div id="coverSectionSignin">
+      <div className="section-sign-in">
+        <div className="cover-section-signin">
           <div className="container" >
             <div className="row">
               <div className="col-md-6 offset-md-3">
-                <div id="siginSection">
-                  <form className="p-4 text-white" id="sigininnersection" name="signInForm" action="userpage.html">
+                <div className="sigin-section">
+                  <form className="p-4 text-white sigininnersection" name="signInForm" action="userpage.html">
                     <h3 className="text-center">SIGN IN</h3>
                     <hr className="hr" /><br />
 
