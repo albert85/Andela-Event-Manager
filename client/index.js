@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 
 
-import App from './src/routes/routes'
+import App from './src/routes/routes';
 
 render(
   <App />,
