@@ -5,11 +5,22 @@ module.exports = {
   output: {
     filename: 'js/bundle.js',
     path: `${__dirname}/client/public/`,
+    publicPath: '/',
+  },
+  devServer: {
+    inline: true,
+    contentBase: './client/public',
+    historyApiFallback: true,
   },
   module: {
     loaders: [
       {
         test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
+      {
+        test: /\.jsx$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
       },
@@ -22,7 +33,7 @@ module.exports = {
         loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader']),
       },
       {
-        test: /.(png|woff|woff2|eot|ttf|svg|jpg)$/,
+        test: /.(png|woff|woff2|eot|ttf|svg|jpe?g)$/,
         loader: 'url-loader?limit=100000',
       },
     ],

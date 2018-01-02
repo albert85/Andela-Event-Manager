@@ -6,6 +6,7 @@
   "devDependencies": {
     "babel-loader": "^7.1.2",
     "extract-text-webpack-plugin": "^3.0.2",
+    "html-webpack-plugin": "^2.30.1",
     "node-sass": "^4.7.2",
     "protractor": "^5.2.2",
     "sass-loader": "^6.0.6",
@@ -34,6 +35,7 @@
   },
   "homepage": "https://github.com/albert85/Andela-Event-Manager#readme",
   "dependencies": {
+    "axios": "^0.17.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.2",
@@ -73,11 +75,13 @@
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^4.0.8",
     "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
     "sequelize": "^4.24.0",
     "sequelize-cli": "^3.1.0",
     "style-loader": "^0.19.1",
     "swagger-jsdoc": "^1.9.7",
     "swagger-ui-express": "^2.0.11",
+    "toastr": "^2.1.4",
     "url-loader": "^0.6.2"
   }
 }

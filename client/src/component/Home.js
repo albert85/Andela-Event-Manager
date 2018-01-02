@@ -1,14 +1,19 @@
-/* eslint class-methods-use-this: ["error", { "exceptMethods": ["render"] }] */
+
 
 import React from 'react';
 import { Link } from 'react-router';
 
-// import '../../../template/styles/bootstrap.min.css';
-// import '../../../template/styles/font-awesome.min.css';
+
 import '../../style.scss';
 
 
 class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loginDetails: {},
+    };
+  }
   render() {
     return (
       <div className="section-sign-in">
@@ -23,9 +28,9 @@ class Home extends React.Component {
 
                       <div className="form-group">
                         <label htmlFor="inputEmail">Email</label>
-                        <input type="email" className="form-control" id="inputEmail" placeholder="you@example.com" required />         
+                        <input type="email" className="form-control" id="inputEmail" placeholder="you@example.com" required />
                       </div>
-                        
+
                         <div className="form-group">
                           <label htmlFor="inputPassword">Password</label>
                           <input type="password" className="form-control" id="inputPassword" placeholder="**********" required />
@@ -36,7 +41,7 @@ class Home extends React.Component {
                               <button type="submit" className="btn btn-primary btn-lg btn-block" >SIGN IN </button>
                             </div>
                             <div className="col-md-6 col-sm-6">
-                              <a href="signUp.html" className="btn btn-danger btn-lg btn-block">SIGN UP</a>
+                                <a href="/signup" className="btn btn-danger btn-lg btn-block">SIGN UP</a>
                             </div>
                          </div>
                   </form>

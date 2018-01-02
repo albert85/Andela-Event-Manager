@@ -1,13 +1,11 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { HashRouter as Router, Route } from 'react-router-dom';
 
-import Home from './src/component/Home';
+
+import App from './src/routes/routes';
 
 render(
-  <Router>
-    <Route exact path='/' component={ Home } />
-    </Router>,
+  <App />,
   document.getElementById('root'),
 );
 
