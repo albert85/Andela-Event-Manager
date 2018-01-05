@@ -11,6 +11,15 @@ module.exports = {
     inline: true,
     contentBase: './client/public',
     historyApiFallback: true,
+    port: 3000,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
+    proxy: {
+      '/api': 'http://[::1]:8000',
+      secure: false,
+    },
+
   },
   module: {
     loaders: [
