@@ -39,6 +39,73 @@ class EventHomePage extends Component {
 < div className = "section-cover-user" >
         <div className="container">
           <div className="row event-body">
+          <div className="col-md-7 col-sm-12 mb-4 pt-2">
+                <div className="text-center bg-danger text-white p-2 mb-2">
+                            <h4>EVENTS</h4>
+                </div>
+
+                <div className="scrollevent bg-primary text-center text-dark p-3" id="eventlist">
+                    <table className="table-sm text-center table-hover mx-auto table-responsive-sm table-striped bg-white">
+                        <thead className="text-center bg-info border border-white text-white">
+                            <tr className="p-3">
+                                <th scope="col" className="border border-white"> S/N</th>
+                                <th scope="col" className="border border-white">Event Name</th>
+                                <th scope="col" className="border border-white">Venue</th>
+                                <th scope="col" className="border border-white">Date</th>
+                                <th scope="col" className="border border-white">Status</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr id="#1" className="border border-white">
+                                <td scope="row">1</td>
+                                <td>Wedding</td>
+                                <td>Apollan</td>
+                                <td>11/12/2017</td>
+                                <td className="text-primary">Booked <i className="fa fa-book" aria-hidden="true"></i> </td>
+                                <td>
+                                    <div className="row">
+                                        <div className="col mb-2"><a href="#" className="btn btn-success btn-block">
+                                            <i className="fa fa-pencil" aria-hidden="true"></i>
+                                        </a></div>
+                                        <div className="col"><a href="#" className="btn btn-danger btn-block">
+                                            <i className="fa fa-trash-o" aria-hidden="true"></i>
+                                        </a></div>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        <tr id="#2" className="border border-white">
+                                <td scope="row">2</td>
+                                <td>Wedding</td>
+                                <td>Apollan</td>
+                                <td>11/12/2017</td>
+                                <td className="text-danger">Canceled <i className="fa fa-close text-danger" aria-hidden="true"></i> </td>
+                                <td>
+                                    <div className="row">
+                                        <div className="col mb-2">
+                                            <a href="#" className="btn btn-success btn-block">
+                                                <i className="fa fa-pencil" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                        <div className="col">
+                                            <a href="#" className="btn btn-danger btn-block">
+                                                <i className="fa fa-trash-o" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
             <div className="col-md-5 col-sm-12 pl-4 pr-4 pb-4 mb-3">
                     <form className="p-2">
                         <div className="bg-danger text-center text-white p-2 mb-3">
@@ -125,74 +192,6 @@ class EventHomePage extends Component {
                             </div>
                         </div>
                     </form>
-
-            </div>
-
-
-            <div className="col-md-7 col-sm-12 mb-4 pt-2">
-                <div className="text-center bg-danger text-white p-2 mb-2">
-                            <h4>EVENTS</h4>
-                </div>
-
-                <div className="scrollevent bg-primary text-center text-dark p-3" id="eventlist">
-                    <table className="table-sm text-center table-hover mx-auto table-responsive-sm table-striped bg-white">
-                        <thead className="text-center bg-info border border-white text-white">
-                            <tr className="p-3">
-                                <th scope="col" className="border border-white"> S/N</th>
-                                <th scope="col" className="border border-white">Event Name</th>
-                                <th scope="col" className="border border-white">Venue</th>
-                                <th scope="col" className="border border-white">Date</th>
-                                <th scope="col" className="border border-white">Status</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            <tr id="#1" className="border border-white">
-                                <td scope="row">1</td>
-                                <td>Wedding</td>
-                                <td>Apollan</td>
-                                <td>11/12/2017</td>
-                                <td className="text-primary">Booked <i className="fa fa-book" aria-hidden="true"></i> </td>
-                                <td>
-                                    <div className="row">
-                                        <div className="col mb-2"><a href="#" className="btn btn-success btn-block">
-                                            <i className="fa fa-pencil" aria-hidden="true"></i>
-                                        </a></div>
-                                        <div className="col"><a href="#" className="btn btn-danger btn-block">
-                                            <i className="fa fa-trash-o" aria-hidden="true"></i>
-                                        </a></div>
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-                        <tr id="#2" className="border border-white">
-                                <td scope="row">2</td>
-                                <td>Wedding</td>
-                                <td>Apollan</td>
-                                <td>11/12/2017</td>
-                                <td className="text-danger">Canceled <i className="fa fa-close text-danger" aria-hidden="true"></i> </td>
-                                <td>
-                                    <div className="row">
-                                        <div className="col mb-2">
-                                            <a href="#" className="btn btn-success btn-block">
-                                                <i className="fa fa-pencil" aria-hidden="true"></i>
-                                            </a>
-                                        </div>
-                                        <div className="col">
-                                            <a href="#" className="btn btn-danger btn-block">
-                                                <i className="fa fa-trash-o" aria-hidden="true"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
 
             </div>
           </div>
