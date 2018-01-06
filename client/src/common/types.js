@@ -1,3 +1,3 @@
-const ADD_NEW_USER = 'add_new_user';
+export const ADD_NEW_USER = 'add_new_user';
 
-export default ADD_NEW_USER;
+export const LOGIN_USER = 'login_user';

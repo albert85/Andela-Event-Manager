@@ -1,19 +1,37 @@
-
-
 import React from 'react';
-import { Link } from 'react-router';
-
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import '../../style.scss';
-
+import loginAction from '../action/loginAction';
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      loginDetails: {},
-    };
+    
+    this.handleUserLogin = this.handleUserLogin.bind(this);
   }
+
+/**
+ * @method
+ * @param {object} loginDetail 
+ * @returns {strings}
+ */
+  handleUserLogin(loginDetail){
+    loginDetail.preventDefault();
+    const userLoginDetails = {
+      email: loginDetail.target[0].value,
+      password: loginDetail.target[1].value,
+    }
+
+    this.props.loginUser(userLoginDetails);
+
+    if (localStorage.getItem('message') === 'successfully login'){
+      return this.props.history.push('/event-home-page');
+    }
+    return window.document.getElementById('loginErroMessage').innerHTML = 'Wrong password and email';
+  }
+
   render() {
     return (
       <div className="section-sign-in">
@@ -22,11 +40,12 @@ class Home extends React.Component {
             <div className="row">
               <div className="col-md-6 offset-md-3">
                 <div className="sigin-section">
-                  <form className="p-4 text-white sigininnersection" name="signInForm" action="userpage.html">
+                  <form className="p-4 text-white sigininnersection" name="signInForm" onSubmit={this.handleUserLogin}>
                     <h3 className="text-center">SIGN IN</h3>
                     <hr className="hr" /><br />
-
+                      <span id='loginErroMessage' className='text-danger'></span>
                       <div className="form-group">
+                      
                         <label htmlFor="inputEmail">Email</label>
                         <input type="email" className="form-control" id="inputEmail" placeholder="you@example.com" required />
                       </div>
@@ -55,4 +74,13 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+const mapStateToProps = state => ({
+  loginUserDetail: state.loginUser,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  loginUser: loginAction,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
+

@@ -6,9 +6,7 @@ import '../../style.scss';
 class EventHomePage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      homePageDetails: [],
-    };
+    
   }
 
   render() {
