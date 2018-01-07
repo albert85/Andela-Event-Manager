@@ -8,13 +8,14 @@ const addNewEventAsync = newEventDetails => ({
 });
 
 const addNewEvent = newEventDetails => (dispatch) => {
+  axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('token')}`;
   axios
-.post('/api/v1/events', newEventDetails)
-.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('token')}`
+    .post('/api/v1/events', newEventDetails)
     .then((res) => {
-      localStorage.setItem('message', res.data.message);    
-      dispatch(addNewEventAsync(newEventDetails));
+      localStorage.setItem('message', res.data.message);
+      dispatch(addNewEventAsync(res.data.eventDetails));
     })
     .catch(error => localStorage.setItem('message', error.response.data.message));
 };
+
 export default addNewEvent;

@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import getAllCenterAction from '../action/getAllCentersAction';
+import addEventAction from '../action/addEventAction';
 
 
 import '../../style.scss';
@@ -6,7 +11,61 @@ import '../../style.scss';
 class EventHomePage extends Component {
   constructor(props) {
     super(props);
+
+    this.handleLocation = this.handleLocation.bind(this);
+    this.handleAddEvent = this.handleAddEvent.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.getAllCenters();
+  }
+
+  handleAddEvent(eventDetails) {
+    //   prevent submitting automatically
+    eventDetails.preventDefault();
+    const centerIdNo = this.props.getAllCentersState.map((center) => {
+      if (this.refs.eventCenterId.value === center[0].name) {
+        return center[0].id;
+      }
+    });
+
+    // get event details
+    const eventToAdd = {
+      name: eventDetails.target[0].value,
+      bookingStatus: 1, // 0 signifies booking cancel while 1 signifies booking booked
+      centerId: centerIdNo[0],
+      eventDate: eventDetails.target[3].value,
+    };
+
+    // Add new event
+    this.props.addNewEvent(eventToAdd);
+    // check if the data is available
+    if(localStorage.getItem('message') === 'The date is not available, please choose another'){
+        return window.document.getElementById('dateAvailable').innerHTML = 'Date not Available for booking';
+        // return true;
+    }
+
+    // reset the form if the data is available
+    if (localStorage.getItem('message') === 'sucessfully created'){
+        window.document.getElementById('dateAvailable').innerHTML = '';
+       return window.document.getElementById('addEventForm').reset();
+    }
+
     
+  }
+
+  handleLocation() {
+    if (this.refs.eventCenterId.value !== 'Please select center') {
+      this.props.getAllCentersState.map((center) => {
+        if (this.refs.eventCenterId.value === center[0].name) {
+          window.document.getElementById('location').value = center[0].location;
+          return true;
+        }
+        window.document.getElementById('location').innerHTML = 'London bridge';
+      });
+    }
+    window.document.getElementById('location').innerHTML = 'London bridge';
+    return false;
   }
 
   render() {
@@ -51,6 +110,7 @@ class EventHomePage extends Component {
                                 <th scope="col" className="border border-white"> S/N</th>
                                 <th scope="col" className="border border-white">Event Name</th>
                                 <th scope="col" className="border border-white">Venue</th>
+                                <th scope="col" className="border border-white">Location</th>
                                 <th scope="col" className="border border-white">Date</th>
                                 <th scope="col" className="border border-white">Status</th>
                                 <th scope="col"></th>
@@ -77,29 +137,6 @@ class EventHomePage extends Component {
                                 </td>
 
                             </tr>
-
-                        <tr id="#2" className="border border-white">
-                                <td scope="row">2</td>
-                                <td>Wedding</td>
-                                <td>Apollan</td>
-                                <td>11/12/2017</td>
-                                <td className="text-danger">Canceled <i className="fa fa-close text-danger" aria-hidden="true"></i> </td>
-                                <td>
-                                    <div className="row">
-                                        <div className="col mb-2">
-                                            <a href="#" className="btn btn-success btn-block">
-                                                <i className="fa fa-pencil" aria-hidden="true"></i>
-                                            </a>
-                                        </div>
-                                        <div className="col">
-                                            <a href="#" className="btn btn-danger btn-block">
-                                                <i className="fa fa-trash-o" aria-hidden="true"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                </td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -107,7 +144,7 @@ class EventHomePage extends Component {
             </div>
 
             <div className="col-md-5 col-sm-12 pl-4 pr-4 pb-4 mb-3">
-                    <form className="p-2">
+                    <form className="p-2" onSubmit={this.handleAddEvent} id='addEventForm'>
                         <div className="bg-danger text-center text-white p-2 mb-3">
                             <h4>ADD EVENT</h4>
                         </div>
@@ -118,24 +155,28 @@ class EventHomePage extends Component {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="location">Location</label>
-                            <select className="form-control" name="eventcenter" id="location" required>
+                            <label htmlFor="eventCentre">Event Centre</label>
+                            <select ref='eventCenterId' className="form-control" name="eventcenter" id="eventCentre" required onChange={this.handleLocation}>
                                 <option>Please select center</option>
-                                
+                                {this.props.getAllCentersState.map((centers, i) => {
+                                return <option key={i} i={i} value={centers[0].name}>{centers[0].name}</option>})}
                             </select>
+
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="location"> Location:</label>
+                            <input type="text" id="location" required className="form-control" readOnly placeholder="London bridge" aria-describedby="helpId" required />
                         </div>
 
                         <div className="form-group">
                             < label htmlFor = "eventdate" > Event Date : </label>
-                            <input type="date" id="eventdate" className="form-control" placeholder="12/22/2017" aria-describedby="helpId" required />
+                            <input type="date" id="eventdate" className="form-control" placeholder="12/22/2017" aria-describedby="helpId" required /><br />
+                            <span id='dateAvailable' className='text-danger'></span>                           
                         </div>
-
                         <button type="submit" className="btn btn-success btn-sm btn-block mb-3">
-                            <h4 className="text-white"><i className="fa fa-plus" aria-hidden="true"></i></h4>
-                        </button>
-                        <a href="#" className="btn btn-success btn-sm btn-block mb-3">
                             <h4 className="text-white"><i className="fa fa-save" aria-hidden="true"></i></h4>
-                        </a>
+                        </button>
 
                         {/* {/* <!-- Viewing all booking at a particular date --> */}
                         {/* Button trigger modal */}
@@ -166,10 +207,8 @@ class EventHomePage extends Component {
                                                     <label htmlFor="selecteventcentre">Event Centre</label>
                                                     <select className="form-control" name="" id="selecteventcentre" required>
                                                         <option>Select a center</option>
-                                                        <option>Alojo Event centre</option>
-                                                        <option>Eyitayo Event centre</option>
-                                                        <option>Rhema Event centre</option>
-    
+                                                        {this.props.getAllCentersState.map((centers, i) => <option key={i} i={i} value={centers[0].name}>{centers[0].name}</option>)};
+
                                                     </select>
 
                                                 </div>
@@ -209,4 +248,15 @@ class EventHomePage extends Component {
   }
 }
 
-export default EventHomePage;
+const mapStateToProps = state => ({
+  getAllCentersState: state.centerState,
+  addNewEventState: state.eventState,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  getAllCenters: getAllCenterAction,
+  addNewEvent: addEventAction,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventHomePage);
+
