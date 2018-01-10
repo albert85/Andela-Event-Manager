@@ -95,7 +95,7 @@ export default class EventControllerClass {
                   userId: req.body.userId || eventDetails.userId,
                   centerId: req.body.centerId || eventDetails.centerId,
                   eventDate: req.body.eventDate || eventDetails.eventDate,
-                }).then(() => res.status(200).send(eventDetails));
+                }).then(() => res.status(200).send({message: 'sucessfully updated', eventDetails}));
             })
             .catch(() => res.status(400).json('Bad request'));
         }
