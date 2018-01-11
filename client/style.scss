@@ -34,6 +34,10 @@ hr{
     background-size: cover;
     min-height: 85vh;
 
+    .eventlist{
+    overflow-y: scroll;
+    height: 300px;
+}
 }
 
 .event-body{

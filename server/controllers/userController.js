@@ -10,9 +10,9 @@ export default class UserControllerClass {
       },
     }).then((result) => {
       if (result.length !== 0) {
-        return res.status(400).json({ message: 'Credential exist' });
+        return res.status(400).send({ message: 'Credential exist' });
       }
-
+  
       // Setting up password for hash
       const saltRound = 10;
       const { password } = req.body;
@@ -27,9 +27,9 @@ export default class UserControllerClass {
         })
         .then((userDetails) => {
           const { firstName, lastName, email } = userDetails;
-          res.status(201).send({ firstName, lastName, email });
+          res.status(201).send({ message: 'sucessful', firstName, lastName, email });
         })
-        .catch(() => res.status(400).json({ message: 'Resource not Created' })));
-    }).catch(() => res.status(400).json({ message: 'Resource not Found' }));
+        .catch(() => res.status(400).send({ message: 'Resource not Created' })));
+    }).catch(() => res.status(400).send({ message: 'Resource not Found' }));
   }
 }

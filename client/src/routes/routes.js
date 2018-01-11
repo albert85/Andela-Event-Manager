@@ -8,8 +8,8 @@ import centers from '../component/centers';
 import centerDetails from '../component/centerDetails';
 
 class App extends React.Component {
-    render() {
-        return (
+  render() {
+    return (
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/" component={login} />
@@ -20,8 +20,8 @@ class App extends React.Component {
                     <Redirect to="/" />
                 </Switch>
             </BrowserRouter>
-        );
-    }
+    );
+  }
 }
 
 export default App;

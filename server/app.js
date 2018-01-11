@@ -20,8 +20,7 @@ app.use(validator());
 // import routes into application
 app.use(router);
 
-
-const port = parseInt(process.env.PORT, 10) || 8080;
+const port = parseInt(process.env.PORT, 10) || 8000;
 app.set('port', port);
 
 app.listen(port);
