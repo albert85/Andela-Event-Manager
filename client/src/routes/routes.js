@@ -6,6 +6,7 @@ import signUp from '../component/signUpPage';
 import eventHomePage from '../component/eventHomePage';
 import centers from '../component/centers';
 import centerDetails from '../component/centerDetails';
+import  bookingDetails from '../component/viewBookings';
 
 class App extends React.Component {
   render() {
@@ -16,6 +17,7 @@ class App extends React.Component {
                     <Route path="/signup" component={signUp} />
                     <Route path="/event-home-page" component={eventHomePage} />
                     <Route path="/centers" component={centers} />
+                    <Route path="/booking-details" component={bookingDetails} />
                     <Route path="/center-details" component={centerDetails} />
                     <Redirect to="/" />
                 </Switch>

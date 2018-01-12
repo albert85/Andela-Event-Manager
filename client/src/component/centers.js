@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import getAllCenterAction from '../action/getAllCentersAction';
 import addNewCenterAction from '../action/addNewCenterAction';
+import editACenterAction from '../action/editACenterAction';
 
 class Center extends Component {
   constructor(props) {
@@ -29,13 +30,38 @@ class Center extends Component {
     return this.props.history.push('/center-details');
   }
 
+  handleCloseEdit(){
+    return this.setState({ edittingMode: false });
+  }
+
   handleEditCenterDetails(EditCenter) {
     EditCenter.preventDefault();
+
+    const modifyCenter = {
+      name: EditCenter.target[0].value,
+      location: EditCenter.target[1].value,
+      capacity: EditCenter.target[2].value,
+      amount: EditCenter.target[3].value,
+    };
+    // console.log(modifyCenter);
+    this.props.editACenterAction(modifyCenter, localStorage.getItem('centerId'));
+    // return this.setState({ edittingMode: false });
+    if (localStorage.getItem('message') === 'sucessful') {
+      window.document.getElementById('addNewCenterFormEdit').reset();
+      
+    }
   }
 
   handleCenterDetails(centerId) {
     localStorage.setItem('centerId', centerId);
-    return this.props.history.push('/center-details');
+    this.props.centerState.map((center) => {
+      if (center.id === centerId) {
+        window.document.getElementById('eventnameEdit').value = center.name;
+        window.document.getElementById('eventcenterlocationEdit').value = center.location;
+        window.document.getElementById('eventcentercapacityEdit').value = center.capacity;
+        window.document.getElementById('eventcenteramountEdit').value = center.amount;
+      }
+    });
   }
 
   addNewCenter(center) {
@@ -67,13 +93,14 @@ class Center extends Component {
 
                  <div className="col">
                      <ul className="nav justify-content-end">
-                         <li className="nav-item dropdown">
+                         {/* <li className="nav-item dropdown">
                                  <a className="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" ariahaspopup="true" aria-expanded="false">Setting</a>
                                  <div className="dropdown-menu">
                                      <a href="index.html" className="dropdown-item"> Sign Out</a>
                                      <a href="userpage.html" className="dropdown-item"> Home</a>
                                  </div>
-                         </li>
+                         </li> */}
+                         <li className="nav-item"> <a href="/" className="text-white"> SIGNOUT <i className="fa fa-chevron-right"></i></a></li>
                      </ul>
                  </div>
               </div>
@@ -118,7 +145,7 @@ class Center extends Component {
                                                       <td>
                                                           <div className="row">
                                                               <div className="col mb-2">
-                                                                  <button type="button" onClick = { this.handleCenterDetails.bind(this, centers.id) } className="btn btn-success btn-block">
+                                                                  <button type="button" onClick = { this.handleCenterDetails.bind(this, centers.id) } className="btn btn-primary btn-block">
                                                                   <i className="fa fa-pencil" aria-hidden="true"></i>
                                                                   </button>
                                                               </div>
@@ -141,7 +168,7 @@ class Center extends Component {
                           </div>
 
                           <div className="col-md-5 col-sm-12 pl-4 pr-4 pb-4 mb-3">
-                              <form className="p-2" onSubmit={this.addNewCenter} id='addNewCenterFormEdit'>
+                              <form className="p-2" onSubmit={this.handleEditCenterDetails.bind(this)} id='addNewCenterFormEdit'>
                                   <div className="bg-danger text-center text-white p-2 mb-3">
                                       <h4>EDIT EVENT CENTER</h4>
                                   </div>
@@ -165,11 +192,16 @@ class Center extends Component {
                                       <label htmlFor="eventcenteramountEdit"> Amount:</label>
                                       <input type="numbers" id="eventcenteramountEdit" className="form-control" placeholder="" aria-describedby="helpId" required/>
                                   </div><br />
-                                  <span id="addCenterMessage"></span>
 
-                                  <button type="submit" className="btn btn-success btn-sm btn-block mb-3" onClick = { this.handleEditCenterDetails.bind(this) } >
+                                  <button type="submit" className="btn btn-success btn-sm btn-block mb-3" >
                                       <h4 className="text-white">
-                                          <i className="fa fa-save"></i> Save Center
+                                          <i className="fa fa-save"></i> SAVE CENTER
+                                      </h4>
+                                  </button>
+
+                                  <button type="button" className="btn btn-danger btn-sm btn-block mb-3" onClick = {this.handleCloseEdit.bind(this)} >
+                                      <h4 className="text-white">
+                                          <i className="fa fa-close"></i> CLOSE
                                       </h4>
                                   </button>
 
@@ -204,13 +236,14 @@ class Center extends Component {
 
              <div className="col">
                  <ul className="nav justify-content-end">
-                     <li className="nav-item dropdown">
+                     {/* <li className="nav-item dropdown">
                              <a className="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" ariahaspopup="true" aria-expanded="false">Setting</a>
                              <div className="dropdown-menu">
                                  <a href="index.html" className="dropdown-item"> Sign Out</a>
                                  <a href="userpage.html" className="dropdown-item"> Home</a>
                              </div>
-                     </li>
+                     </li> */}
+                     <li className="nav-item"> <a href="/" className="text-white"> SIGNOUT <i className="fa fa-chevron-right"></i></a></li>
                  </ul>
              </div>
           </div>
@@ -238,7 +271,7 @@ class Center extends Component {
                                           <th scope="col" className="border border-white">Location</th>
                                           <th scope="col" className="border border-white">Booking Amount (#)</th>
                                           <th scope="col" className="border border-white">Hall Capacity</th>
-                                          
+
                                       </tr>
                                   </thead>
                                   <tbody>
@@ -251,24 +284,6 @@ class Center extends Component {
                                                   <td>{centers.location}</td>
                                                   <td>{centers.amount}</td>
                                                   <td>{centers.capacity}</td>
-
-                                                  {/* <td>
-                                                      <div className="row">
-                                                          <div className="col mb-2">
-                                                              <button type="button" onClick = { this.handleCenterDetails.bind(this, centers.id) } className="btn btn-success btn-block">
-                                                              <i className="fa fa-book" aria-hidden="true"></i>
-                                                              </button>
-                                                          </div>
-                                                          <div className="col">
-                                                              <a href="#" className="btn btn-danger btn-block">
-                                                                  <i className="fa fa-close" aria-hidden="true"></i>
-                                                              </a>
-                                                          </div>
-
-                                                      </div>
-
-                                                  </td> */}
-
                                               </tr>)
                                       }
                                   </tbody>
@@ -357,6 +372,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators({
   getAllCenters: getAllCenterAction,
   addNewCenterAction,
+  editACenterAction,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Center);

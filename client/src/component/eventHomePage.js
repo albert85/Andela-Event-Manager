@@ -18,10 +18,6 @@ class EventHomePage extends Component {
 
     this.state = {
       editting: false,
-    //   eventName: '',
-    //   eventVenue: '',
-    //   eventLocation: '',
-    //   eventDate: '',
 
     };
 
@@ -39,6 +35,9 @@ class EventHomePage extends Component {
     this.props.getallEventsAction();
   }
 
+  handleBookingView() {
+    return this.props.history.push('/booking-details');
+  }
 
   handleEditEvent(editDetails) {
     editDetails.preventDefault();
@@ -114,7 +113,7 @@ class EventHomePage extends Component {
       centerId: localStorage.getItem('AddcenterId'),
       eventDate: eventDetails.target[3].value,
     };
-    
+
     // Add new event
     this.props.addNewEvent(eventToAdd);
     // check if the data is available
@@ -155,13 +154,14 @@ class EventHomePage extends Component {
 
                     <div className="col">
                         <ul className="nav justify-content-end">
-                            <li className="nav-item dropdown">
+                            {/* <li className="nav-item dropdown">
                                     <a className="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" ariahaspopup="true" aria-expanded="false">Setting</a>
                                     <div className="dropdown-menu">
                                         <a href="/" className="dropdown-item"> Sign Out</a>
                                         <a href="/centers" className="dropdown-item"> Add new center</a>
                                     </div>
-                            </li>
+                            </li> */}
+                            <li className="nav-item"> <a href="/" className="text-white"> SIGNOUT <i className="fa fa-chevron-right"></i></a></li>
                         </ul>
                     </div>
                 </div>
@@ -274,10 +274,15 @@ class EventHomePage extends Component {
 
                         {/* {/* <!-- Viewing all booking at a particular date --> */}
                         {/* Button trigger modal */}
-                        <button type="button" className="btn btn-primary btn-sm btn-block" onClick = { this.handleEdittingMode.bind(this) }>
+                        <button type="button" className="btn btn-primary btn-sm btn-block mb-3" onClick = { this.handleEdittingMode.bind(this) }>
                             <h4 className="text-white"><i className="fa fa-pencil" aria-hidden="true"></i> Edit Event</h4>
                         </button>
+
+                        <button type="button" className="btn btn-primary btn-sm btn-block" onClick = { this.handleBookingView.bind(this) }>
+                            <h4 className="text-white"><i className="fa fa-pencil" aria-hidden="true"></i> View booking</h4>
+                        </button>
                     </form>
+
 
             </div>
           </div>
@@ -307,13 +312,14 @@ class EventHomePage extends Component {
 
                     <div className="col">
                         <ul className="nav justify-content-end">
-                            <li className="nav-item dropdown">
+                            {/* <li className="nav-item dropdown">
                                     <a className="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" ariahaspopup="true" aria-expanded="false">Setting</a>
                                     <div className="dropdown-menu">
                                         <a href="/" className="dropdown-item"> Sign Out</a>
                                         <a href="/centers" className="dropdown-item"> Add new center</a>
                                     </div>
-                            </li>
+                            </li> */}
+                            <li className="nav-item"> <a href="/" className="text-white"> SIGNOUT <i className="fa fa-chevron-right"></i></a></li>
                         </ul>
                     </div>
                 </div>
