@@ -43,17 +43,19 @@ class EventHomePage extends Component {
   handleEditEvent(editDetails) {
     editDetails.preventDefault();
 
-    const centerIdNo = this.props.centerState.map((centers) => {
-      if (window.document.getElementById('eventCentreEdit').value === centers[0].name) {
-        return centers[0].id;
+    this.props.centerState.map((center) => {
+      if (window.document.getElementById('eventCentreEdit').value === center.name) {
+        localStorage.setItem('centerEditId', center.id);
+        return center.id;
       }
     });
 
     const editDetailData = {
       name: window.document.getElementById('eventnameEdit').value,
       eventDate: window.document.getElementById('eventdateEdit').value,
-      centerId: centerIdNo[0],
+      centerId: localStorage.getItem('centerEditId'),
     };
+
     this.props.editAnEventAction(editDetailData, localStorage.getItem('index'));
 
     if (localStorage.getItem('message') === 'date not available') {
@@ -63,8 +65,8 @@ class EventHomePage extends Component {
 
     if (localStorage.getItem('message') === 'sucessfully updated') {
       window.document.getElementById('addEventFormEdit').reset();
+      window.document.getElementById('dateAvailableModal').innerHTML = '';
       return this.setState({ editting: false });
-    //   return window.document.getElementById('editEventsModal').hide();
     }
   }
 
@@ -77,12 +79,12 @@ class EventHomePage extends Component {
     this.props.eventState.map((event) => {
       if (event.id === index) {
         window.document.getElementById('eventnameEdit').value = event.name;
-        this.props.centerState.map((centers) => {
-          if (centers[0].id === event.centerId) {
-            window.document.getElementById('eventCentreEdit').value = centers[0].name;
-            window.document.getElementById('locationEdit').value = centers[0].location;
+        this.props.centerState.map((center) => {
+          if (center.id === event.centerId) {
+            window.document.getElementById('eventCentreEdit').value = center.name;
+            window.document.getElementById('locationEdit').value = center.location;
           }
-          return centers;
+          return center;
         });
         window.document.getElementById('eventdateEdit').value = event.eventDate;
       }
@@ -96,20 +98,23 @@ class EventHomePage extends Component {
   handleAddEvent(eventDetails) {
     //   prevent submitting automatically
     eventDetails.preventDefault();
-    const centerIdNo = this.props.centerState.map((center) => {
-      if (this.refs.eventCenterId.value === center[0].name) {
-        return center[0].id;
+    this.props.centerState.map((center) => {
+      if (this.refs.eventCenterId.value === center.name) {
+        const cent = center.id;
+        localStorage.setItem('AddcenterId', center.id);
+        return cent;
       }
     });
+
 
     // get event details
     const eventToAdd = {
       name: eventDetails.target[0].value,
       bookingStatus: 1, // 0 signifies booking cancel while 1 signifies booking booked
-      centerId: centerIdNo[0],
+      centerId: localStorage.getItem('AddcenterId'),
       eventDate: eventDetails.target[3].value,
     };
-    console.log(eventToAdd);
+    
     // Add new event
     this.props.addNewEvent(eventToAdd);
     // check if the data is available
@@ -128,8 +133,8 @@ class EventHomePage extends Component {
   handleLocation() {
     if (this.refs.eventCenterId.value !== 'Please select center') {
       this.props.centerState.map((center) => {
-        if (this.refs.eventCenterId.value === center[0].name) {
-          window.document.getElementById('location').value = center[0].location;
+        if (this.refs.eventCenterId.value === center.name) {
+          window.document.getElementById('location').value = center.location;
           return true;
         }
         window.document.getElementById('location').innerHTML = 'London bridge';
@@ -200,14 +205,14 @@ class EventHomePage extends Component {
                             <tr key={index} index={index} addre = {event.id} className="border border-white">
                                 <td scope="row">{index + 1}</td>
                                 <td>{event.name}</td>
-                                <td>{this.props.centerState.map((centers) => {
-                                    if (centers[0].id === event.centerId) {
-                                        return centers[0].name;
+                                <td>{this.props.centerState.map((center) => {
+                                    if (center.id === event.centerId) {
+                                        return center.name;
                                         }
                                 })}</td>
-                                <td>{this.props.centerState.map((centers) => {
-                                    if (centers[0].id === event.centerId) {
-                                        return centers[0].location;
+                                <td>{this.props.centerState.map((center) => {
+                                    if (center.id === event.centerId) {
+                                        return center.location;
                                         }
                                 })}</td>
                                 <td>{event.eventDate}</td>
@@ -248,7 +253,7 @@ class EventHomePage extends Component {
                             <label htmlFor="eventCentre">Event Centre</label>
                             <select ref='eventCenterId' className="form-control" id="eventCentre" required onChange={this.handleLocation}>
                                 <option>Please select center</option>
-                                {this.props.centerState.map((centers, i) => <option key={i} i={i} value={centers[0].name}>{centers[0].name}</option>)}
+                                {this.props.centerState.map((center, i) => <option key={i} i={i} value={center.name}>{center.name}</option>)}
                             </select>
 
                         </div>
@@ -352,18 +357,20 @@ class EventHomePage extends Component {
                             <tr key={index} index={index} addre = {event.id} className="border border-white">
                                 <td scope="row">{index + 1}</td>
                                 <td>{event.name}</td>
-                                <td>{this.props.centerState.map((centers) => {
-                                    if (centers[0].id === event.centerId) {
-                                        return centers[0].name;
+                                <td>{this.props.centerState.map((center) => {
+                                    if (center.id === event.centerId) {
+                                        return center.name;
                                         }
                                 })}</td>
-                                <td>{this.props.centerState.map((centers) => {
-                                    if (centers[0].id === event.centerId) {
-                                        return centers[0].location;
+                                <td>{this.props.centerState.map((center) => {
+                                    if (center.id === event.centerId) {
+                                        return center.location;
                                         }
                                 })}</td>
                                 <td>{event.eventDate}</td>
-                                {(event.bookingStatus === 1) ? <td className="text-primary">Booked <i className="fa fa-book" aria-hidden="true"></i> </td> : <td class="text-danger">Canceled <i class="fa fa-close text-danger" aria-hidden="true"></i> </td>}
+                                {(event.bookingStatus === 1) ? <td className="text-primary">Booked
+                                <i className="fa fa-book" aria-hidden="true"></i>
+                                </td> : <td class="text-danger">Canceled <i class="fa fa-close text-danger" aria-hidden="true"></i> </td>}
 
                                 <td>
                                     <div className="row">
@@ -407,7 +414,7 @@ class EventHomePage extends Component {
                             <label htmlFor="eventCentreEdit">Event Centre</label>
                             <select className="form-control" id="eventCentreEdit">
                                 <option>Please select center</option>
-                                {this.props.centerState.map((centers, i) => <option key={i} i={i} value={centers[0].name}>{centers[0].name}</option>)}
+                                {this.props.centerState.map((center, i) => <option key={i} i={i} value={center.name}>{center.name}</option>)}
                             </select>
 
                         </div>

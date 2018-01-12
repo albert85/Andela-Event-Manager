@@ -33,9 +33,9 @@ export default class CenterControllerClass {
           })
           .then(centerDetail =>
             // Output the result
-            res.status(201).send(centerDetail))
-          .catch(error => res.status(400).send(error));
-      }).catch(error => res.status(400).send(error));
+            res.status(201).send({message: 'successfully added', centerDetail }))
+          .catch(error => res.status(400).send({message: 'Error', error }));
+      }).catch(error => res.status(400).send({message: 'Operation not implemented', error }));
   }
 
   // get A center
