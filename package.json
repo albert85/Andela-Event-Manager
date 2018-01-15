@@ -5,6 +5,7 @@
   "main": "./server/app.js",
   "devDependencies": {
     "babel-loader": "^7.1.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "html-webpack-plugin": "^2.30.1",
     "node-sass": "^4.7.2",
@@ -65,6 +66,7 @@
     "jsonwebtoken": "^8.1.0",
     "mocha": "^4.0.1",
     "morgan": "^1.9.0",
+    "nodemailer": "^4.4.1",
     "nodemon": "^1.12.1",
     "nyc": "^11.3.0",
     "pg": "^7.4.0",

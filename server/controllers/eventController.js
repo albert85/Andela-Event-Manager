@@ -95,12 +95,53 @@ export default class EventControllerClass {
                   userId: req.body.userId || eventDetails.userId,
                   centerId: req.body.centerId || eventDetails.centerId,
                   eventDate: req.body.eventDate || eventDetails.eventDate,
-                }).then(() => res.status(200).send({message: 'sucessfully updated', eventDetails}));
+                }).then(() => res.status(200).send({ message: 'sucessfully updated', eventDetails }));
             })
             .catch(() => res.status(400).json('Bad request'));
         }
         // Returns pre-define error meesage if data not available
         return res.status(401).json({ message: 'date not available' });
+      })
+      .catch(() => res.status(400));
+  }
+
+  static updateAdminEvent(req, res) {
+    // get the id of the user
+    const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
+    if (!decoded) {
+      return res.status(403).json({ message: 'Token expired' });
+    }
+    // check if date is available
+    return Event
+      .findAll({
+        where: {
+          eventDate: new Date(req.body.eventDate),
+        },
+      }).then((checkAvailability) => {
+        // if data is available, update records
+        if (checkAvailability.length !== 0) {
+          // if the record to be updated
+          return Event
+            .findById(req.params.eventId)
+            .then((eventDetails) => {
+              // check if the id exists
+              if (!eventDetails) {
+                return res.status(404).send({ message: 'Event not found' });
+              }
+              // if the event exist update
+              return eventDetails
+                .update({
+                  name: req.body.name || eventDetails.name,
+                  bookingStatus: req.body.bookingStatus,
+                  userId: req.body.userId || eventDetails.userId,
+                  centerId: req.body.centerId || eventDetails.centerId,
+                  eventDate: req.body.eventDate || eventDetails.eventDate,
+                }).then(eventDetail => res.status(200).send({ message: 'successfully updated', eventDetail }));
+            })
+            .catch(() => res.status(400).json('Bad request'));
+        }
+        // Returns pre-define error meesage if data not available
+        return res.status(401).json({ message: 'Error updating' });
       })
       .catch(() => res.status(400));
   }

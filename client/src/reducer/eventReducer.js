@@ -6,10 +6,13 @@ const eventMethodReducer = (state = [], action) => {
       return [action.payload, ...state];
     case EDIT_AN_EVENT:
       return state.map((event) => {
-        if (event.id === action.payload.eventId) {
-          return action.payload.modifiedData;
+        if (event.id !== action.payload.eventId) {
+          return event;
         }
-        return event;
+        return {
+          ...event,
+          ...action.payload.modifiedData,
+        };
       });
     case GET_ALL_EVENTS:
       return action.payload;

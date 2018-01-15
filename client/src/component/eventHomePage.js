@@ -52,10 +52,10 @@ class EventHomePage extends Component {
     const editDetailData = {
       name: window.document.getElementById('eventnameEdit').value,
       eventDate: window.document.getElementById('eventdateEdit').value,
-      centerId: localStorage.getItem('centerEditId'),
+      centerId: parseInt(localStorage.getItem('centerEditId')),
     };
 
-    this.props.editAnEventAction(editDetailData, localStorage.getItem('index'));
+    this.props.editAnEventAction(editDetailData, parseInt(localStorage.getItem('index')));
 
     if (localStorage.getItem('message') === 'date not available') {
       return window.document.getElementById('dateAvailableModal').innerHTML = 'Date not Available for booking';
@@ -216,7 +216,7 @@ class EventHomePage extends Component {
                                         }
                                 })}</td>
                                 <td>{event.eventDate}</td>
-                                {(event.bookingStatus === 1) ? <td className="text-primary">Booked <i className="fa fa-book" aria-hidden="true"></i> </td> : <td class="text-danger">Canceled <i class="fa fa-close text-danger" aria-hidden="true"></i> </td>}
+                                {(event.bookingStatus === 1) ? <td className="text-primary">Booked <i className="fa fa-book" aria-hidden="true"></i> </td> : <td className="text-danger">Canceled <i className="fa fa-close text-danger" aria-hidden="true"></i> </td>}
 
                                 <td>
                                     <div className="row">
@@ -376,7 +376,7 @@ class EventHomePage extends Component {
                                 <td>{event.eventDate}</td>
                                 {(event.bookingStatus === 1) ? <td className="text-primary">Booked
                                 <i className="fa fa-book" aria-hidden="true"></i>
-                                </td> : <td class="text-danger">Canceled <i class="fa fa-close text-danger" aria-hidden="true"></i> </td>}
+                                </td> : <td className="text-danger">Canceled <i className="fa fa-close text-danger" aria-hidden="true"></i> </td>}
 
                                 <td>
                                     <div className="row">

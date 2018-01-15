@@ -1,5 +1,7 @@
 export const ADD_NEW_USER = 'add_new_user';
 
+export const CHANGE_BOOKING_STATUS = 'change_booking_status';
+
 export const LOGIN_USER = 'login_user';
 
 export const ADD_AN_EVENT = 'add_an_event';

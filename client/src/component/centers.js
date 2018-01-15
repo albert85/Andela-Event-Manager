@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import CenterTableRow from '../utility/centerTableRow';
 import getAllCenterAction from '../action/getAllCentersAction';
 import addNewCenterAction from '../action/addNewCenterAction';
 import editACenterAction from '../action/editACenterAction';
@@ -9,13 +10,15 @@ import editACenterAction from '../action/editACenterAction';
 class Center extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      edittingMode: false,
+      centerIdNo: 0,
+    };
+
     this.addNewCenter = this.addNewCenter.bind(this);
     this.handleEditCenter = this.handleEditCenter.bind(this);
     this.handleAddCenter = this.handleAddCenter.bind(this);
-
-    this.state = {
-      edittingMode: false,
-    };
+    this.handleEditCenterDetails = this.handleEditCenterDetails.bind(this);
   }
 
   componentDidMount() {
@@ -30,7 +33,7 @@ class Center extends Component {
     return this.props.history.push('/center-details');
   }
 
-  handleCloseEdit(){
+  handleCloseEdit() {
     return this.setState({ edittingMode: false });
   }
 
@@ -38,22 +41,30 @@ class Center extends Component {
     EditCenter.preventDefault();
 
     const modifyCenter = {
-      name: EditCenter.target[0].value,
-      location: EditCenter.target[1].value,
-      capacity: EditCenter.target[2].value,
-      amount: EditCenter.target[3].value,
+      name: window.document.getElementById('eventnameEdit').value,
+      location: window.document.getElementById('eventcenterlocationEdit').value,
+      capacity: window.document.getElementById('eventcentercapacityEdit').value,
+      amount: window.document.getElementById('eventcenteramountEdit').value,
     };
-    // console.log(modifyCenter);
-    this.props.editACenterAction(modifyCenter, localStorage.getItem('centerId'));
-    // return this.setState({ edittingMode: false });
-    if (localStorage.getItem('message') === 'sucessful') {
-      window.document.getElementById('addNewCenterFormEdit').reset();
-      
-    }
+    
+    this.props.editACenterAction(modifyCenter, this.state.centerIdNo);
+    
+    window.document.getElementById('eventnameEdit').value = '';
+    window.document.getElementById('eventcenterlocationEdit').value = '';
+    window.document.getElementById('eventcentercapacityEdit').value = '';
+    window.document.getElementById('eventcenteramountEdit').value = '';
+    // if (localStorage.getItem('message') === 'sucessful') {
+    //     // return window.document.getElementById('addNewCenterFormEdit').reset();
+    //     // return this.setState({ edittingMode: false });
+    // }
+    this.setState({ centerIdNo: this.state.centerIdNo});
+    // console.log(this.state.centerIdNo);
   }
-
+  // Calling props from centerTableRow component (Child)
   handleCenterDetails(centerId) {
-    localStorage.setItem('centerId', centerId);
+
+    this.setState({ centerIdNo: centerId});
+    console.log(centerId)
     this.props.centerState.map((center) => {
       if (center.id === centerId) {
         window.document.getElementById('eventnameEdit').value = center.name;
@@ -75,11 +86,11 @@ class Center extends Component {
 
     this.props.addNewCenterAction(newCenter);
 
-    if (localStorage.getItem('message') === 'successfully added') {
-      return window.document.getElementById('addNewCenterForm').reset();
-    }
-
+    if (localStorage.getItem('message') !== 'successfully added') {
     return window.document.getElementById('addCenterMessage').innerHTML = 'Credential exist';
+    }
+    
+    return window.document.getElementById('addNewCenterForm').reset();
   }
 
   handleEditCenter() {
@@ -134,32 +145,32 @@ class Center extends Component {
                                       <tbody>
                                           {
                                               this.props.centerState.map((centers, i) =>
-
-                                                  <tr id="#1" key={i} index = {i} className="border border-white">
-                                                      <td scope="row">{ i + 1 }</td>
-                                                      <td>{centers.name}</td>
-                                                      <td>{centers.location}</td>
-                                                      <td>{centers.amount}</td>
-                                                      <td>{centers.capacity}</td>
-
-                                                      <td>
-                                                          <div className="row">
-                                                              <div className="col mb-2">
-                                                                  <button type="button" onClick = { this.handleCenterDetails.bind(this, centers.id) } className="btn btn-primary btn-block">
-                                                                  <i className="fa fa-pencil" aria-hidden="true"></i>
-                                                                  </button>
-                                                              </div>
-                                                              {/* <div className="col">
-                                                                  <a href="#" className="btn btn-danger btn-block">
-                                                                      <i className="fa fa-close" aria-hidden="true"></i>
-                                                                  </a>
-                                                              </div> */}
-
-                                                          </div>
-
-                                                      </td>
-
-                                                  </tr>)
+                                            //   <CenterTableRow centerId = { centers.id } centers = {centers} key= {i} i ={i} handleCenterDetails = {this.handleCenterDetails} handleEditCenterDetails = {this.handleEditCenterDetails} { ...this.props } />)
+                                            <tr className="border border-white" key={i} >
+                                            <td scope="row">{ i + 1 }</td>
+                                            <td>{centers.name}</td>
+                                            <td>{centers.location}</td>
+                                            <td>{centers.amount}</td>
+                                            <td>{centers.capacity}</td>
+                                            <td>
+                                                <div className="row">
+                                                    <div className="col mb-2">
+                                                        <button type="button" onClick = { this.handleCenterDetails.bind(this, centers.id) } className="btn btn-primary btn-block">
+                                                        <i className="fa fa-pencil" aria-hidden="true"> Edit</i>
+                                                        </button>
+                                                    </div>
+                                                        {/* <div className="col">
+                                                            <button type="button" className="btn btn-success btn-block" onClick = { this.handleEditCenterDetails.bind(this, centers.id) }>
+                                                                <i className="fa fa-book" aria-hidden="true"> Update</i>
+                                                            </button>
+                                                        </div> */}
+                        
+                                                    </div>
+                        
+                                            </td>
+                        
+                                        </tr>
+                                          )
                                           }
                                       </tbody>
                                   </table>
@@ -168,7 +179,7 @@ class Center extends Component {
                           </div>
 
                           <div className="col-md-5 col-sm-12 pl-4 pr-4 pb-4 mb-3">
-                              <form className="p-2" onSubmit={this.handleEditCenterDetails.bind(this)} id='addNewCenterFormEdit'>
+                              <form className="p-2" id='addNewCenterFormEdit'>
                                   <div className="bg-danger text-center text-white p-2 mb-3">
                                       <h4>EDIT EVENT CENTER</h4>
                                   </div>
@@ -193,7 +204,7 @@ class Center extends Component {
                                       <input type="numbers" id="eventcenteramountEdit" className="form-control" placeholder="" aria-describedby="helpId" required/>
                                   </div><br />
 
-                                  <button type="submit" className="btn btn-success btn-sm btn-block mb-3" >
+                                  <button type="submit" className="btn btn-success btn-sm btn-block mb-3" onClick = { this.handleEditCenterDetails } >
                                       <h4 className="text-white">
                                           <i className="fa fa-save"></i> SAVE CENTER
                                       </h4>

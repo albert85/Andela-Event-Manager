@@ -23,6 +23,9 @@ app.get('/api/v1/events', auth.checkIfAuthorize, eventDetails.getAllEvents);
 // updating event operation
 app.put('/api/v1/events/:eventId', auth.checkIfAuthorize, eventDetails.updateEvent);
 
+// booking or cancelling events
+app.put('/api/v1/events/admin/:eventId', auth.checkIfAuthorize, eventDetails.updateAdminEvent);
+
 // get an event
 app.get('/api/v1/events/:eventId', auth.checkIfAuthorize, eventDetails.getAnEvent);
 

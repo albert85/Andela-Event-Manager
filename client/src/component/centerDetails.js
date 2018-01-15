@@ -4,14 +4,40 @@ import { bindActionCreators } from 'redux';
 
 import getAllCenterAction from '../action/getAllCentersAction';
 import getACenterAction from '../action/getACenterAction';
+import cancelBookingAction from '../action/cancelBookingAction';
 
 class CenterDetails extends Component {
   constructor(props) {
     super(props);
+    this.handleLocation = this.handleLocation.bind(this);
   }
 
   componentDidMount() {
     this.props.getAllCenterAction();
+  }
+
+  handleReBooking(eventId) {
+    this.props.getACenterState.map((events) => {
+      if (events.id === eventId) {
+        const changeBooking = {
+          bookingStatus: 1,
+          eventDate: events.eventDate,
+        };
+        this.props.cancelBookingAction(changeBooking, eventId, events.id);
+      }
+    });
+  }
+
+  handleCancelBooking(eventId) {
+    this.props.getACenterState.map((events) => {
+      if (events.id === eventId) {
+        const changeBooking = {
+          bookingStatus: 0,
+          eventDate: events.eventDate,
+        };
+        this.props.cancelBookingAction(changeBooking, eventId, events.id);
+      }
+    });
   }
 
   handleLocation() {
@@ -76,7 +102,7 @@ class CenterDetails extends Component {
 
                             <div className="form-group">
                             <label htmlFor="centerName">Center Name</label>
-                            <select ref='eventCenterId' className="form-control" id="centerName" required onChange={this.handleLocation.bind(this)}>
+                            <select ref='eventCenterId' className="form-control" id="centerName" required onChange={this.handleLocation}>
                                 <option>Please select center</option>
                                 {this.props.centerState.map((center, i) => <option key={i} i={i} value={center.name}>{center.name}</option>)}
                             </select>
@@ -128,23 +154,23 @@ class CenterDetails extends Component {
                                 <tbody>
                                     {
                                         this.props.getACenterState.map((centers, i) =>
-                                            <tr id="#1" key={i} index = {i} className="border border-white">
+                                            <tr id="#1" key={i} className="border border-white">
                                                 <td scope="row">{ i + 1 }</td>
                                                 <td>{centers.name}</td>
                                                 <td>{centers.eventDate}</td>
 
-                                                {(centers.bookingStatus === 1) ? <td className="text-primary">Booked <i className="fa fa-book" aria-hidden="true"></i> </td> : <td class="text-danger">Canceled <i class="fa fa-close text-danger" aria-hidden="true"></i> </td>}
+                                                {(centers.bookingStatus === 1) ? <td className="text-primary">Booked <i className="fa fa-book" aria-hidden="true"></i> </td> : <td className="text-danger">Canceled <i className="fa fa-close text-danger" aria-hidden="true"></i> </td>}
                                                 <td>
                                                     <div className="row">
                                                         <div className="col mb-2">
-                                                            <a href="#" className="btn btn-success btn-block">
+                                                            <button type="button" className="btn btn-success btn-block" index = {i} onClick = { this.handleReBooking.bind(this, centers.id) } >
                                                             <i className="fa fa-book" aria-hidden="true"></i>
-                                                            </a>
+                                                            </button>
                                                         </div>
                                                         <div className="col">
-                                                            <a href="#" className="btn btn-danger btn-block">
+                                                            <button type="button" className="btn btn-danger btn-block" index = {i} onClick = { this.handleCancelBooking.bind(this, centers.id) } >
                                                                 <i className="fa fa-close" aria-hidden="true"></i>
-                                                            </a>
+                                                            </button>
                                                         </div>
 
                                                     </div>
@@ -182,5 +208,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators({
   getAllCenterAction,
   getACenterAction,
+  cancelBookingAction,
 }, dispatch);
 export default connect(mapStateToProps, mapDispatchToProps)(CenterDetails);

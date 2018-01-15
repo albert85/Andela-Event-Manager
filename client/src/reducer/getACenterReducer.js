@@ -1,9 +1,19 @@
-import { VIEW_A_CENTER } from '../common/types';
+import { VIEW_A_CENTER, CHANGE_BOOKING_STATUS } from '../common/types';
 
 const getACenterReducer = (state = [], action) => {
   switch (action.type) {
     case VIEW_A_CENTER:
       return action.payload;
+    case CHANGE_BOOKING_STATUS:
+      return state.map((event, i) => {
+        if (event.id !== action.payload.index) {
+          return event;
+        }
+        return {
+          ...event,
+          bookingStatus: action.payload.bookingStatus,
+        };
+      });
     default:
       return state;
   }
