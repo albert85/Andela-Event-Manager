@@ -14,6 +14,7 @@ const loginUser = userData => (dispatch) => {
         // console.log(res.data.message);
       localStorage.setItem('message', res.data.message);
       localStorage.setItem('token', res.data.token);
+      localStorage.setItem('userIdNo', res.data.userIdNo);
     
       dispatch(loginUserAsync(userData));
     })

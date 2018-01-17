@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 
 import getAllCenterAction from '../action/getAllCentersAction';
 import addEventAction from '../action/addEventAction';
-import getallEventsAction from '../action/getAllEventsAction';
+import getUsersAllEventAction from '../action/getUsersAllEventAction';
 import deleteAnEventAction from '../action/deleteAnEventAction';
 import editAnEventAction from '../action/editAnEventAction';
 
@@ -32,7 +32,7 @@ class EventHomePage extends Component {
 
   componentDidMount() {
     this.props.getAllCenters();
-    this.props.getallEventsAction();
+    this.props.getUsersAllEventAction(localStorage.getItem('userIdNo'));
   }
 
   handleBookingView() {
@@ -474,7 +474,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators({
   getAllCenters: getAllCenterAction,
   addNewEvent: addEventAction,
-  getallEventsAction,
+  getUsersAllEventAction,
   deleteAnEventAction,
   editAnEventAction,
 }, dispatch);

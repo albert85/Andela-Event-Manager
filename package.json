@@ -60,6 +60,7 @@
     "express": "^4.16.2",
     "express-validator": "^4.3.0",
     "file-loader": "^1.1.6",
+    "fs": "0.0.1-security",
     "istanbul": "^0.4.5",
     "istanbul-coveralls": "^1.0.3",
     "jquery": "^3.2.1",

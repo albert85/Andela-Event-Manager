@@ -5,6 +5,7 @@ import loginUsers from '../reducer/loginReducer';
 import centerReducer from '../reducer/centerReducer';
 import eventReducer from '../reducer/eventReducer';
 import getACenterReducer from '../reducer/getACenterReducer';
+import getUsersEmailReducer from '../reducer/getUsersEmailReducer';
 
 const rootReducer = combineReducers({
   signUpUser: addNewUser,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   centerState: centerReducer,
   eventState: eventReducer,
   getACenterState: getACenterReducer,
+  userEmailState: getUsersEmailReducer,
 });
 
 export default rootReducer;

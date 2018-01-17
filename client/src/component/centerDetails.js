@@ -5,6 +5,10 @@ import { bindActionCreators } from 'redux';
 import getAllCenterAction from '../action/getAllCentersAction';
 import getACenterAction from '../action/getACenterAction';
 import cancelBookingAction from '../action/cancelBookingAction';
+import getUserEmailAction from '../action/getUserEmailAction';
+
+let nodemailer = require('nodemailer');
+let path = require('path');
 
 class CenterDetails extends Component {
   constructor(props) {
@@ -14,7 +18,9 @@ class CenterDetails extends Component {
 
   componentDidMount() {
     this.props.getAllCenterAction();
+    this.props.getUserEmailAction();
   }
+
 
   handleReBooking(eventId) {
     this.props.getACenterState.map((events) => {
@@ -35,7 +41,44 @@ class CenterDetails extends Component {
           bookingStatus: 0,
           eventDate: events.eventDate,
         };
-        this.props.cancelBookingAction(changeBooking, eventId, events.id);
+        this.props.userEmailState.map((user) => {
+          if (user.id === events.userId) {
+            let transporter = nodemailer.createTransport({
+              service: 'gmail',
+              secure: false,
+              port: 25,
+              auth: {
+                user: 'andelaeventmanager@gmail.com',
+                pass: 'eventmanager2018',
+              },
+              tls: {
+                rejectUnauthorized: false,
+              },
+            });
+
+            let mailOption = {
+              from: 'andelaeventmanager@gmail.com',
+              to: user.email,
+              subject: 'Event Booking Notification',
+              text: `Dear ${user.firstName},
+              
+              We regret to inform you that the ${events.name} event you booked slated for ${events.eventDate} is cancelled for some important reason.
+              
+              We are very sorry for any inconvience this might caused you.
+              
+              From Adminstrative office`,
+            };
+
+            transporter.sendMail(mailOption, (error, info) => {
+              if (error) {
+                console.log(error);
+              } else {
+                console.log(`Email sent${info}`);
+              }
+            });
+          }
+        });
+        return this.props.cancelBookingAction(changeBooking, eventId, events.id);
       }
     });
   }
@@ -203,11 +246,13 @@ class CenterDetails extends Component {
 const mapStateToProps = state => ({
   centerState: state.centerState,
   getACenterState: state.getACenterState,
+  userEmailState: state.userEmailState,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getAllCenterAction,
   getACenterAction,
   cancelBookingAction,
+  getUserEmailAction,
 }, dispatch);
 export default connect(mapStateToProps, mapDispatchToProps)(CenterDetails);

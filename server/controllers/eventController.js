@@ -64,6 +64,24 @@ export default class EventControllerClass {
       .catch(() => res.status(404).json('No Events Found'));
   }
 
+  // get All events for a specific user
+  static getUserAllEvents(req, res) {
+    // get the id of the user
+    const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
+    if (!decoded) {
+      return res.status(403).json({ message: 'Token expired' });
+    }
+
+    return Event
+      .findAll({
+        where: {
+          userId: req.params.userIdNo,
+        },
+      })
+      .then(eventDetails => res.status(200).json({ message: 'sucessful', eventDetails }))
+      .catch(() => res.status(404).json('No Events Found'));
+  }
+
   static updateEvent(req, res) {
     // get the id of the user
     const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
