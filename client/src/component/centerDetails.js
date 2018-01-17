@@ -6,9 +6,7 @@ import getAllCenterAction from '../action/getAllCentersAction';
 import getACenterAction from '../action/getACenterAction';
 import cancelBookingAction from '../action/cancelBookingAction';
 import getUserEmailAction from '../action/getUserEmailAction';
-
-let nodemailer = require('nodemailer');
-let path = require('path');
+import sendMailNotificationAction from '../action/sendMailNotificationAction';
 
 class CenterDetails extends Component {
   constructor(props) {
@@ -43,43 +41,24 @@ class CenterDetails extends Component {
         };
         this.props.userEmailState.map((user) => {
           if (user.id === events.userId) {
-            let transporter = nodemailer.createTransport({
-              service: 'gmail',
-              secure: false,
-              port: 25,
-              auth: {
-                user: 'andelaeventmanager@gmail.com',
-                pass: 'eventmanager2018',
-              },
-              tls: {
-                rejectUnauthorized: false,
-              },
-            });
-
-            let mailOption = {
-              from: 'andelaeventmanager@gmail.com',
-              to: user.email,
-              subject: 'Event Booking Notification',
-              text: `Dear ${user.firstName},
+            const userEmail = {
+              email: user.email,
+              messageBody: `Dear ${user.firstName},
               
-              We regret to inform you that the ${events.name} event you booked slated for ${events.eventDate} is cancelled for some important reason.
+            We regret to inform you that the ${events.name} event you booked, which was slated for ${events.eventDate} has been cancelled for some unavoidable reason.
               
-              We are very sorry for any inconvience this might caused you.
+            We are very sorry for any inconviences this might caused you.
               
-              From Adminstrative office`,
+            Yours faithfully,
+            The Event Manager`,
             };
-
-            transporter.sendMail(mailOption, (error, info) => {
-              if (error) {
-                console.log(error);
-              } else {
-                console.log(`Email sent${info}`);
-              }
-            });
+            this.props.sendMailNotificationAction(userEmail);
           }
+          return user;
         });
         return this.props.cancelBookingAction(changeBooking, eventId, events.id);
       }
+      return events;
     });
   }
 
@@ -254,5 +233,6 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   getACenterAction,
   cancelBookingAction,
   getUserEmailAction,
+  sendMailNotificationAction,
 }, dispatch);
 export default connect(mapStateToProps, mapDispatchToProps)(CenterDetails);

@@ -17,6 +17,9 @@ app.post('/api/v1/user/login', validator.loginValidator, loginController.signIn)
 // get Users email address
 app.get('/api/v1/user/email', loginController.userEmail);
 
+// send email notification
+app.post('/api/v1/user/recipientEmail', auth.checkIfAuthorize, loginController.sendEmailNotifications);
+
 // creating a new Event
 app.post('/api/v1/events', validator.createEventValidation, auth.checkIfAuthorize, eventDetails.create);
 

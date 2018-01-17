@@ -23,3 +23,5 @@ export const EDIT_A_CENTER = 'edit_a_center';
 export const VIEW_A_CENTER = 'view_a_center';
 
 export const GET_ALL_EMAILS = 'get_all_email_address';
+
+export const SEND_EMAILS = 'send_emails';
