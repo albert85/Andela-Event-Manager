@@ -12,9 +12,7 @@ const centerMethodReducer = (state = [], action) => {
           return center;
         }
 
-        return {
-          ...action.payload.modifiedData,
-        };
+        return Object.assign({}, center, action.payload.modifiedData);
       });
     default:
       return state;
