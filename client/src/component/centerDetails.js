@@ -222,12 +222,6 @@ class CenterDetails extends Component {
   }
 }
 
-CenterDetails.propTypes = {
-  handleReBooking: React.PropTypes.func.isRequired,
-  handleCancelBooking: React.PropTypes.func.isRequired,
-  handleLocation: React.PropTypes.func.isRequired,
-};
-
 const mapStateToProps = state => ({
   centerState: state.centerState,
   getACenterState: state.getACenterState,

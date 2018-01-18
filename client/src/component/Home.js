@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 
 import '../../style.scss';
 import loginAction from '../action/loginAction';
@@ -76,10 +77,6 @@ class Home extends React.Component {
     );
   }
 }
-
-Home.propTypes = {
-  handleUserLogin: React.PropTypes.func.isRequired,
-};
 
 const mapStateToProps = state => ({
   loginUserDetail: state.loginUser,

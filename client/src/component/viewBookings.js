@@ -150,10 +150,6 @@ class BookingDetails extends Component {
   }
 }
 
-BookingDetails.propTypes = {
-  handleLocation: React.PropTypes.func.isRequired,
-};
-
 const mapStateToProps = state => ({
   centerState: state.centerState,
   getACenterState: state.getACenterState,

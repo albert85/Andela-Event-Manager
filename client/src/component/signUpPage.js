@@ -165,11 +165,6 @@ class SignUp extends React.Component {
   }
 }
 
-SignUp.propTypes = {
-  checkPassword: React.PropTypes.func.isRequired,
-  signUpNewUser: React.PropTypes.func.isRequired,
-};
-
 const mapStateToProps = state => ({
   newUserDetail: state.signUpUser,
 });

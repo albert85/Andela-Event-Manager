@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -465,16 +465,6 @@ class EventHomePage extends Component {
     return this.handleAddEventForm();
   }
 }
-
-EventHomePage.propTypes = {
-  handleBookingView: React.PropTypes.func.isRequired,
-  handleEditEvent: React.PropTypes.func.isRequired,
-  handleEdittingMode: React.PropTypes.func.isRequired,
-  handleStoringId: React.PropTypes.func.isRequired,
-  handleDeleteEvent: React.PropTypes.func.isRequired,
-  handleAddEvent: React.PropTypes.func.isRequired,
-  handleLocation: React.PropTypes.func.isRequired,
-};
 
 const mapStateToProps = state => ({
   centerState: state.centerState,

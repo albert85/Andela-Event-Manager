@@ -374,15 +374,6 @@ class Center extends Component {
   }
 }
 
-Center.propTypes = {
-  handleSwitchingToEditMode: React.PropTypes.func.isRequired,
-  handleSwitchingToViewMode: React.PropTypes.func.isRequired,
-  handleCloseEdit: React.PropTypes.func.isRequired,
-  handleEditCenterDetails: React.PropTypes.func.isRequired,
-  handleCenterDetails: React.PropTypes.func.isRequired,
-  addNewCenter: React.PropTypes.func.isRequired,
-};
-
 const mapStateToProps = state => ({
   centerState: state.centerState,
 });
