@@ -77,6 +77,10 @@ class Home extends React.Component {
   }
 }
 
+Home.propTypes = {
+  handleUserLogin: React.PropTypes.func.isRequired,
+};
+
 const mapStateToProps = state => ({
   loginUserDetail: state.loginUser,
 });

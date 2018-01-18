@@ -8,7 +8,7 @@ import getACenterAction from '../action/getACenterAction';
 class BookingDetails extends Component {
   constructor(props) {
     super(props);
-    this.handleLocation = this.handleLocation.bind(this)
+    this.handleLocation = this.handleLocation.bind(this);
   }
 
   componentDidMount() {
@@ -48,7 +48,7 @@ class BookingDetails extends Component {
 
            <div className="col">
                <ul className="nav justify-content-end">
-                  
+
                    <li className="nav-item"> <a href="/" className="text-white"> SIGNOUT <i className="fa fa-chevron-right"></i></a></li>
                </ul>
            </div>
@@ -116,7 +116,7 @@ class BookingDetails extends Component {
                                         <th scope="col" className="border border-white"> S/N</th>
                                         <th scope="col" className="border border-white">Event </th>
                                         <th scope="col" className="border border-white">Event Date (YYYY-MM-DD)</th>
-                                        
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -149,6 +149,10 @@ class BookingDetails extends Component {
     );
   }
 }
+
+BookingDetails.propTypes = {
+  handleLocation: React.PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => ({
   centerState: state.centerState,

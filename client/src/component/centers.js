@@ -46,9 +46,9 @@ class Center extends Component {
       capacity: window.document.getElementById('eventcentercapacityEdit').value,
       amount: window.document.getElementById('eventcenteramountEdit').value,
     };
-    
+
     this.props.editACenterAction(modifyCenter, this.state.centerIdNo);
-    
+
     window.document.getElementById('eventnameEdit').value = '';
     window.document.getElementById('eventcenterlocationEdit').value = '';
     window.document.getElementById('eventcentercapacityEdit').value = '';
@@ -57,14 +57,13 @@ class Center extends Component {
     //     // return window.document.getElementById('addNewCenterFormEdit').reset();
     //     // return this.setState({ edittingMode: false });
     // }
-    this.setState({ centerIdNo: this.state.centerIdNo});
+    this.setState({ centerIdNo: this.state.centerIdNo });
     // console.log(this.state.centerIdNo);
   }
   // Calling props from centerTableRow component (Child)
   handleCenterDetails(centerId) {
-
-    this.setState({ centerIdNo: centerId});
-    console.log(centerId)
+    this.setState({ centerIdNo: centerId });
+    console.log(centerId);
     this.props.centerState.map((center) => {
       if (center.id === centerId) {
         window.document.getElementById('eventnameEdit').value = center.name;
@@ -87,9 +86,9 @@ class Center extends Component {
     this.props.addNewCenterAction(newCenter);
 
     if (localStorage.getItem('message') !== 'successfully added') {
-    return window.document.getElementById('addCenterMessage').innerHTML = 'Credential exist';
+      return window.document.getElementById('addCenterMessage').innerHTML = 'Credential exist';
     }
-    
+
     return window.document.getElementById('addNewCenterForm').reset();
   }
 
@@ -164,13 +163,12 @@ class Center extends Component {
                                                                 <i className="fa fa-book" aria-hidden="true"> Update</i>
                                                             </button>
                                                         </div> */}
-                        
+
                                                     </div>
-                        
+
                                             </td>
-                        
-                                        </tr>
-                                          )
+
+                                        </tr>,)
                                           }
                                       </tbody>
                                   </table>
@@ -375,6 +373,15 @@ class Center extends Component {
     return this.handleAddCenter();
   }
 }
+
+Center.propTypes = {
+  handleSwitchingToEditMode: React.PropTypes.func.isRequired,
+  handleSwitchingToViewMode: React.PropTypes.func.isRequired,
+  handleCloseEdit: React.PropTypes.func.isRequired,
+  handleEditCenterDetails: React.PropTypes.func.isRequired,
+  handleCenterDetails: React.PropTypes.func.isRequired,
+  addNewCenter: React.PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => ({
   centerState: state.centerState,
