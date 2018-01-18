@@ -1,6 +1,6 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import '../../style.scss';
 import loginAction from '../action/loginAction';
@@ -8,25 +8,28 @@ import loginAction from '../action/loginAction';
 class Home extends React.Component {
   constructor(props) {
     super(props);
-    
+
     this.handleUserLogin = this.handleUserLogin.bind(this);
   }
 
-/**
+  /**
  * @method
- * @param {object} loginDetail 
+ * @param {object} loginDetail
  * @returns {strings}
  */
-  handleUserLogin(loginDetail){
+  handleUserLogin(loginDetail) {
     loginDetail.preventDefault();
     const userLoginDetails = {
       email: loginDetail.target[0].value,
       password: loginDetail.target[1].value,
-    }
+    };
 
     this.props.loginUser(userLoginDetails);
 
-    if (localStorage.getItem('message') === 'successfully login'){
+    if (localStorage.getItem('message') === 'successfully login') {
+      if (userLoginDetails.password === 'admin') {
+        return this.props.history.push('/centers');
+      }
       return this.props.history.push('/event-home-page');
     }
     return window.document.getElementById('loginErroMessage').innerHTML = 'Wrong password and email';
@@ -45,7 +48,7 @@ class Home extends React.Component {
                     <hr className="hr" /><br />
                       <span id='loginErroMessage' className='text-danger'></span>
                       <div className="form-group">
-                      
+
                         <label htmlFor="inputEmail">Email</label>
                         <input type="email" className="form-control" id="inputEmail" placeholder="you@example.com" required />
                       </div>

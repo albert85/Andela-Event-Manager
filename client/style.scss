@@ -34,11 +34,11 @@ hr{
     background-size: cover;
     min-height: 85vh;
 
-    .eventlist{
-    overflow-y: scroll;
-    height: 300px;
 }
-}
+        .eventlist{
+        overflow-y: scroll;
+        height: 300px;
+    }
 
 .event-body{
     background: rgba(255,255,255,0.8);

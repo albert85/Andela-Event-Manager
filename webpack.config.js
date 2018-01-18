@@ -52,5 +52,12 @@ module.exports = {
       allChunks: true,
     }),
   ],
-
+  node: {
+    console: false,
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty',
+    dns: 'empty',
+    child_process: 'empty',
+  },
 };

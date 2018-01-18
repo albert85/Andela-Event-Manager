@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 
 import getAllCenterAction from '../action/getAllCentersAction';
 import addEventAction from '../action/addEventAction';
-import getallEventsAction from '../action/getAllEventsAction';
+import getUsersAllEventAction from '../action/getUsersAllEventAction';
 import deleteAnEventAction from '../action/deleteAnEventAction';
 import editAnEventAction from '../action/editAnEventAction';
 
@@ -18,10 +18,6 @@ class EventHomePage extends Component {
 
     this.state = {
       editting: false,
-    //   eventName: '',
-    //   eventVenue: '',
-    //   eventLocation: '',
-    //   eventDate: '',
 
     };
 
@@ -36,25 +32,30 @@ class EventHomePage extends Component {
 
   componentDidMount() {
     this.props.getAllCenters();
-    this.props.getallEventsAction();
+    this.props.getUsersAllEventAction(localStorage.getItem('userIdNo'));
   }
 
+  handleBookingView() {
+    return this.props.history.push('/booking-details');
+  }
 
   handleEditEvent(editDetails) {
     editDetails.preventDefault();
 
-    const centerIdNo = this.props.centerState.map((centers) => {
-      if (window.document.getElementById('eventCentreEdit').value === centers[0].name) {
-        return centers[0].id;
+    this.props.centerState.map((center) => {
+      if (window.document.getElementById('eventCentreEdit').value === center.name) {
+        localStorage.setItem('centerEditId', center.id);
+        return center.id;
       }
     });
 
     const editDetailData = {
       name: window.document.getElementById('eventnameEdit').value,
       eventDate: window.document.getElementById('eventdateEdit').value,
-      centerId: centerIdNo[0],
+      centerId: parseInt(localStorage.getItem('centerEditId')),
     };
-    this.props.editAnEventAction(editDetailData, localStorage.getItem('index'));
+
+    this.props.editAnEventAction(editDetailData, parseInt(localStorage.getItem('index')));
 
     if (localStorage.getItem('message') === 'date not available') {
       return window.document.getElementById('dateAvailableModal').innerHTML = 'Date not Available for booking';
@@ -63,8 +64,8 @@ class EventHomePage extends Component {
 
     if (localStorage.getItem('message') === 'sucessfully updated') {
       window.document.getElementById('addEventFormEdit').reset();
+      window.document.getElementById('dateAvailableModal').innerHTML = '';
       return this.setState({ editting: false });
-    //   return window.document.getElementById('editEventsModal').hide();
     }
   }
 
@@ -77,12 +78,12 @@ class EventHomePage extends Component {
     this.props.eventState.map((event) => {
       if (event.id === index) {
         window.document.getElementById('eventnameEdit').value = event.name;
-        this.props.centerState.map((centers) => {
-          if (centers[0].id === event.centerId) {
-            window.document.getElementById('eventCentreEdit').value = centers[0].name;
-            window.document.getElementById('locationEdit').value = centers[0].location;
+        this.props.centerState.map((center) => {
+          if (center.id === event.centerId) {
+            window.document.getElementById('eventCentreEdit').value = center.name;
+            window.document.getElementById('locationEdit').value = center.location;
           }
-          return centers;
+          return center;
         });
         window.document.getElementById('eventdateEdit').value = event.eventDate;
       }
@@ -96,20 +97,23 @@ class EventHomePage extends Component {
   handleAddEvent(eventDetails) {
     //   prevent submitting automatically
     eventDetails.preventDefault();
-    const centerIdNo = this.props.centerState.map((center) => {
-      if (this.refs.eventCenterId.value === center[0].name) {
-        return center[0].id;
+    this.props.centerState.map((center) => {
+      if (this.refs.eventCenterId.value === center.name) {
+        const cent = center.id;
+        localStorage.setItem('AddcenterId', center.id);
+        return cent;
       }
     });
+
 
     // get event details
     const eventToAdd = {
       name: eventDetails.target[0].value,
       bookingStatus: 1, // 0 signifies booking cancel while 1 signifies booking booked
-      centerId: centerIdNo[0],
+      centerId: localStorage.getItem('AddcenterId'),
       eventDate: eventDetails.target[3].value,
     };
-    console.log(eventToAdd);
+
     // Add new event
     this.props.addNewEvent(eventToAdd);
     // check if the data is available
@@ -128,8 +132,8 @@ class EventHomePage extends Component {
   handleLocation() {
     if (this.refs.eventCenterId.value !== 'Please select center') {
       this.props.centerState.map((center) => {
-        if (this.refs.eventCenterId.value === center[0].name) {
-          window.document.getElementById('location').value = center[0].location;
+        if (this.refs.eventCenterId.value === center.name) {
+          window.document.getElementById('location').value = center.location;
           return true;
         }
         window.document.getElementById('location').innerHTML = 'London bridge';
@@ -150,13 +154,14 @@ class EventHomePage extends Component {
 
                     <div className="col">
                         <ul className="nav justify-content-end">
-                            <li className="nav-item dropdown">
+                            {/* <li className="nav-item dropdown">
                                     <a className="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" ariahaspopup="true" aria-expanded="false">Setting</a>
                                     <div className="dropdown-menu">
                                         <a href="/" className="dropdown-item"> Sign Out</a>
                                         <a href="/centers" className="dropdown-item"> Add new center</a>
                                     </div>
-                            </li>
+                            </li> */}
+                            <li className="nav-item"> <a href="/" className="text-white"> SIGNOUT <i className="fa fa-chevron-right"></i></a></li>
                         </ul>
                     </div>
                 </div>
@@ -200,18 +205,18 @@ class EventHomePage extends Component {
                             <tr key={index} index={index} addre = {event.id} className="border border-white">
                                 <td scope="row">{index + 1}</td>
                                 <td>{event.name}</td>
-                                <td>{this.props.centerState.map((centers) => {
-                                    if (centers[0].id === event.centerId) {
-                                        return centers[0].name;
+                                <td>{this.props.centerState.map((center) => {
+                                    if (center.id === event.centerId) {
+                                        return center.name;
                                         }
                                 })}</td>
-                                <td>{this.props.centerState.map((centers) => {
-                                    if (centers[0].id === event.centerId) {
-                                        return centers[0].location;
+                                <td>{this.props.centerState.map((center) => {
+                                    if (center.id === event.centerId) {
+                                        return center.location;
                                         }
                                 })}</td>
                                 <td>{event.eventDate}</td>
-                                {(event.bookingStatus === 1) ? <td className="text-primary">Booked <i className="fa fa-book" aria-hidden="true"></i> </td> : <td class="text-danger">Canceled <i class="fa fa-close text-danger" aria-hidden="true"></i> </td>}
+                                {(event.bookingStatus === 1) ? <td className="text-primary">Booked <i className="fa fa-book" aria-hidden="true"></i> </td> : <td className="text-danger">Canceled <i className="fa fa-close text-danger" aria-hidden="true"></i> </td>}
 
                                 <td>
                                     <div className="row">
@@ -248,7 +253,7 @@ class EventHomePage extends Component {
                             <label htmlFor="eventCentre">Event Centre</label>
                             <select ref='eventCenterId' className="form-control" id="eventCentre" required onChange={this.handleLocation}>
                                 <option>Please select center</option>
-                                {this.props.centerState.map((centers, i) => <option key={i} i={i} value={centers[0].name}>{centers[0].name}</option>)}
+                                {this.props.centerState.map((center, i) => <option key={i} i={i} value={center.name}>{center.name}</option>)}
                             </select>
 
                         </div>
@@ -269,10 +274,15 @@ class EventHomePage extends Component {
 
                         {/* {/* <!-- Viewing all booking at a particular date --> */}
                         {/* Button trigger modal */}
-                        <button type="button" className="btn btn-primary btn-sm btn-block" onClick = { this.handleEdittingMode.bind(this) }>
+                        <button type="button" className="btn btn-primary btn-sm btn-block mb-3" onClick = { this.handleEdittingMode.bind(this) }>
                             <h4 className="text-white"><i className="fa fa-pencil" aria-hidden="true"></i> Edit Event</h4>
                         </button>
+
+                        <button type="button" className="btn btn-primary btn-sm btn-block" onClick = { this.handleBookingView.bind(this) }>
+                            <h4 className="text-white"><i className="fa fa-pencil" aria-hidden="true"></i> View booking</h4>
+                        </button>
                     </form>
+
 
             </div>
           </div>
@@ -302,13 +312,14 @@ class EventHomePage extends Component {
 
                     <div className="col">
                         <ul className="nav justify-content-end">
-                            <li className="nav-item dropdown">
+                            {/* <li className="nav-item dropdown">
                                     <a className="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" ariahaspopup="true" aria-expanded="false">Setting</a>
                                     <div className="dropdown-menu">
                                         <a href="/" className="dropdown-item"> Sign Out</a>
                                         <a href="/centers" className="dropdown-item"> Add new center</a>
                                     </div>
-                            </li>
+                            </li> */}
+                            <li className="nav-item"> <a href="/" className="text-white"> SIGNOUT <i className="fa fa-chevron-right"></i></a></li>
                         </ul>
                     </div>
                 </div>
@@ -352,18 +363,20 @@ class EventHomePage extends Component {
                             <tr key={index} index={index} addre = {event.id} className="border border-white">
                                 <td scope="row">{index + 1}</td>
                                 <td>{event.name}</td>
-                                <td>{this.props.centerState.map((centers) => {
-                                    if (centers[0].id === event.centerId) {
-                                        return centers[0].name;
+                                <td>{this.props.centerState.map((center) => {
+                                    if (center.id === event.centerId) {
+                                        return center.name;
                                         }
                                 })}</td>
-                                <td>{this.props.centerState.map((centers) => {
-                                    if (centers[0].id === event.centerId) {
-                                        return centers[0].location;
+                                <td>{this.props.centerState.map((center) => {
+                                    if (center.id === event.centerId) {
+                                        return center.location;
                                         }
                                 })}</td>
                                 <td>{event.eventDate}</td>
-                                {(event.bookingStatus === 1) ? <td className="text-primary">Booked <i className="fa fa-book" aria-hidden="true"></i> </td> : <td class="text-danger">Canceled <i class="fa fa-close text-danger" aria-hidden="true"></i> </td>}
+                                {(event.bookingStatus === 1) ? <td className="text-primary">Booked
+                                <i className="fa fa-book" aria-hidden="true"></i>
+                                </td> : <td className="text-danger">Canceled <i className="fa fa-close text-danger" aria-hidden="true"></i> </td>}
 
                                 <td>
                                     <div className="row">
@@ -407,7 +420,7 @@ class EventHomePage extends Component {
                             <label htmlFor="eventCentreEdit">Event Centre</label>
                             <select className="form-control" id="eventCentreEdit">
                                 <option>Please select center</option>
-                                {this.props.centerState.map((centers, i) => <option key={i} i={i} value={centers[0].name}>{centers[0].name}</option>)}
+                                {this.props.centerState.map((center, i) => <option key={i} i={i} value={center.name}>{center.name}</option>)}
                             </select>
 
                         </div>
@@ -461,7 +474,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators({
   getAllCenters: getAllCenterAction,
   addNewEvent: addEventAction,
-  getallEventsAction,
+  getUsersAllEventAction,
   deleteAnEventAction,
   editAnEventAction,
 }, dispatch);

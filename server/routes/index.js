@@ -14,14 +14,26 @@ app.post('/api/v1/users/signUp', validator.signUpValidator, userDetails.signUp);
 // creating a secure API
 app.post('/api/v1/user/login', validator.loginValidator, loginController.signIn);
 
+// get Users email address
+app.get('/api/v1/user/email', loginController.userEmail);
+
+// send email notification
+app.post('/api/v1/user/recipientEmail', auth.checkIfAuthorize, loginController.sendEmailNotifications);
+
 // creating a new Event
 app.post('/api/v1/events', validator.createEventValidation, auth.checkIfAuthorize, eventDetails.create);
 
 // get all event
 app.get('/api/v1/events', auth.checkIfAuthorize, eventDetails.getAllEvents);
 
+// get all event for a specific user
+app.get('/api/v1/user/events/:userIdNo', auth.checkIfAuthorize, eventDetails.getUserAllEvents);
+
 // updating event operation
 app.put('/api/v1/events/:eventId', auth.checkIfAuthorize, eventDetails.updateEvent);
+
+// booking or cancelling events
+app.put('/api/v1/events/admin/:eventId', auth.checkIfAuthorize, eventDetails.updateAdminEvent);
 
 // get an event
 app.get('/api/v1/events/:eventId', auth.checkIfAuthorize, eventDetails.getAnEvent);

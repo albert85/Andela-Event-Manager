@@ -33,9 +33,9 @@ export default class CenterControllerClass {
           })
           .then(centerDetail =>
             // Output the result
-            res.status(201).send(centerDetail))
-          .catch(error => res.status(400).send(error));
-      }).catch(error => res.status(400).send(error));
+            res.status(201).send({message: 'successfully added', centerDetail }))
+          .catch(error => res.status(400).send({message: 'Error', error }));
+      }).catch(error => res.status(400).send({message: 'Operation not implemented', error }));
   }
 
   // get A center
@@ -84,7 +84,7 @@ export default class CenterControllerClass {
             capacity: req.body.capacity || centerDetails.capacity,
             amount: req.body.amount || centerDetails.amount,
           })
-          .then(() => res.status(200).json({ message: 'sucessful', centerDetails }))
+          .then(() => res.status(200).json({ message: 'successful', centerDetails }))
           .catch(() => res.status(400).json({ message: 'fails to update' }));
       })
       .catch(() => {

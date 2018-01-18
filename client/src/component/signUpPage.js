@@ -6,9 +6,9 @@ import '../../style.scss';
 import addUserAction from '../action/signUpAction';
 
 class SignUp extends React.Component {
-    /**
+  /**
      * @constructor
-     * @param {*} props 
+     * @param {*} props
      */
   constructor(props) {
     super(props);
@@ -24,7 +24,7 @@ class SignUp extends React.Component {
       .bind(this);
   }
 
-/**
+  /**
  * @method
  * @param {none}
  * @returns {strings}
@@ -36,32 +36,36 @@ class SignUp extends React.Component {
     return window.document.getElementById('errorMessage').innerHTML = ' ';
   }
 
-/**
+  /**
  * @method
  * @param {object}
  * @returns {strings}
  */
   signUpNewUser(signUpUser) {
     signUpUser.preventDefault();
+    let checkAdminStatus = false;
 
     if (signUpUser.target[3].value !== signUpUser.target[4].value) {
-
       return window.document.getElementById('errorMessage').innerHTML = 'wrong password';
+    }
+
+    if (signUpUser.target[3].value === 'admin') {
+      checkAdminStatus = true;
     }
     const userDetails = {
       firstName: signUpUser.target[0].value,
       lastName: signUpUser.target[1].value,
       email: signUpUser.target[2].value,
       password: signUpUser.target[3].value,
-      isAdmin: false,
+      isAdmin: checkAdminStatus,
     };
 
     this.props.signUpNewUser(userDetails);
 
     // check if operation is successful and redirect to login page
     if (localStorage.getItem('message') === 'sucessful') {
-        alert('Thank you for registering, click Ok to login');
-        return this.props.history.push('/');
+      alert('Thank you for registering, click Ok to login');
+      return this.props.history.push('/');
     }
 
     return window.document.getElementById('existingEmail').innerHTML = 'Email Already Registered to an Account';
@@ -128,8 +132,8 @@ class SignUp extends React.Component {
                                                 type="password"
                                                 className="form-control"
                                                 id="signupconfirmpassword"
-                                                placeholder="**********" 
-                                                required 
+                                                placeholder="**********"
+                                                required
                                                 onKeyUp={this.checkPassword}
                                                 ref='userConfirmPassword'/>
                                                 <span id='errorMessage' className = 'text-danger'></span>

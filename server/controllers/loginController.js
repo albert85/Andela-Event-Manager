@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import { user } from '../models';
 
+const nodemailer = require('nodemailer');
+
 dotenv.config();
 export default class LogInControllerClass {
   static signIn(req, res) {
@@ -28,11 +30,57 @@ export default class LogInControllerClass {
               id: result.id,
             };
             const userToken = jwt.sign(payloader, process.env.TOKEN_PASSWORD, { expiresIn: 60 * 7200 });
-            if (userToken) return res.status(200).json({ message: 'successfully login', token: userToken });
+            if (userToken) return res.status(200).json({ message: 'successfully login', token: userToken, userIdNo: result.id });
           }
           // Passwords don't match
           return res.status(401).json({ message: 'Wrong password' });
         });
       }).catch(() => res.status(400).json({ message: 'Resource not Found' }));
+  }
+
+  // get users email address
+  static userEmail(req, res) {
+    return user
+      .findAll()
+      .then(result => res.status(200).json({ message: 'successful', result }))
+      .catch(() => res.status(400).json({ message: 'Resource not Found' }));
+  }
+
+  static sendEmailNotifications(req, res) {
+    return user
+      .findOne({
+        where: {
+          email: req.body.email,
+        },
+      })
+      .then((result) => {
+        const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          secure: false,
+          port: 25,
+          auth: {
+            user: 'andelaeventmanager@gmail.com',
+            pass: 'eventmanager2018',
+          },
+          tls: {
+            rejectUnauthorized: false,
+          },
+        });
+
+        const mailOption = {
+          from: 'andelaeventmanager@gmail.com',
+          to: result.email,
+          subject: 'Event Booking Notification',
+          text: req.body.messageBody,
+        };
+
+        transporter.sendMail(mailOption, (error) => {
+          if (error) {
+            return res.status(400).json({ message: 'email not sent' });
+          }
+          return res.status(200).json({ message: 'successful sent' });
+        });
+      })
+      .catch(() => res.status(400).json({ message: 'Error in mail' }));
   }
 }
