@@ -162,7 +162,7 @@ describe('Testing of data on Postgress database', () => {
         .set('Authorization', `Bearer ${tokenId}`)
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.body).to.have.property('message').eql('sucessful');
+          expect(res.body).to.have.property('message').eql('successful');
           expect(res.body).to.have.property('centerDetails').to.have.property('name').eql(updateCenterData.name);
           expect(res.body).to.have.property('centerDetails').to.have.property('location').eql(updateCenterData.location);
           expect(res.body).to.have.property('centerDetails').to.have.property('capacity').eql(updateCenterData.capacity);
