@@ -90,6 +90,7 @@
     "swagger-ui-express": "^2.0.11",
     "toastr": "^2.1.4",
     "uglifyjs-webpack-plugin": "^1.1.6",
-    "url-loader": "^0.6.2"
+    "url-loader": "^0.6.2",
+    "webpack": "^3.10.0"
   }
 }
