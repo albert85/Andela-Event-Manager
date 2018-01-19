@@ -1,8 +1,6 @@
-const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  devtool: 'source-map',
   entry: './client/index.js',
   output: {
     filename: 'js/bundle.js',
@@ -10,10 +8,19 @@ module.exports = {
     publicPath: '/',
   },
   devServer: {
+    inline: true,
     contentBase: './client/public',
     historyApiFallback: true,
-  },
+    host: 'https://andela-event-manager-app.herokuapp.com/',
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
+    proxy: {
+      '/api': 'https://andela-event-manager-app.herokuapp.com',
+      secure: false,
+    },
 
+  },
   module: {
     loaders: [
       {
@@ -44,17 +51,13 @@ module.exports = {
     new ExtractTextPlugin('css/style.css', {
       allChunks: true,
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      minimize: true,
-      compress: {
-        warnings: false,
-      },
-    }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production'),
-        API_HOST: 'https://andela-event-manager-app.herokuapp.com/',
-      },
-    }),
   ],
+  node: {
+    console: false,
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty',
+    dns: 'empty',
+    child_process: 'empty',
+  },
 };
