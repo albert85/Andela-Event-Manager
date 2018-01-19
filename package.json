@@ -24,7 +24,7 @@
     "test": "nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register --require babel-polyfill --recursive server/test/ --timeout 15000 --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "db:migrate": "sequelize --config ./server/config/config.json --migrations-path ./server/migrations db:migrate:undo:all && sequelize --config ./server/config/config.json --migrations-path ./server/migrations db:migrate",
-    "start": "webpack --config webpack.prod.js"
+    "start": "npm install --dev && webpack --config webpack.prod.js"
   },
   "repository": {
     "type": "git",
