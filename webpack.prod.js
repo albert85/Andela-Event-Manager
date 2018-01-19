@@ -1,11 +1,44 @@
 const webpack = require('webpack');
-const merge = require('webpack-merge');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const common = require('./webpack.common.js');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-module.exports = merge(common, {
+module.exports = {
+  entry: './client/index.js',
+  output: {
+    filename: 'js/bundle.js',
+    path: `${__dirname}/client/public/`,
+    publicPath: '/',
+  },
+
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
+      {
+        test: /\.jsx$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
+      {
+        test: /\.css$/,
+        loaders: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader']),
+      },
+      {
+        test: /.(png|woff|woff2|eot|ttf|svg|jpe?g)$/,
+        loader: 'url-loader?limit=100000',
+      },
+    ],
+  },
   plugins: [
-    new webpack.optimize.DedupePlugin(),
+    new ExtractTextPlugin('css/style.css', {
+      allChunks: true,
+    }),
     new webpack.optimize.UglifyJsPlugin({
       minimize: true,
       compress: {
@@ -16,4 +49,4 @@ module.exports = merge(common, {
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
   ],
-});
+};
