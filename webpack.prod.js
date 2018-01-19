@@ -1,26 +1,14 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   entry: './client/index.js',
   output: {
     filename: 'js/bundle.js',
     path: `${__dirname}/client/public/`,
-    publicPath: '/',
+    publicPath: '/client/public/js/',
   },
-  devServer: {
-    inline: true,
-    contentBase: './client/public',
-    historyApiFallback: true,
-    host: 'https://andela-event-manager-app.herokuapp.com',
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-    },
-    proxy: {
-      '/api': 'https://andela-event-manager-app.herokuapp.com',
-      secure: false,
-    },
 
-  },
   module: {
     loaders: [
       {
@@ -50,6 +38,12 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin('css/style.css', {
       allChunks: true,
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      minimize: true,
+      compress: {
+        warnings: false,
+      },
     }),
   ],
   node: {
