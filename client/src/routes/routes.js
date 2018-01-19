@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 
-import login from '../component/home';
-import signUp from '../component/signUpPage';
-import eventHomePage from '../component/eventHomePage';
-import centers from '../component/centers';
-import centerDetails from '../component/centerDetails';
-import  bookingDetails from '../component/viewBookings';
+import login from '../component/home.js';
+import signUp from '../component/signUpPage.js';
+import eventHomePage from '../component/eventHomePage.js';
+import centers from '../component/centers.js';
+import centerDetails from '../component/centerDetails.js';
+import  bookingDetails from '../component/viewBookings.js';
 
 class App extends React.Component {
   render() {
