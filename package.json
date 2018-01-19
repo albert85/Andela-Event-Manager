@@ -19,12 +19,12 @@
     "babel-node": "babel-node --presets=latest",
     "dev": "webpack-dev-server --content-base=./client/public",
     "start:dev": "nodemon --exec npm run babel-node -- server/app.js",
-    "start": "webpack-dev-server --open --config webpack.dev.js",
+    "start:de": "webpack-dev-server --open --config webpack.dev.js",
     "js": "npm run db:migrate && nyc --reporter=html --reporter=text mocha --compilers js:babel-register --require babel-polyfill --recursive server/test --timeout 15000 --exit",
     "test": "nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register --require babel-polyfill --recursive server/test/ --timeout 15000 --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "db:migrate": "sequelize --config ./server/config/config.json --migrations-path ./server/migrations db:migrate:undo:all && sequelize --config ./server/config/config.json --migrations-path ./server/migrations db:migrate",
-    "build": "webpack --config webpack.prod.js"
+    "start": "webpack --config webpack.prod.js"
   },
   "repository": {
     "type": "git",
