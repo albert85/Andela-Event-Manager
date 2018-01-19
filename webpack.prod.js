@@ -9,6 +9,10 @@ module.exports = {
     path: `${__dirname}/client/public/`,
     publicPath: '/',
   },
+  devServer: {
+    contentBase: './client/public',
+    historyApiFallback: true,
+  },
 
   module: {
     loaders: [
@@ -49,7 +53,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
-        API_HOST: 'https://andela-event-manager-app.herokuapp.com',
+        API_HOST: 'https://andela-event-manager-app.herokuapp.com/',
       },
     }),
   ],
