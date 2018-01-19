@@ -1,12 +1,27 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
+  devtool: 'source-map',
   entry: './client/index.js',
   output: {
     filename: 'js/bundle.js',
     path: `${__dirname}/client/public/`,
-    publicPath: '/client/public/js/',
+    publicPath: '/',
+  },
+  devServer: {
+    contentBase: './client/public',
+    historyApiFallback: true,
+    port: process.env.PORT || 3000,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
+    proxy: {
+      '/api': process.env.API_URL || 'http://[::1]:8000',
+      secure: false,
+    },
+
   },
 
   module: {
@@ -39,11 +54,11 @@ module.exports = {
     new ExtractTextPlugin('css/style.css', {
       allChunks: true,
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      minimize: true,
-      compress: {
-        warnings: false,
-      },
+    new UglifyJSPlugin({
+      sourceMap: true,
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production'),
     }),
   ],
   node: {
