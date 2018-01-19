@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -26,6 +26,7 @@ class EventHomePage extends Component {
     this.handleAddEventForm = this.handleAddEventForm.bind(this);
     this.handleEditEventForm = this.handleEditEventForm.bind(this);
     this.handleEdittingMode = this.handleEdittingMode.bind(this);
+    this.handleBookingView = this.handleBookingView.bind(this)
   }
 
 
@@ -149,19 +150,20 @@ class EventHomePage extends Component {
               <div className="bg-primary container-fluid p-2 text-center">
                 <div className="row">
                     <div className="col">
-                            <h3>EVENT MANAGEMENT</h3>
+                            <h4>EVENT MANAGEMENT</h4>
                     </div>
 
                     <div className="col">
                         <ul className="nav justify-content-end">
-                            {/* <li className="nav-item dropdown">
-                                    <a className="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" ariahaspopup="true" aria-expanded="false">Setting</a>
+                            <li className="nav-item dropdown">
+                                    <a className="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" ariahaspopup="true" aria-expanded="false"><i className="fa fa-cog"></i> Setting</a>
                                     <div className="dropdown-menu">
                                         <a href="/" className="dropdown-item"> Sign Out</a>
-                                        <a href="/centers" className="dropdown-item"> Add new center</a>
+                                        <a className="dropdown-item btn" onClick = { this.handleEdittingMode }> Edit Event</a>
+                                        <a className="dropdown-item btn"onClick = { this.handleBookingView }> Booking</a>
                                     </div>
-                            </li> */}
-                            <li className="nav-item"> <a href="/" className="text-white"> SIGNOUT <i className="fa fa-chevron-right"></i></a></li>
+                            </li>
+                            {/* <li className="nav-item"> <a href="/" className="btn btn-white text-white"> SIGNOUT <i className="fa fa-chevron-right"></i></a></li> */}
                         </ul>
                     </div>
                 </div>
@@ -274,13 +276,13 @@ class EventHomePage extends Component {
 
                         {/* {/* <!-- Viewing all booking at a particular date --> */}
                         {/* Button trigger modal */}
-                        <button type="button" className="btn btn-primary btn-sm btn-block mb-3" onClick = { this.handleEdittingMode.bind(this) }>
+                        {/* <button type="button" className="btn btn-primary btn-sm btn-block mb-3" onClick = { this.handleEdittingMode.bind(this) }>
                             <h4 className="text-white"><i className="fa fa-pencil" aria-hidden="true"></i> Edit Event</h4>
-                        </button>
+                        </button> */}
 
-                        <button type="button" className="btn btn-primary btn-sm btn-block" onClick = { this.handleBookingView.bind(this) }>
+                        {/* <button type="button" className="btn btn-primary btn-sm btn-block" onClick = { this.handleBookingView.bind(this) }>
                             <h4 className="text-white"><i className="fa fa-pencil" aria-hidden="true"></i> View booking</h4>
-                        </button>
+                        </button> */}
                     </form>
 
 
@@ -450,7 +452,7 @@ class EventHomePage extends Component {
 
     <div className="section">
     <div className="footer p-1 bg-primary mt-0 text-center">
-        <h4>&copy; 2017</h4>
+        <h4>&copy; 2018</h4>
     </div>
     </div>
             </div>

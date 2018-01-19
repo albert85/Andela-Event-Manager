@@ -16,7 +16,7 @@ module.exports = {
       'Access-Control-Allow-Origin': '*',
     },
     proxy: {
-      '/api': 'http://[::1]:8000',
+      '/api': 'https://andela-event-manager-app.herokuapp.com',
       secure: false,
     },
 
