@@ -4,16 +4,7 @@
   "description": "[![Build Status](https://travis-ci.org/albert85/Andela-Event-Manager.svg?branch=develop)](https://travis-ci.org/albert85/Andela-Event-Manager)",
   "main": "./server/app.js",
   "devDependencies": {
-    "babel-loader": "^7.1.2",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "extract-text-webpack-plugin": "^3.0.2",
-    "html-webpack-plugin": "^2.30.1",
-    "node-sass": "^4.7.2",
-    "protractor": "^5.2.2",
-    "sass-loader": "^6.0.6",
-    "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.9.7",
-    "webpack-merge": "^4.1.1"
+    
   },
   "scripts": {
     "babel-node": "babel-node --presets=latest",
@@ -90,6 +81,16 @@
     "swagger-ui-express": "^2.0.11",
     "toastr": "^2.1.4",
     "uglifyjs-webpack-plugin": "^1.1.6",
-    "url-loader": "^0.6.2"
+    "url-loader": "^0.6.2",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "html-webpack-plugin": "^2.30.1",
+    "node-sass": "^4.7.2",
+    "protractor": "^5.2.2",
+    "sass-loader": "^6.0.6",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.9.7",
+    "webpack-merge": "^4.1.1"
   }
 }
