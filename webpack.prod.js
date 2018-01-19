@@ -11,7 +11,7 @@ module.exports = {
     inline: true,
     contentBase: './client/public',
     historyApiFallback: true,
-    host: 'https://andela-event-manager-app.herokuapp.com/',
+    host: 'https://andela-event-manager-app.herokuapp.com',
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
