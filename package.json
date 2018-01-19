@@ -12,17 +12,19 @@
     "protractor": "^5.2.2",
     "sass-loader": "^6.0.6",
     "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.9.7"
+    "webpack-dev-server": "^2.9.7",
+    "webpack-merge": "^4.1.1"
   },
   "scripts": {
     "babel-node": "babel-node --presets=latest",
     "dev": "webpack-dev-server --content-base=./client/public",
     "start:dev": "nodemon --exec npm run babel-node -- server/app.js",
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --open --config webpack.dev.js",
     "js": "npm run db:migrate && nyc --reporter=html --reporter=text mocha --compilers js:babel-register --require babel-polyfill --recursive server/test --timeout 15000 --exit",
     "test": "nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register --require babel-polyfill --recursive server/test/ --timeout 15000 --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "db:migrate": "sequelize --config ./server/config/config.json --migrations-path ./server/migrations db:migrate:undo:all && sequelize --config ./server/config/config.json --migrations-path ./server/migrations db:migrate"
+    "db:migrate": "sequelize --config ./server/config/config.json --migrations-path ./server/migrations db:migrate:undo:all && sequelize --config ./server/config/config.json --migrations-path ./server/migrations db:migrate",
+    "build": "webpack --config webpack.prod.js"
   },
   "repository": {
     "type": "git",
@@ -50,6 +52,7 @@
     "body-parser": "^1.18.2",
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
+    "clean-webpack-plugin": "^0.1.17",
     "coveralls": "^3.0.0",
     "css-loader": "^0.28.7",
     "dotenv": "^4.0.0",
@@ -86,6 +89,7 @@
     "swagger-jsdoc": "^1.9.7",
     "swagger-ui-express": "^2.0.11",
     "toastr": "^2.1.4",
+    "uglifyjs-webpack-plugin": "^1.1.6",
     "url-loader": "^0.6.2"
   }
 }
