@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
+  devtool: 'source-map',
   entry: './client/index.js',
   output: {
     filename: 'js/bundle.js',
@@ -46,7 +47,10 @@ module.exports = {
       },
     }),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production'),
+      'process.env': {
+        NODE_ENV: JSON.stringify('production'),
+        API_HOST: 'https://andela-event-manager-app.herokuapp.com',
+      },
     }),
   ],
 };
