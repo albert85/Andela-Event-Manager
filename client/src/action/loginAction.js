@@ -9,13 +9,12 @@ const loginUserAsync = userData => ({
 
 const loginUser = userData => (dispatch) => {
   axios
-.post('/api/v1/user/login', userData)
+    .post('/api/v1/user/login', userData)
     .then((res) => {
-        // console.log(res.data.message);
       localStorage.setItem('message', res.data.message);
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('userIdNo', res.data.userIdNo);
-    
+
       dispatch(loginUserAsync(userData));
     })
     .catch(error => localStorage.setItem('message', error.response.data.message));
