@@ -2,6 +2,8 @@ import axios from 'axios';
 
 import { EDIT_AN_EVENT } from '../common/types';
 
+const CLIENT_ROOT_URL = process.env.ROOT_URL || 'http://localhost:8000';
+
 const updateAnEventsAsync = (modifiedData, eventId) => ({
   type: EDIT_AN_EVENT,
   payload: {
@@ -17,7 +19,17 @@ const updateAnEvents = (modifiedData, eventId) => (dispatch) => {
     .then((res) => {
       localStorage.setItem('message', res.data.message);
       dispatch(updateAnEventsAsync(modifiedData, eventId));
+
+      // Check if successful
+      if (res.data.message === 'sucessfully updated') {
+        window.document.getElementById('addEventFormEdit').reset();
+        window.document.getElementById('dateAvailableModal').innerHTML = '';
+        return window.location.href = `${CLIENT_ROOT_URL}/event-home-page`;
+      }
     })
-    .catch(error => localStorage.setItem('message', error.response.data.message));
+    .catch(() => {
+      // localStorage.setItem('message', error.response.data.message)
+      window.document.getElementById('dateAvailableModal').innerHTML = 'Date not Available for booking';
+    });
 };
 export default updateAnEvents;

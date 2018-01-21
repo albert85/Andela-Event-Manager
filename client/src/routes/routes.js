@@ -7,6 +7,8 @@ import eventHomePage from '../component/eventHomePage';
 import centers from '../component/centers';
 import centerDetails from '../component/centerDetails';
 import bookingDetails from '../component/viewBookings';
+import editEvents from '../component/editEvent';
+import editCenter from '../component/editCenter';
 
 class App extends React.Component {
   render() {
@@ -19,6 +21,8 @@ class App extends React.Component {
                     <Route path="/centers" component={centers} />
                     <Route path="/booking-details" component={bookingDetails} />
                     <Route path="/center-details" component={centerDetails} />
+                    <Route path="/edit-center-details" component={editCenter} />
+                    <Route path="/edit-event" component={editEvents} />
                     <Redirect to="/" />
                 </Switch>
             </BrowserRouter>

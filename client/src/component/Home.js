@@ -10,6 +10,7 @@ class Home extends React.Component {
     super(props);
 
     this.handleUserLogin = this.handleUserLogin.bind(this);
+    this.checkIfExist = this.checkIfExist.bind(this);
   }
 
   /**
@@ -24,15 +25,26 @@ class Home extends React.Component {
       password: loginDetail.target[1].value,
     };
 
+    // Login to generate token and get Id no
+      // set message to undefine and wait still message is gotten
+    // localStorage.setItem('message', undefined);
     this.props.loginUser(userLoginDetails);
+    // this.handleAPI(userLoginDetails);
 
-    if (localStorage.getItem('message') === 'successfully login') {
-      if (userLoginDetails.password === 'admin') {
-        return this.props.history.push('/centers');
-      }
-      return this.props.history.push('/event-home-page');
+    // if (this.checkIfExist()) {
+    //   if (userLoginDetails.password === 'admin') {
+    //     this.props.history.push('/centers');
+    //   }
+    //   this.props.history.push('/event-home-page');
+    // }
+    // return window.document.getElementById('loginErroMessage').innerHTML = 'Wrong password and email';
+  }
+
+  checkIfExist() {
+    if (this.props.loginUserDetail === 'successfully login') {
+      return true;
     }
-    return window.document.getElementById('loginErroMessage').innerHTML = 'Wrong password and email';
+    return false;
   }
 
   render() {

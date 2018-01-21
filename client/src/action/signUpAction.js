@@ -2,6 +2,8 @@ import axios from 'axios';
 
 import { ADD_NEW_USER } from '../common/types';
 
+const CLIENT_ROOT_URL = process.env.ROOT_URL || 'http://localhost:8000';
+
 const addNewUserAsync = userData => ({
   type: ADD_NEW_USER,
   payload: userData,
@@ -20,6 +22,8 @@ const addNewUser = userData => (dispatch) => {
       };
      
       dispatch(addNewUserAsync(newUserDetails));
+      alert('Thank you for registering, click Ok to login');
+      window.location.href = `${CLIENT_ROOT_URL}`;
     })
     .catch(error => localStorage.setItem('message', error.response.data.message));
 };
