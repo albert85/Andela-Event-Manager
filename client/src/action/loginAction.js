@@ -13,7 +13,6 @@ const loginUser = userData => (dispatch) => {
   axios
     .post('/api/v1/user/login', userData)
     .then((res) => {
-      console.log(res.data);
       // localStorage.setItem('message', res.data.message);
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('userIdNo', res.data.userIdNo);
