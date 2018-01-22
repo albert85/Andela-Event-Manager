@@ -26,9 +26,12 @@ const loginUser = userData => (dispatch) => {
         }
         window.location.href = `${CLIENT_ROOT_URL}/event-home-page`;
       }
-
-      window.document.getElementById('loginErroMessage').innerHTML = 'Wrong password and email';
     })
-    .catch(error => localStorage.setItem('message', error.response.data.message));
+    .catch((error) => {
+      // localStorage.setItem('message', error.response.data.message)
+      if (error.response.data.message) {
+        window.document.getElementById('loginErroMessage').innerHTML = 'Wrong password and email';
+      }
+    });
 };
 export default loginUser;
