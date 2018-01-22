@@ -42,7 +42,15 @@ class Center extends Component {
 
        <div className="col">
            <ul className="nav justify-content-end">
-               <li className="nav-item"> <a href="/" className="text-white"> SIGNOUT <i className="fa fa-chevron-right"></i></a></li>
+           <li className="nav-item dropdown">
+                              <a className="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" ariahaspopup="true" aria-expanded="false"><i className="fa fa-cog"></i> Setting</a>
+                              <div className="dropdown-menu">
+                                  <a href="/" className="dropdown-item"> Sign Out</a>
+                                  <a className="dropdown-item" href="/edit-center-details"> Edit Center</a>
+                                  <a className="dropdown-item" href = "/center-details" > View Center Events</a>
+                              </div>
+                      </li>
+               {/* <li className="nav-item"> <a href="/" className="text-white"> SIGNOUT <i className="fa fa-chevron-right"></i></a></li> */}
            </ul>
        </div>
     </div>
@@ -124,7 +132,7 @@ class Center extends Component {
                             </h4>
                         </button>
 
-                        <a href="/edit-center-details" className="btn btn-primary btn-sm btn-block mb-3">
+                        {/* <a href="/edit-center-details" className="btn btn-primary btn-sm btn-block mb-3">
                             <h4 className="text-white">
                                 <i className="fa fa-pencil"></i> Edit Centers
                             </h4>
@@ -134,7 +142,7 @@ class Center extends Component {
                             <h4 className="text-white">
                                 <i className="fa fa-pencil"></i> View Center Details
                             </h4>
-                        </a>
+                        </a> */}
 
                          {/* Viewing all booking at a particular date */}
 

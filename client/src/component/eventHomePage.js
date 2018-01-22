@@ -83,7 +83,7 @@ class EventHomePage extends Component {
                               <div className="dropdown-menu">
                                   <a href="/" className="dropdown-item"> Sign Out</a>
                                   <a className="dropdown-item" href="/edit-event"> Edit Event</a>
-                                  <a className="dropdown-item" href = "booking-details" > Booking</a>
+                                  <a className="dropdown-item" href = "/booking-details" > Booking</a>
                               </div>
                       </li>
                      

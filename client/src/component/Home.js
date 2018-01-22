@@ -13,6 +13,10 @@ class Home extends React.Component {
     this.checkIfExist = this.checkIfExist.bind(this);
   }
 
+  componentDidMount() {
+    localStorage.removeItem('token');
+  }
+  
   /**
  * @method
  * @param {object} loginDetail
@@ -26,18 +30,7 @@ class Home extends React.Component {
     };
 
     // Login to generate token and get Id no
-      // set message to undefine and wait still message is gotten
-    // localStorage.setItem('message', undefined);
     this.props.loginUser(userLoginDetails);
-    // this.handleAPI(userLoginDetails);
-
-    // if (this.checkIfExist()) {
-    //   if (userLoginDetails.password === 'admin') {
-    //     this.props.history.push('/centers');
-    //   }
-    //   this.props.history.push('/event-home-page');
-    // }
-    // return window.document.getElementById('loginErroMessage').innerHTML = 'Wrong password and email';
   }
 
   checkIfExist() {
