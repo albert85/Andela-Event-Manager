@@ -62,13 +62,13 @@ class SignUp extends React.Component {
 
     this.props.signUpNewUser(userDetails);
 
-    // check if operation is successful and redirect to login page
-    if (localStorage.getItem('message') === 'sucessful') {
-      alert('Thank you for registering, click Ok to login');
-      return this.props.history.push('/');
-    }
+    // // check if operation is successful and redirect to login page
+    // if (localStorage.getItem('message') === 'sucessful') {
+    //   alert('Thank you for registering, click Ok to login');
+    //   return this.props.history.push('/');
+    // }
 
-    return window.document.getElementById('existingEmail').innerHTML = 'Email Already Registered to an Account';
+    // return window.document.getElementById('existingEmail').innerHTML = 'Email Already Registered to an Account';
   }
 
   render() {

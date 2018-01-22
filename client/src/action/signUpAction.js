@@ -25,6 +25,9 @@ const addNewUser = userData => (dispatch) => {
       alert('Thank you for registering, click Ok to login');
       window.location.href = `${CLIENT_ROOT_URL}`;
     })
-    .catch(error => localStorage.setItem('message', error.response.data.message));
+    .catch(() => {
+      // localStorage.setItem('message', error.response.data.message)
+      window.document.getElementById('existingEmail').innerHTML = 'Email Already Registered to an Account';
+    });
 };
 export default addNewUser;
