@@ -14,7 +14,7 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    localStorage.removeItem('token');
+    // localStorage.removeItem('token');
   }
   
   /**

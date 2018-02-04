@@ -13,15 +13,26 @@ export class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      signUpDetails: {},
+      signUpDetails: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        isAdmin: false,
+      },
+      errorPassword: false,
+      checkAdminStatus: false,
     };
-    this.signUpNewUser = this
-      .signUpNewUser
-      .bind(this);
+    // this.signUpNewUser = this.signUpNewUser.bind(this);
 
-    this.checkPassword = this
-      .checkPassword
-      .bind(this);
+    this.checkPassword = this.checkPassword.bind(this);
+    this.handleFirstNameInput = this.handleFirstNameInput.bind(this);
+    this.handleLastNameInput = this.handleLastNameInput.bind(this);
+    this.handleEmailInput = this.handleEmailInput.bind(this);
+    this.handlePasswordInput = this.handlePasswordInput.bind(this);
+    this.handleConfirmPasswordInput = this.handleConfirmPasswordInput.bind(this);
+    this.handleSignUpNewUser = this.handleSignUpNewUser.bind(this);
   }
 
   /**
@@ -31,9 +42,62 @@ export class SignUp extends Component {
  */
   checkPassword() {
     if (this.refs.userPassword.value !== this.refs.userConfirmPassword.value) {
-      return window.document.getElementById('errorMessage').innerHTML = 'wrong password';
+      this.setState({ errorPassword: false });
+      window.document.getElementById('errorMessage').innerHTML = 'wrong password';
+      return false;
     }
-    return window.document.getElementById('errorMessage').innerHTML = ' ';
+    this.setState({ errorPassword: true });
+    window.document.getElementById('errorMessage').innerHTML = ' ';
+    return true;
+  }
+
+  handleFirstNameInput(e) {
+    this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { firstName: e.target.value }) });
+    return true;
+  }
+
+  handleLastNameInput(e) {
+    this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { lastName: e.target.value }) });
+    return true;
+  }
+
+  handleEmailInput(e) {
+    this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { email: e.target.value }) });
+    return true;
+  }
+
+  handlePasswordInput(e) {
+    this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { password: e.target.value }) });
+    return true;
+  }
+
+  handleConfirmPasswordInput(e) {
+    this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { confirmPassword: e.target.value }) });
+    return true;
+  }
+
+
+  handleSignUpNewUser() {
+    // console.log('signup');
+    if (this.state.signUpDetails.password !== this.state.signUpDetails.confirmPassword) {
+      window.document.getElementById('errorMessage').innerHTML = 'wrong password';
+      return this.setState({ errorPassword: true });
+    }
+
+    if (this.state.signUpDetails.password === 'admin') {
+      this.setState({ checkAdminStatus: true });
+    }
+
+    const userDetails = {
+      firstName: this.state.signUpDetails.firstName,
+      lastName: this.state.signUpDetails.lastName,
+      email: this.state.signUpDetails.email,
+      password: this.state.signUpDetails.password,
+      isAdmin: this.state.checkAdminStatus,
+    };
+
+    this.props.signUpNewUser(userDetails);
+    return true;
   }
 
   /**
@@ -41,6 +105,8 @@ export class SignUp extends Component {
  * @param {object}
  * @returns {strings}
  */
+
+  /*
   signUpNewUser(signUpUser) {
     signUpUser.preventDefault();
     let checkAdminStatus = false;
@@ -52,6 +118,15 @@ export class SignUp extends Component {
     if (signUpUser.target[3].value === 'admin') {
       checkAdminStatus = true;
     }
+    // Setting userDetails in the state
+    this.setState({
+        firstName: signUpUser.target[0].value,
+        lastName: signUpUser.target[1].value,
+        email: signUpUser.target[2].value,
+        password: signUpUser.target[3].value,
+        isAdmin: checkAdminStatus,
+    });
+
     const userDetails = {
       firstName: signUpUser.target[0].value,
       lastName: signUpUser.target[1].value,
@@ -62,7 +137,7 @@ export class SignUp extends Component {
 
     this.props.signUpNewUser(userDetails);
   }
-
+*/
   render() {
     return (
             <div className="section-signUp">
@@ -84,7 +159,9 @@ export class SignUp extends Component {
                                                 id="firstname"
                                                 className="form-control"
                                                 placeholder="e.g.Charles"
-                                                aria-describedby="helpId" required />
+                                                aria-describedby="helpId"
+                                                onChange = { this.handleFirstNameInput }
+                                                required />
                                         </div>
 
                                         <div className="form-group">
@@ -94,7 +171,9 @@ export class SignUp extends Component {
                                                 id="lastname"
                                                 className="form-control"
                                                 placeholder="e.g.Andy"
-                                                aria-describedby="helpId" required />
+                                                aria-describedby="helpId"
+                                                onChange = { this.handleLastNameInput }
+                                                required />
                                         </div>
 
                                         <div className="form-group">
@@ -104,7 +183,9 @@ export class SignUp extends Component {
                                                 className="form-control"
                                                 id="signupemail"
                                                 aria-describedby="emailHelp"
-                                                placeholder="you@example.com" required />
+                                                placeholder="you@example.com"
+                                                onChange = { this.handleEmailInput }
+                                                required />
                                                 <span id='existingEmail' className = 'text-danger'></span>
 
                                         </div>
@@ -115,7 +196,9 @@ export class SignUp extends Component {
                                                 type="password"
                                                 className="form-control"
                                                 id="siguppassword"
-                                                placeholder="**********" required ref='userPassword'/>
+                                                placeholder="**********" required ref='userPassword'
+                                                onChange = { this.handlePasswordInput }
+                                                />
                                         </div>
 
                                         <div className="form-group">
@@ -127,6 +210,7 @@ export class SignUp extends Component {
                                                 placeholder="**********"
                                                 required
                                                 onKeyUp={this.checkPassword}
+                                                onChange = { this.handleConfirmPasswordInput }
                                                 ref='userConfirmPassword'/>
                                                 <span id='errorMessage' className = 'text-danger'></span>
                                         </div>
@@ -134,8 +218,10 @@ export class SignUp extends Component {
                                         <div className="row text-center">
                                             <div className="col-md-12 col-sm-12">
                                                 <button
-                                                    type="submit"
-                                                    className="btn btn-danger btn-lg btn-block">
+                                                    type="button"
+                                                    className="btn btn-danger btn-lg btn-block"
+                                                    onClick ={ this.handleSignUpNewUser }
+                                                    >
                                                     <strong>
                                                         SIGN UP</strong>
                                                 </button>
