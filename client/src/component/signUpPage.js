@@ -147,8 +147,7 @@ export class SignUp extends Component {
                             <div className="col-md-6 offset-md-3">
                                 <div className="sigUpsection">
                                     <form
-                                        className="p-4 text-white mt-5 sigUpinnersection"
-                                        onSubmit={this.signUpNewUser}>
+                                        className="p-4 text-white mt-5 sigUpinnersection">
                                         <h3 className="text-center">SIGN UP</h3>
                                         <hr className="hr"/>
 
@@ -211,7 +210,7 @@ export class SignUp extends Component {
                                                 required
                                                 onKeyUp={this.checkPassword}
                                                 onChange = { this.handleConfirmPasswordInput }
-                                                ref='userConfirmPassword'/>
+                                                />
                                                 <span id='errorMessage' className = 'text-danger'></span>
                                         </div>
 

@@ -80,4 +80,24 @@ describe('<SignUp />', () => {
   it('Should handle and store user confirm password', () => {
     expect(wrapper.instance().handleConfirmPasswordInput({ target: { value: 'confirm password' } })).to.be.equal(true);
   });
+
+  it('Should return the number of .container class ', () => {
+    expect(wrapper.find('.container')).to.have.length(1);
+  });
+
+  it('Should return the number of form on signup page ', () => {
+    expect(wrapper.find('form')).to.have.length(1);
+  });
+
+  it('Should return the number of form-group on signup page ', () => {
+    expect(wrapper.find('.form-group')).to.have.length(5);
+  });
+
+  it('Should return the number of section-signUp class on signup page ', () => {
+    expect(wrapper.find('.section-signUp')).to.have.length(1);
+  });
+
+  it('Should return the number of cover-section-signup on signup page ', () => {
+    expect(wrapper.find('.cover-section-signup')).to.have.length(1);
+  });
 });
