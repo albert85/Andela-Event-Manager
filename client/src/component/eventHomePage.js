@@ -6,17 +6,28 @@ import getAllCenterAction from '../action/getAllCentersAction';
 import addEventAction from '../action/addEventAction';
 import getUsersAllEventAction from '../action/getUsersAllEventAction';
 import deleteAnEventAction from '../action/deleteAnEventAction';
-import editAnEventAction from '../action/editAnEventAction';
+// import editAnEventAction from '../action/editAnEventAction';
 
 
 import '../../style.scss';
 
-class EventHomePage extends Component {
+export class EventHomePage extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      addEventDetails: {
+        eventName: '',
+        eventLocation: '',
+        eventVenue: '',
+        eventDate: '',
+      },
+    };
+
+    this.handleEventName = this.handleEventName.bind(this);
     this.handleLocation = this.handleLocation.bind(this);
     this.handleAddEvent = this.handleAddEvent.bind(this);
+    this.handleEventDate = this.handleEventDate.bind(this);
   }
 
 
@@ -25,8 +36,19 @@ class EventHomePage extends Component {
     this.props.getUsersAllEventAction(localStorage.getItem('userIdNo'));
   }
 
+  handleEventName(e) {
+    this.setState({ addEventDetails: Object.assign(this.state.addEventDetails, { eventName: e.target.value }) });
+    return true;
+  }
+
+  handleEventDate(e) {
+    this.setState({ addEventDetails: Object.assign(this.state.addEventDetails, { eventDate: e.target.value }) });
+    return true;
+  }
+
   handleDeleteEvent(index) {
     this.props.deleteAnEventAction(index);
+    return true;
   }
 
   handleAddEvent(eventDetails) {
@@ -43,10 +65,10 @@ class EventHomePage extends Component {
 
     // get event details
     const eventToAdd = {
-      name: eventDetails.target[0].value,
+      name: this.state.addEventDetails.eventName,
       bookingStatus: 1, // 0 signifies booking cancel while 1 signifies booking booked
       centerId: localStorage.getItem('AddcenterId'),
-      eventDate: eventDetails.target[3].value,
+      eventDate: this.state.addEventDetails.eventDate,
     };
 
     // Add new event
@@ -58,6 +80,7 @@ class EventHomePage extends Component {
       this.props.centerState.map((center) => {
         if (this.refs.eventCenterId.value === center.name) {
           window.document.getElementById('location').value = center.location;
+          this.setState({ addEventDetails: Object.assign(this.state.addEventDetails, { eventLocation: center.location, eventVenue: center.name }) });
           return true;
         }
         window.document.getElementById('location').innerHTML = 'London bridge';
@@ -86,7 +109,7 @@ class EventHomePage extends Component {
                                   <a className="dropdown-item" href = "/booking-details" > Booking</a>
                               </div>
                       </li>
-                     
+
                   </ul>
               </div>
           </div>
@@ -171,7 +194,13 @@ class EventHomePage extends Component {
 
                   <div className="form-group">
                       <label htmlFor="eventname"> Event Name:</label>
-                      <input type="text" id="eventname" required className="form-control" placeholder="e.g.Wedding" aria-describedby="helpId" required />
+                      <input type="text"
+                      id="eventname"
+                      required
+                      className="form-control"
+                      placeholder="e.g.Wedding"
+                      aria-describedby="helpId"
+                      onChange = { this.handleEventName } />
                   </div>
 
                   <div className="form-group">
@@ -185,12 +214,24 @@ class EventHomePage extends Component {
 
                   <div className="form-group">
                       <label htmlFor="location"> Location:</label>
-                      <input type="text" id="location" required className="form-control" readOnly placeholder="London bridge" aria-describedby="helpId" />
+                      <input type="text"
+                      id="location"
+                      required
+                      className="form-control"
+                      readOnly
+                      placeholder="London bridge"
+                      aria-describedby="helpId" />
                   </div>
 
                   <div className="form-group">
                       < label htmlFor = "eventdate" > Event Date : </label>
-                      <input type="date" id="eventdate" className="form-control" placeholder="12/22/2017" aria-describedby="helpId" required /><br />
+                      <input type="date"
+                      id="eventdate"
+                      className="form-control"
+                      placeholder="12/22/2017"
+                      aria-describedby="helpId"
+                      required
+                      onChange = { this.handleEventDate } /><br />
                       <span id='dateAvailable' className='text-danger'></span>
                   </div>
                   <button type="submit" className="btn btn-success btn-sm btn-block mb-3">

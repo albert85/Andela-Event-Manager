@@ -77,7 +77,9 @@ export class SignUp extends Component {
   }
 
 
-  handleSignUpNewUser() {
+  handleSignUpNewUser(e) {
+    e.preventDefault();
+    
     // console.log('signup');
     if (this.state.signUpDetails.password !== this.state.signUpDetails.confirmPassword) {
       window.document.getElementById('errorMessage').innerHTML = 'wrong password';
@@ -147,7 +149,8 @@ export class SignUp extends Component {
                             <div className="col-md-6 offset-md-3">
                                 <div className="sigUpsection">
                                     <form
-                                        className="p-4 text-white mt-5 sigUpinnersection">
+                                        className="p-4 text-white mt-5 sigUpinnersection"
+                                        onSubmit = { this.handleSignUpNewUser } >
                                         <h3 className="text-center">SIGN UP</h3>
                                         <hr className="hr"/>
 
@@ -217,9 +220,9 @@ export class SignUp extends Component {
                                         <div className="row text-center">
                                             <div className="col-md-12 col-sm-12">
                                                 <button
-                                                    type="button"
+                                                    type="submit"
                                                     className="btn btn-danger btn-lg btn-block"
-                                                    onClick ={ this.handleSignUpNewUser }
+                                                    
                                                     >
                                                     <strong>
                                                         SIGN UP</strong>
