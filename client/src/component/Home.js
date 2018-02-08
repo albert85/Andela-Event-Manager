@@ -14,18 +14,16 @@ export class Home extends React.Component {
         email: '',
         password: '',
       },
-
-      wrongDetails: false,
     };
 
     this.handleUserLogin = this.handleUserLogin.bind(this);
     this.handleChangeEmailInput = this.handleChangeEmailInput.bind(this);
     this.handleChangePasswordInput = this.handleChangePasswordInput.bind(this);
-    this.checkIfExist = this.checkIfExist.bind(this);
+    // sthis.checkIfExist = this.checkIfExist.bind(this);
   }
 
   componentDidMount() {
-    localStorage.removeItem('token');
+    // localStorage.removeItem('token');
   }
 
   /**
@@ -35,6 +33,7 @@ export class Home extends React.Component {
    */
   handleChangeEmailInput(e) {
     this.setState({ loginDetails: Object.assign(this.state.loginDetails, { email: e.target.value }) });
+    return true;
   }
 
   /**
@@ -44,6 +43,7 @@ export class Home extends React.Component {
    */
   handleChangePasswordInput(e) {
     this.setState({ loginDetails: Object.assign(this.state.loginDetails, { password: e.target.value }) });
+    return true;
   }
 
   /**
@@ -54,20 +54,20 @@ export class Home extends React.Component {
   handleUserLogin() {
     // loginDetail.preventDefault();
     const userLoginDetails = {
-      email: this.state.email,
-      password: this.state.password,
+      email: this.state.loginDetails.email,
+      password: this.state.loginDetails.password,
     };
 
     // Login to generate token and get Id no
     this.props.loginUser(userLoginDetails);
   }
 
-  checkIfExist() {
-    if (this.props.loginUserDetail === 'successfully login') {
-      return true;
-    }
-    return false;
-  }
+  // checkIfExist() {
+  //   if (this.props.loginUserDetail === 'successfully login') {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   render() {
     return (
