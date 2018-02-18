@@ -148,7 +148,7 @@ export class EventHomePage extends Component {
                           // map through array of events and insert into the rows of the table
                           this.props.eventState.map((event, index) =>
 
-                              // return tthe rows generated
+                              // return the rows generated
 
                       <tr key={index} index={index} addre = {event.id} className="border border-white">
                           <td scope="row">{index + 1}</td>
@@ -206,7 +206,7 @@ export class EventHomePage extends Component {
                   <div className="form-group">
                       <label htmlFor="eventCentre">Event Centre</label>
                       <select ref='eventCenterId' className="form-control" id="eventCentre" required onChange={this.handleLocation}>
-                          <option>Please select center</option>
+                          <option defaultValue>Please select center</option>
                           {this.props.centerState.map((center, i) => <option key={i} i={i} value={center.name}>{center.name}</option>)}
                       </select>
 

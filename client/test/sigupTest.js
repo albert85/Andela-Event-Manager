@@ -10,8 +10,13 @@ configure({ adapter: new Adapter() });
 
 describe('<SignUp />', () => {
   let wrapper;
+  const props = {
+    signUpNewUser: () => {},
+
+  };
+
   beforeEach(() => {
-    wrapper = shallow(<SignUp />);
+    wrapper = shallow(<SignUp { ...props } />);
   });
 
   it('Should return number of input field on Signup page', () => {
@@ -80,6 +85,26 @@ describe('<SignUp />', () => {
   it('Should handle and store user confirm password', () => {
     expect(wrapper.instance().handleConfirmPasswordInput({ target: { value: 'confirm password' } })).to.be.equal(true);
   });
+
+  it('Should handle signing up new user', () => {
+    expect(wrapper.instance().handleSignUpNewUser({ preventDefault: () => {} })).to.be.equal(true);
+  });
+
+  it('Should check password and confirm password field contains the value', () => {
+    const OldState = wrapper.state().signUpDetails;
+    wrapper.setState({ signUpDetails: Object.assign(OldState, { password: 'admin', confirmPassword: 'admin' }) });
+    // wrapper.find('button').simulate('onSubmit');
+    wrapper.instance().handleSignUpNewUser({ preventDefault: () => {} });
+    expect(wrapper.state().checkAdminStatus).to.be.equal(true);
+    // expect(wrapper.instance().handleSignUpNewUser({ preventDefault: () => {} })).to.be.equal(true);
+  });
+
+  // it('Should check if user is admin', () => {
+  //   const OldState = wrapper.state().signUpDetails;
+  //   wrapper.setState({ signUpDetails: Object.assign(OldState, { password: '1258', confirmPassword: '1254' }) });
+  //   wrapper.instance().handleSignUpNewUser({ preventDefault: () => {} });
+  //   expect(wrapper.state().errorPassword).to.be.equal(true);
+  // });
 
   it('Should return the number of .container class ', () => {
     expect(wrapper.find('.container')).to.have.length(1);

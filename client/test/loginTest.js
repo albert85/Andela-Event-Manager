@@ -10,8 +10,13 @@ configure({ adapter: new Adapter() });
 
 describe('<LogIn />', () => {
   let wrapper;
+  const props = {
+    loginUser: () => {},
+
+  };
+
   beforeEach(() => {
-    wrapper = shallow(<Home />);
+    wrapper = shallow(<Home { ...props } />);
   });
 
   it('Should return number of input field on Login page', () => {
@@ -51,6 +56,10 @@ describe('<LogIn />', () => {
 
   it('Should handle and store user password', () => {
     expect(wrapper.instance().handleChangePasswordInput({ target: { value: '12345' } })).to.be.equal(true);
+  });
+
+  it('Should user login', () => {
+    expect(wrapper.instance().handleUserLogin()).to.be.equal(true);
   });
 
   it('Should return the number of .container class ', () => {

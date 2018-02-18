@@ -60,6 +60,7 @@ export class Home extends React.Component {
 
     // Login to generate token and get Id no
     this.props.loginUser(userLoginDetails);
+    return true;
   }
 
   // checkIfExist() {

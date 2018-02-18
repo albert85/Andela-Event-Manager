@@ -26,7 +26,7 @@ export class SignUp extends Component {
     };
     // this.signUpNewUser = this.signUpNewUser.bind(this);
 
-    this.checkPassword = this.checkPassword.bind(this);
+    // this.checkPassword = this.checkPassword.bind(this);
     this.handleFirstNameInput = this.handleFirstNameInput.bind(this);
     this.handleLastNameInput = this.handleLastNameInput.bind(this);
     this.handleEmailInput = this.handleEmailInput.bind(this);
@@ -40,16 +40,16 @@ export class SignUp extends Component {
  * @param {none}
  * @returns {strings}
  */
-  checkPassword() {
-    if (this.refs.userPassword.value !== this.refs.userConfirmPassword.value) {
-      this.setState({ errorPassword: false });
-      window.document.getElementById('errorMessage').innerHTML = 'wrong password';
-      return false;
-    }
-    this.setState({ errorPassword: true });
-    window.document.getElementById('errorMessage').innerHTML = ' ';
-    return true;
-  }
+  // checkPassword() {
+  //   if (this.refs.userPassword.value !== this.refs.userConfirmPassword.value) {
+  //     this.setState({ errorPassword: false });
+  //     window.document.getElementById('errorMessage').innerHTML = 'wrong password';
+  //     return false;
+  //   }
+  //   this.setState({ errorPassword: true });
+  //   window.document.getElementById('errorMessage').innerHTML = ' ';
+  //   return true;
+  // }
 
   handleFirstNameInput(e) {
     this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { firstName: e.target.value }) });
