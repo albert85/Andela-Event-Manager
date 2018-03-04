@@ -15,7 +15,7 @@ describe('<loginReducer />', () => {
     expect(loginReducer([], {})).to.be.eqls([]);
   });
 
-  it('Should return state of array of signup users', () => {
+  it('Should return state of login user', () => {
     expect(loginReducer(loginDetails, {
       type: types.LOGIN_USER,
       payload: loginDetails,

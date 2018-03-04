@@ -40,7 +40,7 @@ describe('<signUpAction />', () => {
 
   it('Should users details for signing up', () => {
     const addNewUserAdd = addNewUser(userDetails);
-    console.log(addNewUserAdd);
+    // console.log(addNewUsserAdd);
     // expect(addNewUserAdd).to.be.equal(userDetails);
     // expect(addNewUserAdd.type).to.be.equal(types.ADD_NEW_USER);
   });
