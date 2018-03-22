@@ -17,7 +17,10 @@ const updateACenter = (modifiedData, centerId) => (dispatch) => {
     .then((res) => {
       localStorage.setItem('message', res.data.message);
       dispatch(updateACenterAsync(modifiedData, centerId));
+      window.document.getElementById('addNewCenterFormEdit').reset();
     })
-    .catch(error => localStorage.setItem('message', error.response.data.message));
+    .catch((error) => {
+      localStorage.setItem('message', error.response.data.message);
+    });
 };
 export default updateACenter;

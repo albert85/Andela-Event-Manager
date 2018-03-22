@@ -14,8 +14,12 @@ const addNewCenter = newCenterDetails => (dispatch) => {
     .then((res) => {
       localStorage.setItem('message', res.data.message);
       dispatch(addNewCenterAsync(newCenterDetails));
+      return window.document.getElementById('addNewCenterForm').reset();
     })
-    .catch(error => localStorage.setItem('message', error.response.data.message));
+    .catch(() => {
+      // localStorage.setItem('message', error.response.data.message)
+      window.document.getElementById('addCenterMessage').innerHTML = 'Credential exist';
+    });
 };
 
 export default addNewCenter;

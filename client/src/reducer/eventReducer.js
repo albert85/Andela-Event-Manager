@@ -10,10 +10,6 @@ const eventMethodReducer = (state = [], action) => {
           return event;
         }
         return Object.assign({}, event, action.payload.modifiedData);
-        // return {
-        //   ...event,
-        //   ...action.payload.modifiedData,
-        // };
       });
     case GET_ALL_EVENTS:
       return action.payload;

@@ -12,10 +12,6 @@ const getACenterReducer = (state = [], action) => {
         return Object.assign({}, event, {
           bookingStatus: action.payload.bookingStatus,
         });
-        // return {
-        //   ...event,
-        //   bookingStatus: action.payload.bookingStatus,
-        // };
       });
     default:
       return state;
