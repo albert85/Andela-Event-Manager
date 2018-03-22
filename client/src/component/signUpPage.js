@@ -79,7 +79,7 @@ export class SignUp extends Component {
 
   handleSignUpNewUser(e) {
     e.preventDefault();
-    
+    let isAdminStatus = false;
     // console.log('signup');
     if (this.state.signUpDetails.password !== this.state.signUpDetails.confirmPassword) {
       window.document.getElementById('errorMessage').innerHTML = 'wrong password';
@@ -87,6 +87,7 @@ export class SignUp extends Component {
     }
 
     if (this.state.signUpDetails.password === 'admin') {
+      isAdminStatus = true;
       this.setState({ checkAdminStatus: true });
     }
 
@@ -95,7 +96,7 @@ export class SignUp extends Component {
       lastName: this.state.signUpDetails.lastName,
       email: this.state.signUpDetails.email,
       password: this.state.signUpDetails.password,
-      isAdmin: this.state.checkAdminStatus,
+      isAdmin: isAdminStatus,
     };
 
     this.props.signUpNewUser(userDetails);
