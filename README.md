@@ -4,9 +4,11 @@
 # Andela-Event-Manager
 Event Manager
 
-## Getting Started
+### Setting Up API
+Download the project on your local storage either downloading the zip or opening up terminal then type: git clone
+- git clone https://github.com/albert85/Andela-Event-Manager.git
 This API endpoint allows access to a postgres database using POSTMAN on port number 8080.
-## How to use 
+### How to use 
 - First, type npm run start on your command
 - Create a new account by signing Up
 - login using the account you have created ###How to create an event
