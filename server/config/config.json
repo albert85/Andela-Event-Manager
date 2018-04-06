@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "12345",
-    "database": "postgres",
+    "username": "andeladeveloper",
+    "password": "",
+    "database": "EventMan",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
@@ -15,6 +15,7 @@
   },
   "production": {
     "use_env_variable": "DATABASE_URL",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "operatorAliases": false
   }
 }
