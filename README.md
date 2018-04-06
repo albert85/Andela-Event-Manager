@@ -2,13 +2,22 @@
 [![Coverage Status](https://coveralls.io/repos/github/albert85/Andela-Event-Manager/badge.svg)](https://coveralls.io/github/albert85/Andela-Event-Manager)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/test_coverage)](https://codeclimate.com/github/codeclimate/codeclimate/test_coverage)
 # Andela-Event-Manager
-Event Manager
 
-### Setting Up API
-Download the project on your local storage either downloading the zip or opening up terminal then type: 
-- git clone https://github.com/albert85/Andela-Event-Manager.git
-- This API endpoint allows access to a postgres database using POSTMAN on port number 8080.
-### How to use 
+### Getting Started
+Get a copy of the project on local storage either downloading the zip or open up terminal then type: git clone https://github.com/albert85/Andela-Event-Manager.git
+
+### Prerequisites
+Install the following software
+- postgresql database or postico on local storage
+- POSTMAN an interface for API testing
+
+### Installing
+Open the terninal and make sure you are in the root directory of the project and type 
+- npm install
+- npm install -g sequelize --save
+- sequelize --config ./server/config/config.json --migrations-path ./server/migrations db:migrate
+
+
 - First, type npm run start on your command
 - Create a new account by signing Up
 - login using the account you have created ###How to create an event
