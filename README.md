@@ -23,6 +23,7 @@ Type npm run start or npm start on your terminal then open POSTMAN or any API de
 
 ### How to Use API
 Using **POSTMAN** API development environment
-- To create a new user, create a **POST** action using the route **'localhost:8000/api/v1/users/signUp'** with parameters: firstName,lastName,isAdmin(true or false),password and email *e.g. firstName:'event', lastName:'manager', isAdmin:true, password:'1234', email:'example@you.com'*.
-- To login a user, create a **POST** action using the route **'localhost:8000/api/v1/user/login'** with parameters: email and password *e.g. email:example@you.com, password:'1234'*.
+- To create a new user, create a **POST** action using the route **'localhost:8000/api/v1/users/signUp'** with parameters: firstName,lastName,isAdmin(true or false),password and email ***e.g. firstName:'event', lastName:'manager', isAdmin:true, password:'1234', email:'example@you.com'***.
+
+- To login a user, create a **POST** action using the route **'localhost:8000/api/v1/user/login'** with parameters: email and password ***e.g. email:example@you.com, password:'1234'***.
 - 
