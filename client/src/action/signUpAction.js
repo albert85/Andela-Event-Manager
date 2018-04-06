@@ -2,7 +2,10 @@ import axios from 'axios';
 
 import { ADD_NEW_USER } from '../common/types';
 
-const addNewUserAsync = userData => ({
+// const CLIENT_ROOT_URL = process.env.ROOT_URL || 'http://localhost:8000';
+const CLIENT_ROOT_URL = 'https://andela-event-manager-app.herokuapp.com';
+
+export const addNewUserAsync = userData => ({
   type: ADD_NEW_USER,
   payload: userData,
 });
@@ -20,7 +23,12 @@ const addNewUser = userData => (dispatch) => {
       };
      
       dispatch(addNewUserAsync(newUserDetails));
+      alert('Thank you for registering, click Ok to login');
+      window.location.href = `${CLIENT_ROOT_URL}`;
     })
-    .catch(error => localStorage.setItem('message', error.response.data.message));
+    .catch(() => {
+      // localStorage.setItem('message', error.response.data.message)
+      window.document.getElementById('existingEmail').innerHTML = 'Email Already Registered to an Account';
+    });
 };
 export default addNewUser;

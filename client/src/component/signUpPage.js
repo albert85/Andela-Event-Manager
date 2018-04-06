@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import '../../style.scss';
 import addUserAction from '../action/signUpAction';
 
-class SignUp extends React.Component {
+export class SignUp extends Component {
   /**
      * @constructor
      * @param {*} props
@@ -13,15 +13,26 @@ class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      signUpDetails: {},
+      signUpDetails: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        isAdmin: false,
+      },
+      errorPassword: false,
+      checkAdminStatus: false,
     };
-    this.signUpNewUser = this
-      .signUpNewUser
-      .bind(this);
+    // this.signUpNewUser = this.signUpNewUser.bind(this);
 
-    this.checkPassword = this
-      .checkPassword
-      .bind(this);
+    // this.checkPassword = this.checkPassword.bind(this);
+    this.handleFirstNameInput = this.handleFirstNameInput.bind(this);
+    this.handleLastNameInput = this.handleLastNameInput.bind(this);
+    this.handleEmailInput = this.handleEmailInput.bind(this);
+    this.handlePasswordInput = this.handlePasswordInput.bind(this);
+    this.handleConfirmPasswordInput = this.handleConfirmPasswordInput.bind(this);
+    this.handleSignUpNewUser = this.handleSignUpNewUser.bind(this);
   }
 
   /**
@@ -29,11 +40,67 @@ class SignUp extends React.Component {
  * @param {none}
  * @returns {strings}
  */
-  checkPassword() {
-    if (this.refs.userPassword.value !== this.refs.userConfirmPassword.value) {
-      return window.document.getElementById('errorMessage').innerHTML = 'wrong password';
+  // checkPassword() {
+  //   if (this.refs.userPassword.value !== this.refs.userConfirmPassword.value) {
+  //     this.setState({ errorPassword: false });
+  //     window.document.getElementById('errorMessage').innerHTML = 'wrong password';
+  //     return false;
+  //   }
+  //   this.setState({ errorPassword: true });
+  //   window.document.getElementById('errorMessage').innerHTML = ' ';
+  //   return true;
+  // }
+
+  handleFirstNameInput(e) {
+    this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { firstName: e.target.value }) });
+    return true;
+  }
+
+  handleLastNameInput(e) {
+    this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { lastName: e.target.value }) });
+    return true;
+  }
+
+  handleEmailInput(e) {
+    this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { email: e.target.value }) });
+    return true;
+  }
+
+  handlePasswordInput(e) {
+    this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { password: e.target.value }) });
+    return true;
+  }
+
+  handleConfirmPasswordInput(e) {
+    this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { confirmPassword: e.target.value }) });
+    return true;
+  }
+
+
+  handleSignUpNewUser(e) {
+    e.preventDefault();
+    let isAdminStatus = false;
+    // console.log('signup');
+    if (this.state.signUpDetails.password !== this.state.signUpDetails.confirmPassword) {
+      window.document.getElementById('errorMessage').innerHTML = 'wrong password';
+      return this.setState({ errorPassword: true });
     }
-    return window.document.getElementById('errorMessage').innerHTML = ' ';
+
+    if (this.state.signUpDetails.password === 'admin') {
+      isAdminStatus = true;
+      this.setState({ checkAdminStatus: true });
+    }
+
+    const userDetails = {
+      firstName: this.state.signUpDetails.firstName,
+      lastName: this.state.signUpDetails.lastName,
+      email: this.state.signUpDetails.email,
+      password: this.state.signUpDetails.password,
+      isAdmin: isAdminStatus,
+    };
+
+    this.props.signUpNewUser(userDetails);
+    return true;
   }
 
   /**
@@ -41,6 +108,8 @@ class SignUp extends React.Component {
  * @param {object}
  * @returns {strings}
  */
+
+  /*
   signUpNewUser(signUpUser) {
     signUpUser.preventDefault();
     let checkAdminStatus = false;
@@ -52,6 +121,15 @@ class SignUp extends React.Component {
     if (signUpUser.target[3].value === 'admin') {
       checkAdminStatus = true;
     }
+    // Setting userDetails in the state
+    this.setState({
+        firstName: signUpUser.target[0].value,
+        lastName: signUpUser.target[1].value,
+        email: signUpUser.target[2].value,
+        password: signUpUser.target[3].value,
+        isAdmin: checkAdminStatus,
+    });
+
     const userDetails = {
       firstName: signUpUser.target[0].value,
       lastName: signUpUser.target[1].value,
@@ -61,16 +139,8 @@ class SignUp extends React.Component {
     };
 
     this.props.signUpNewUser(userDetails);
-
-    // check if operation is successful and redirect to login page
-    if (localStorage.getItem('message') === 'sucessful') {
-      alert('Thank you for registering, click Ok to login');
-      return this.props.history.push('/');
-    }
-
-    return window.document.getElementById('existingEmail').innerHTML = 'Email Already Registered to an Account';
   }
-
+*/
   render() {
     return (
             <div className="section-signUp">
@@ -81,7 +151,7 @@ class SignUp extends React.Component {
                                 <div className="sigUpsection">
                                     <form
                                         className="p-4 text-white mt-5 sigUpinnersection"
-                                        onSubmit={this.signUpNewUser}>
+                                        onSubmit = { this.handleSignUpNewUser } >
                                         <h3 className="text-center">SIGN UP</h3>
                                         <hr className="hr"/>
 
@@ -92,7 +162,9 @@ class SignUp extends React.Component {
                                                 id="firstname"
                                                 className="form-control"
                                                 placeholder="e.g.Charles"
-                                                aria-describedby="helpId" required />
+                                                aria-describedby="helpId"
+                                                onChange = { this.handleFirstNameInput }
+                                                required />
                                         </div>
 
                                         <div className="form-group">
@@ -102,7 +174,9 @@ class SignUp extends React.Component {
                                                 id="lastname"
                                                 className="form-control"
                                                 placeholder="e.g.Andy"
-                                                aria-describedby="helpId" required />
+                                                aria-describedby="helpId"
+                                                onChange = { this.handleLastNameInput }
+                                                required />
                                         </div>
 
                                         <div className="form-group">
@@ -112,7 +186,9 @@ class SignUp extends React.Component {
                                                 className="form-control"
                                                 id="signupemail"
                                                 aria-describedby="emailHelp"
-                                                placeholder="you@example.com" required />
+                                                placeholder="you@example.com"
+                                                onChange = { this.handleEmailInput }
+                                                required />
                                                 <span id='existingEmail' className = 'text-danger'></span>
 
                                         </div>
@@ -123,7 +199,9 @@ class SignUp extends React.Component {
                                                 type="password"
                                                 className="form-control"
                                                 id="siguppassword"
-                                                placeholder="**********" required ref='userPassword'/>
+                                                placeholder="**********" required ref='userPassword'
+                                                onChange = { this.handlePasswordInput }
+                                                />
                                         </div>
 
                                         <div className="form-group">
@@ -135,7 +213,8 @@ class SignUp extends React.Component {
                                                 placeholder="**********"
                                                 required
                                                 onKeyUp={this.checkPassword}
-                                                ref='userConfirmPassword'/>
+                                                onChange = { this.handleConfirmPasswordInput }
+                                                />
                                                 <span id='errorMessage' className = 'text-danger'></span>
                                         </div>
 
@@ -143,7 +222,9 @@ class SignUp extends React.Component {
                                             <div className="col-md-12 col-sm-12">
                                                 <button
                                                     type="submit"
-                                                    className="btn btn-danger btn-lg btn-block">
+                                                    className="btn btn-danger btn-lg btn-block"
+                                                    
+                                                    >
                                                     <strong>
                                                         SIGN UP</strong>
                                                 </button>

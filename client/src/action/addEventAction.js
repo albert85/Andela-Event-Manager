@@ -12,10 +12,19 @@ const addNewEvent = newEventDetails => (dispatch) => {
   axios
     .post('/api/v1/events', newEventDetails)
     .then((res) => {
-      localStorage.setItem('message', res.data.message);
+      // localStorage.setItem('message', res.data.message);
       dispatch(addNewEventAsync(res.data.eventDetails));
+
+      // check if successfully added
+      if (res.data.message === 'sucessfully created') {
+        window.document.getElementById('dateAvailable').innerHTML = '';
+        return window.document.getElementById('addEventForm').reset();
+      }
     })
-    .catch(error => localStorage.setItem('message', error.response.data.message));
+    .catch(() =>
+      // localStorage.setItem('message', error.response.data.message);
+      // check if the data is available
+      window.document.getElementById('dateAvailable').innerHTML = 'Date not Available for booking' );
 };
 
 export default addNewEvent;

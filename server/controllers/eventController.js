@@ -13,6 +13,7 @@ export default class EventControllerClass {
       .findAll({
         where: {
           eventDate: new Date(req.body.eventDate),
+          centerId: req.body.centerId,
         },
       }).then((dateAvailability) => {
         // console.log(dateAvailability)

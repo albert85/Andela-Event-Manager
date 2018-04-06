@@ -5,11 +5,45 @@ import { bindActionCreators } from 'redux';
 import '../../style.scss';
 import loginAction from '../action/loginAction';
 
-class Home extends React.Component {
+export class Home extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      loginDetails: {
+        email: '',
+        password: '',
+      },
+    };
+
     this.handleUserLogin = this.handleUserLogin.bind(this);
+    this.handleChangeEmailInput = this.handleChangeEmailInput.bind(this);
+    this.handleChangePasswordInput = this.handleChangePasswordInput.bind(this);
+    // sthis.checkIfExist = this.checkIfExist.bind(this);
+  }
+
+  componentDidMount() {
+    // localStorage.removeItem('token');
+  }
+
+  /**
+   * @method
+   * @param {strings}
+   * @returns{null}
+   */
+  handleChangeEmailInput(e) {
+    this.setState({ loginDetails: Object.assign(this.state.loginDetails, { email: e.target.value }) });
+    return true;
+  }
+
+  /**
+   * @method
+   * @param {strings}
+   * @returns{null}
+   */
+  handleChangePasswordInput(e) {
+    this.setState({ loginDetails: Object.assign(this.state.loginDetails, { password: e.target.value }) });
+    return true;
   }
 
   /**
@@ -17,23 +51,24 @@ class Home extends React.Component {
  * @param {object} loginDetail
  * @returns {strings}
  */
-  handleUserLogin(loginDetail) {
-    loginDetail.preventDefault();
+  handleUserLogin() {
+    // loginDetail.preventDefault();
     const userLoginDetails = {
-      email: loginDetail.target[0].value,
-      password: loginDetail.target[1].value,
+      email: this.state.loginDetails.email,
+      password: this.state.loginDetails.password,
     };
 
+    // Login to generate token and get Id no
     this.props.loginUser(userLoginDetails);
-
-    if (localStorage.getItem('message') === 'successfully login') {
-      if (userLoginDetails.password === 'admin') {
-        return this.props.history.push('/centers');
-      }
-      return this.props.history.push('/event-home-page');
-    }
-    return window.document.getElementById('loginErroMessage').innerHTML = 'Wrong password and email';
+    return true;
   }
+
+  // checkIfExist() {
+  //   if (this.props.loginUserDetail === 'successfully login') {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   render() {
     return (
@@ -50,17 +85,30 @@ class Home extends React.Component {
                       <div className="form-group">
 
                         <label htmlFor="inputEmail">Email</label>
-                        <input type="email" className="form-control" id="inputEmail" placeholder="you@example.com" required />
+                        <input type="email"
+                        className="form-control"
+                        id="inputEmail"
+                        placeholder="you@example.com"
+                        required
+                        onChange = { this.handleChangeEmailInput } />
                       </div>
 
                         <div className="form-group">
                           <label htmlFor="inputPassword">Password</label>
-                          <input type="password" className="form-control" id="inputPassword" placeholder="**********" required />
+                          <input type="password"
+                          className="form-control"
+                          id="inputPassword"
+                          placeholder="**********"
+                          required
+                          onChange = { this.handleChangePasswordInput } />
                         </div>
 
                           <div className="row text-center">
                             <div className="col-md-6 col-sm-6">
-                              <button type="submit" className="btn btn-primary btn-lg btn-block" >SIGN IN </button>
+                              <button type="button"
+                              className="btn btn-primary btn-lg btn-block" 
+                              onClick = { this.handleUserLogin }
+                              >SIGN IN </button>
                             </div>
                             <div className="col-md-6 col-sm-6">
                                 <a href="/signup" className="btn btn-danger btn-lg btn-block">SIGN UP</a>
