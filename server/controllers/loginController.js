@@ -46,6 +46,7 @@ export default class LogInControllerClass {
       .catch(() => res.status(400).json({ message: 'Resource not Found' }));
   }
 
+  // Send email notification to user
   static sendEmailNotifications(req, res) {
     return user
       .findOne({
