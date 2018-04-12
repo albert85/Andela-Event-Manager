@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { user } from '../models';
+import db from '../models/index';
 
 export default class Auth {
   static checkIfAuthorize(req, res, next) {
@@ -19,7 +19,7 @@ export default class Auth {
         return res.json({ message: 'Token expired, please login to get another token'});
       }
       // find if authorize
-      return user
+      return db.user
         .findOne({
           where: {
             id: decoded.id,

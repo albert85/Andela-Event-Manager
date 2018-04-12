@@ -1,12 +1,12 @@
 // import validator from 'validatorjs';
 import jwt from 'jsonwebtoken';
-import { Center, Event } from '../models';
+import db from '../models/index';
 
 export default class CenterControllerClass {
   // Creating a new center
   static create(req, res) {
     // check if details exist
-    return Center
+    return db.Center
       .findAll({
         where: {
           name: req.body.name,
@@ -23,7 +23,7 @@ export default class CenterControllerClass {
           return res.json({ message: 'Token expired' });
         }
         // create a center
-        return Center
+        return db.Center
           .create({
             name: req.body.name,
             location: req.body.location,
@@ -40,10 +40,10 @@ export default class CenterControllerClass {
 
   // get A center
   static getACenter(req, res) {
-    return Center
+    return db.Center
       .findById(req.params.centerId)
       .then((centerDetails) => {
-        Event
+        db.Event
           .findAll({
             where: {
               centerId: req.params.centerId,
@@ -62,7 +62,7 @@ export default class CenterControllerClass {
       }
     });
 
-    return Center
+    return db.Center
       .findAll()
       .then(centerDetails => res.status(200).json({ message: 'sucessful', centerDetails }))
       .catch(() => res.status(400).json({ message: 'No Center not found!!!' }));
@@ -70,7 +70,7 @@ export default class CenterControllerClass {
 
   // Updating a center detail
   static updateACenterDetails(req, res) {
-    return Center
+    return db.Center
       .findById(req.params.centerId)
       .then((centerDetails) => {
         if (!centerDetails) {

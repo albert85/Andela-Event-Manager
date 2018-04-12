@@ -1,14 +1,14 @@
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
-import { user } from '../models';
+import db from '../models/index';
 
 const nodemailer = require('nodemailer');
 
 dotenv.config();
 export default class LogInControllerClass {
   static signIn(req, res) {
-    return user
+    return db.user
       .findOne({
         where: {
           email: req.body.email,
@@ -26,7 +26,7 @@ export default class LogInControllerClass {
           // if passwords match
           // declare a payload
             const payloader = {
-              isAdmin: user.isAdmin,
+              isAdmin: db.user.isAdmin,
               id: result.id,
             };
             const userToken = jwt.sign(payloader, process.env.TOKEN_PASSWORD, { expiresIn: 60 * 7200 });
@@ -40,7 +40,7 @@ export default class LogInControllerClass {
 
   // get users email address
   static userEmail(req, res) {
-    return user
+    return db.user
       .findAll()
       .then(result => res.status(200).json({ message: 'successful', result }))
       .catch(() => res.status(400).json({ message: 'Resource not Found' }));
@@ -48,7 +48,7 @@ export default class LogInControllerClass {
 
   // Send email notification to user
   static sendEmailNotifications(req, res) {
-    return user
+    return db.user
       .findOne({
         where: {
           email: req.body.email,
