@@ -18,7 +18,7 @@ export default class EventControllerClass {
       }).then((dateAvailability) => {
         // console.log(dateAvailability)
         if (dateAvailability.length === 0) {
-          return Event
+          return db.Event
             .create({
               name: req.body.name,
               userId: decoded.id,

@@ -143,104 +143,104 @@ export class SignUp extends Component {
 */
   render() {
     return (
-            <div className="section-signUp">
-                <div className="cover-section-signup">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-md-6 offset-md-3">
-                                <div className="sigUpsection">
-                                    <form
-                                        className="p-4 text-white mt-5 sigUpinnersection"
-                                        onSubmit = { this.handleSignUpNewUser } >
-                                        <h3 className="text-center">SIGN UP</h3>
-                                        <hr className="hr"/>
+      <div className="section-signUp">
+        <div className="cover-section-signup">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-6 offset-md-3">
+                <div className="sigUpsection">
+                  <form
+                    className="p-4 text-white mt-5 sigUpinnersection"
+                    onSubmit={this.handleSignUpNewUser} >
+                    <h3 className="text-center">SIGN UP</h3>
+                    <hr className="hr" />
 
-                                        <div className="form-group">
-                                            <label htmlFor="firstname">First Name</label>
-                                            <input
-                                                type="text"
-                                                id="firstname"
-                                                className="form-control"
-                                                placeholder="e.g.Charles"
-                                                aria-describedby="helpId"
-                                                onChange = { this.handleFirstNameInput }
-                                                required />
-                                        </div>
+                    <div className="form-group">
+                      <label htmlFor="firstname">First Name</label>
+                      <input
+                        type="text"
+                        id="firstname"
+                        className="form-control"
+                        placeholder="First Name"
+                        aria-describedby="helpId"
+                        onChange={this.handleFirstNameInput}
+                        required />
+                    </div>
 
-                                        <div className="form-group">
-                                            <label htmlFor="lastname">Last Name</label>
-                                            <input
-                                                type="text"
-                                                id="lastname"
-                                                className="form-control"
-                                                placeholder="e.g.Andy"
-                                                aria-describedby="helpId"
-                                                onChange = { this.handleLastNameInput }
-                                                required />
-                                        </div>
+                    <div className="form-group">
+                      <label htmlFor="lastname">Last Name</label>
+                      <input
+                        type="text"
+                        id="lastname"
+                        className="form-control"
+                        placeholder="Last Name"
+                        aria-describedby="helpId"
+                        onChange={this.handleLastNameInput}
+                        required />
+                    </div>
 
-                                        <div className="form-group">
-                                            <label htmlFor="signupemail">Email address</label>
-                                            <input
-                                                type="email"
-                                                className="form-control"
-                                                id="signupemail"
-                                                aria-describedby="emailHelp"
-                                                placeholder="you@example.com"
-                                                onChange = { this.handleEmailInput }
-                                                required />
-                                                <span id='existingEmail' className = 'text-danger'></span>
-
-                                        </div>
-
-                                        <div className="form-group">
-                                            <label htmlFor="siguppassword">Password</label>
-                                            <input
-                                                type="password"
-                                                className="form-control"
-                                                id="siguppassword"
-                                                placeholder="**********" required ref='userPassword'
-                                                onChange = { this.handlePasswordInput }
-                                                />
-                                        </div>
-
-                                        <div className="form-group">
-                                            <label htmlFor="signupconfirmpassword">Confirm Password</label>
-                                            <input
-                                                type="password"
-                                                className="form-control"
-                                                id="signupconfirmpassword"
-                                                placeholder="**********"
-                                                required
-                                                onKeyUp={this.checkPassword}
-                                                onChange = { this.handleConfirmPasswordInput }
-                                                />
-                                                <span id='errorMessage' className = 'text-danger'></span>
-                                        </div>
-
-                                        <div className="row text-center">
-                                            <div className="col-md-12 col-sm-12">
-                                                <button
-                                                    type="submit"
-                                                    className="btn btn-danger btn-lg btn-block"
-                                                    
-                                                    >
-                                                    <strong>
-                                                        SIGN UP</strong>
-                                                </button>
-                                            </div>
-
-                                        </div>
-
-                                    </form>
-                                </div>
-                            </div>
-
-                        </div>
+                    <div className="form-group">
+                      <label htmlFor="signupemail">Email address</label>
+                      <input
+                        type="email"
+                        className="form-control"
+                        id="signupemail"
+                        aria-describedby="emailHelp"
+                        placeholder="you@example.com"
+                        onChange={this.handleEmailInput}
+                        required />
+                      <span id='existingEmail' className='text-danger'></span>
 
                     </div>
+
+                    <div className="form-group">
+                      <label htmlFor="siguppassword">Password</label>
+                      <input
+                        type="password"
+                        className="form-control"
+                        id="siguppassword"
+                        placeholder="**********" required ref='userPassword'
+                        onChange={this.handlePasswordInput}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label htmlFor="signupconfirmpassword">Confirm Password</label>
+                      <input
+                        type="password"
+                        className="form-control"
+                        id="signupconfirmpassword"
+                        placeholder="**********"
+                        required
+                        onKeyUp={this.checkPassword}
+                        onChange={this.handleConfirmPasswordInput}
+                      />
+                      <span id='errorMessage' className='text-danger'></span>
+                    </div>
+
+                    <div className="row text-center">
+                      <div className="col-md-12 col-sm-12">
+                        <button
+                          type="submit"
+                          className="btn btn-danger btn-lg btn-block"
+
+                        >
+                          <strong>
+                            SIGN UP</strong>
+                        </button>
+                      </div>
+
+                    </div>
+
+                  </form>
                 </div>
+              </div>
+
             </div>
+
+          </div>
+        </div>
+      </div>
 
     );
   }
