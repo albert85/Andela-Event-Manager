@@ -7,6 +7,7 @@ import Adapter from 'enzyme-adapter-react-16';
 // import localStorage from 'mock-local-storage';
 
 import { EventHomePage } from '../src/component/eventHomePage';
+import Footer from '../src/component/Footer';
 
 // window.localStorage = global.localStorage;
 
@@ -39,12 +40,10 @@ describe('<EventHomePage />', () => {
 
   beforeEach(() => {
     wrapper = shallow(<EventHomePage {...props} />);
-    // console.log(wrapper.instance());
   });
 
 
   it('Should return number of table field on event homepage page', () => {
-    // console.log(wrapper.instance());
     expect(wrapper.find('table')).to.have.length(1);
   });
 
@@ -54,12 +53,24 @@ describe('<EventHomePage />', () => {
 
 
   it('Should return number of anchor a on event homepage page', () => {
-    expect(wrapper.find('a')).to.have.length(4);
+    expect(wrapper.find('a')).to.have.length(0);
   });
 
-  // it('Should return number of anchor a on event homepage page', () => {
-  //   expect(wrapper.find(EventHomePage)).to.be.equal('div');
-  // });
+  it('Should return number of div on event homepage page', () => {
+    expect(wrapper.find('div')).to.have.length(15);
+  });
+
+  it('Should return number of form on event homepage page', () => {
+    expect(wrapper.find('form')).to.have.length(1);
+  });
+
+  it('Should return number of span on event homepage page', () => {
+    expect(wrapper.find('span')).to.have.length(1);
+  });
+
+  it('Should return number of label on event homepage page', () => {
+    expect(wrapper.find('label')).to.have.length(4);
+  });
 
   it('Should check if the wrapper contains instance of Event homepage', () => {
     expect(wrapper.instance()).to.be.instanceof(EventHomePage);

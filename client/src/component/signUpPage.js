@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import '../../style.scss';
 import addUserAction from '../action/signUpAction';
+import Footer from './Footer';
 
 export class SignUp extends Component {
   /**
@@ -40,39 +41,40 @@ export class SignUp extends Component {
  * @param {none}
  * @returns {strings}
  */
-  // checkPassword() {
-  //   if (this.refs.userPassword.value !== this.refs.userConfirmPassword.value) {
-  //     this.setState({ errorPassword: false });
-  //     window.document.getElementById('errorMessage').innerHTML = 'wrong password';
-  //     return false;
-  //   }
-  //   this.setState({ errorPassword: true });
-  //   window.document.getElementById('errorMessage').innerHTML = ' ';
-  //   return true;
-  // }
 
+  // It handles saving first name to the state
   handleFirstNameInput(e) {
     this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { firstName: e.target.value }) });
     return true;
   }
-
+  // it handles saving last name to the state
   handleLastNameInput(e) {
     this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { lastName: e.target.value }) });
     return true;
   }
 
+  // it handles saving email address to the state
   handleEmailInput(e) {
     this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { email: e.target.value }) });
     return true;
   }
 
+  // it handles saving password to the state
   handlePasswordInput(e) {
     this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { password: e.target.value }) });
     return true;
   }
 
+  // it handles saving confirm password top the state
   handleConfirmPasswordInput(e) {
     this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { confirmPassword: e.target.value }) });
+
+    // if (this.state.signUpDetails.password !== e.target.value) {
+    //   window.document.getElementById('errorMessage').innerHTML = 'wrong password';
+    // } else {
+    //   window.document.getElementById('errorMessage').innerHTML = '';
+    // }
+
     return true;
   }
 
@@ -109,38 +111,7 @@ export class SignUp extends Component {
  * @returns {strings}
  */
 
-  /*
-  signUpNewUser(signUpUser) {
-    signUpUser.preventDefault();
-    let checkAdminStatus = false;
 
-    if (signUpUser.target[3].value !== signUpUser.target[4].value) {
-      return window.document.getElementById('errorMessage').innerHTML = 'wrong password';
-    }
-
-    if (signUpUser.target[3].value === 'admin') {
-      checkAdminStatus = true;
-    }
-    // Setting userDetails in the state
-    this.setState({
-        firstName: signUpUser.target[0].value,
-        lastName: signUpUser.target[1].value,
-        email: signUpUser.target[2].value,
-        password: signUpUser.target[3].value,
-        isAdmin: checkAdminStatus,
-    });
-
-    const userDetails = {
-      firstName: signUpUser.target[0].value,
-      lastName: signUpUser.target[1].value,
-      email: signUpUser.target[2].value,
-      password: signUpUser.target[3].value,
-      isAdmin: checkAdminStatus,
-    };
-
-    this.props.signUpNewUser(userDetails);
-  }
-*/
   render() {
     return (
       <div className="section-signUp">
@@ -240,8 +211,9 @@ export class SignUp extends Component {
 
           </div>
         </div>
+        <Footer />
       </div>
-
+ 
     );
   }
 }
