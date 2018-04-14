@@ -24,8 +24,8 @@ describe('<BookingDetails />', () => {
     wrapper = shallow(<BookingDetails { ...props } />);
   });
 
-  it('Should return number of ViewBookingHeader field on View Booking page', () => {
+  it('Should test if wrapper instance is the same instance of BookingDetails', () => {
 
-    expect(wrapper.find('.container')).to.have.length(1);
+    expect(wrapper.instance()).to.be.instanceof(BookingDetails);
   });
 });

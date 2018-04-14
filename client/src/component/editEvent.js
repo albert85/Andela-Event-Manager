@@ -143,7 +143,7 @@ class EventHomePage extends Component {
                                                             })}</td>
                                                             <td>{event.eventDate}</td>
                                                             {(event.bookingStatus === 1) ? <td className="text-primary">Booked
-                            <i className="fa fa-book" aria-hidden="true"></i>
+                                                                <i className="fa fa-book" aria-hidden="true"></i>
                                                             </td> : <td className="text-danger">Canceled <i className="fa fa-close text-danger" aria-hidden="true"></i> </td>}
 
                                                             <td>
@@ -212,8 +212,8 @@ class EventHomePage extends Component {
                     </div>
                 </div>
 
-              <Footer/>
-            </div>  
+                <Footer />
+            </div>
         );
     }
 }

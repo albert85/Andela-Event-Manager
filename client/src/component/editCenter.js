@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import getAllCenterAction from '../action/getAllCentersAction';
 import editACenterAction from '../action/editACenterAction';
 import Footer from './Footer';
+import EditEventHeader from './EditEventHeader';
 
 class Center extends Component {
     constructor(props) {
@@ -49,7 +50,7 @@ class Center extends Component {
     render() {
         return (
             <div>
-                
+                <EditEventHeader/>
 
                 {/* Create two columns for the management content  */}
                 {/* create a section  */}

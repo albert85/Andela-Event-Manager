@@ -69,12 +69,6 @@ export class SignUp extends Component {
   handleConfirmPasswordInput(e) {
     this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { confirmPassword: e.target.value }) });
 
-    // if (this.state.signUpDetails.password !== e.target.value) {
-    //   window.document.getElementById('errorMessage').innerHTML = 'wrong password';
-    // } else {
-    //   window.document.getElementById('errorMessage').innerHTML = '';
-    // }
-
     return true;
   }
 
