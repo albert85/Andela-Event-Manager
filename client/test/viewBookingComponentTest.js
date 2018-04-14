@@ -25,7 +25,7 @@ describe('<BookingDetails />', () => {
   });
 
   it('Should return number of ViewBookingHeader field on View Booking page', () => {
-      console.log(wrapper);
+
     expect(wrapper.find('.container')).to.have.length(1);
   });
 });
