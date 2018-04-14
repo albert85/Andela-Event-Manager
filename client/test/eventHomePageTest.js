@@ -6,7 +6,7 @@ import { shallow, configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 // import localStorage from 'mock-local-storage';
 
-import { EventHomePage } from '../src/component/eventHomePage';
+import { EventHomePage } from '../src/component/EventHomePage';
 import Footer from '../src/component/Footer';
 
 // window.localStorage = global.localStorage;
