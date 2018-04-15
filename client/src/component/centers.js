@@ -7,7 +7,7 @@ import addNewCenterAction from '../action/addNewCenterAction';
 import Footer from './Footer';
 import CenterHomePageHeader from './CenterHomePageHeader';
 
-class Center extends Component {
+export class Center extends Component {
     constructor(props) {
         super(props);
 
@@ -30,7 +30,7 @@ class Center extends Component {
 
         this.props.addNewCenterAction(newCenter);
 
-
+        return true;
     }
 
     render() {

@@ -13,24 +13,52 @@ import '../../style.scss';
 import EditEventHeader from './EditEventHeader';
 import Footer from './Footer';
 
-class EventHomePage extends Component {
+export class EditEvent extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            editting: false,
+            editEventName: "",
+            editLocation: "",
+            editEventDate: "",
+            editEventCenter: ""
 
         };
 
         this.handleLocation = this.handleLocation.bind(this);
         this.handleEditEvent = this.handleEditEvent.bind(this);
         this.handleBookingView = this.handleBookingView.bind(this);
+        this.handleEventName = this.handleEventName.bind(this);
+        this.handleEventLocation = this.handleEventLocation.bind(this);
+        this.handleCenter = this.handleCenter.bind(this);
+        this.handleEventDate = this.handleEventDate.bind(this);
     }
 
 
     componentDidMount() {
         this.props.getAllCenters();
         this.props.getUsersAllEventAction(localStorage.getItem('userIdNo'));
+    }
+
+    handleEventDate(e) {
+        this.setState({ editEventDate: e.target.value });
+        return true
+    }
+
+    handleCenter(e) {
+        this.setState({ editEventCenter: e.target.value });
+        return true
+    }
+
+    handleEventLocation(e) {
+        this.setState({ editLocation: e.target.value });
+        return true
+    }
+
+
+    handleEventName(e) {
+        this.setState({ editEventName: e.target.value });
+        return true;
     }
 
     handleBookingView() {
@@ -41,15 +69,15 @@ class EventHomePage extends Component {
         editDetails.preventDefault();
 
         this.props.centerState.map((center) => {
-            if (window.document.getElementById('eventCentreEdit').value === center.name) {
+            if (this.state.editEventCenter === center.name) {
                 localStorage.setItem('centerEditId', center.id);
                 return center.id;
             }
         });
 
         const editDetailData = {
-            name: window.document.getElementById('eventnameEdit').value,
-            eventDate: window.document.getElementById('eventdateEdit').value,
+            name: this.state.editEventName,
+            eventDate: this.state.editEventDate,
             centerId: Number(localStorage.getItem('centerEditId')),
         };
 
@@ -177,12 +205,16 @@ class EventHomePage extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="eventnameEdit"> Event Name:</label>
-                                            <input type="text" id="eventnameEdit" className="form-control" placeholder="e.g.Wedding" aria-describedby="helpId" />
+                                            <input type="text"
+                                                id="eventnameEdit"
+                                                className="form-control"
+                                                placeholder="Event Name"
+                                                onChange={this.handleEventName} />
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="eventCentreEdit">Event Centre</label>
-                                            <select className="form-control" id="eventCentreEdit">
+                                            <select className="form-control" id="eventCentreEdit" onChange={this.handleCenter}>
                                                 <option>Please select center</option>
                                                 {this.props.centerState.map((center, i) => <option key={i} i={i} value={center.name}>{center.name}</option>)}
                                             </select>
@@ -191,12 +223,22 @@ class EventHomePage extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="locationEdit"> Location:</label>
-                                            <input type="text" id="locationEdit" className="form-control" readOnly placeholder="London bridge" aria-describedby="helpId" />
+                                            <input type="text"
+                                                id="locationEdit"
+                                                className="form-control"
+                                                readOnly
+                                                placeholder="Location"
+                                                Onchange={this.handleEventLocation} />
                                         </div>
 
                                         <div className="form-group">
                                             < label htmlFor="eventdateEdit" > Event Date : </label>
-                                            <input type="date" id="eventdateEdit" className="form-control" placeholder="12/22/2017" aria-describedby="helpId" /><br />
+                                            <input type="date"
+                                                id="eventdateEdit"
+                                                className="form-control"
+                                                placeholder="Event Date"
+                                                onChange={this.handleEventDate}
+                                            /><br />
                                             <span id='dateAvailableModal' className='text-danger'></span>
                                         </div>
                                         <button type="submit" className="btn btn-success btn-sm btn-block mb-3">
@@ -229,5 +271,5 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     editAnEventAction,
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventHomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(EditEvent);
 

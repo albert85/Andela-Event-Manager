@@ -5,9 +5,9 @@ import { bindActionCreators } from 'redux';
 import getAllCenterAction from '../action/getAllCentersAction';
 import editACenterAction from '../action/editACenterAction';
 import Footer from './Footer';
-import EditEventHeader from './EditEventHeader';
+import EditCenterHeader from './EditCenterHeader';
 
-class Center extends Component {
+export class EditCenter extends Component {
     constructor(props) {
         super(props);
 
@@ -22,6 +22,7 @@ class Center extends Component {
         this.props.getAllCenters();
     }
 
+    // Saving Centre Details
     handleEditCenterDetails(EditCenter) {
         EditCenter.preventDefault();
 
@@ -34,7 +35,8 @@ class Center extends Component {
 
         this.props.editACenterAction(modifyCenter, this.state.centerIdNo);
     }
-    // Calling props from centerTableRow component (Child)
+    
+    //    Editing Centre Details
     handleCenterDetails(centerId) {
         this.setState({ centerIdNo: centerId });
         this.props.centerState.map((center) => {
@@ -50,7 +52,7 @@ class Center extends Component {
     render() {
         return (
             <div>
-                <EditEventHeader/>
+                < EditCenterHeader />
 
                 {/* Create two columns for the management content  */}
                 {/* create a section  */}
@@ -114,22 +116,22 @@ class Center extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="eventnameEdit"> Name:</label>
-                                            <input type="text" id="eventnameEdit" className="form-control" placeholder="" aria-describedby="helpId" required />
+                                            <input type="text" id="eventnameEdit" className="form-control" placeholder="Event Centre Name" required />
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="eventcenterlocationEdit"> Location:</label>
-                                            <input type="text" id="eventcenterlocationEdit" className="form-control" placeholder="" aria-describedby="helpId" required />
+                                            <input type="text" id="eventcenterlocationEdit" className="form-control" placeholder="Event Centre Location" required />
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="eventcentercapacityEdit"> Capacity:</label>
-                                            <input type="numbers" id="eventcentercapacityEdit" className="form-control" placeholder="" aria-describedby="helpId" required />
+                                            <input type="numbers" id="eventcentercapacityEdit" className="form-control" placeholder="Event Centre Capacity" required />
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="eventcenteramountEdit"> Amount:</label>
-                                            <input type="numbers" id="eventcenteramountEdit" className="form-control" placeholder="" aria-describedby="helpId" required />
+                                            <input type="numbers" id="eventcenteramountEdit" className="form-control" placeholder="Amount for Booking" required />
                                         </div><br />
 
                                         <button type="submit" className="btn btn-success btn-sm btn-block mb-3" onClick={this.handleEditCenterDetails} >
@@ -152,7 +154,7 @@ class Center extends Component {
                     </div>
                 </div>
 
-               <Footer/>
+                <Footer />
             </div>
         );
     }
@@ -167,5 +169,5 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     editACenterAction,
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Center);
+export default connect(mapStateToProps, mapDispatchToProps)(EditCenter);
 

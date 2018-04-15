@@ -99,13 +99,6 @@ describe('<SignUp />', () => {
     // expect(wrapper.instance().handleSignUpNewUser({ preventDefault: () => {} })).to.be.equal(true);
   });
 
-  // it('Should check if user is admin', () => {
-  //   const OldState = wrapper.state().signUpDetails;
-  //   wrapper.setState({ signUpDetails: Object.assign(OldState, { password: '1258', confirmPassword: '1254' }) });
-  //   wrapper.instance().handleSignUpNewUser({ preventDefault: () => {} });
-  //   expect(wrapper.state().errorPassword).to.be.equal(true);
-  // });
-
   it('Should return the number of .container class ', () => {
     expect(wrapper.find('.container')).to.have.length(1);
   });

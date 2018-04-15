@@ -18,9 +18,9 @@ describe('<EventHomePage />', () => {
   const props = {
     eventState: [],
     centerState: [],
-    getAllCenters: () => {},
-    getUsersAllEventAction: (event) => {},
-    deleteAnEventAction: () => {},
+    getAllCenters: () => { },
+    getUsersAllEventAction: (event) => { },
+    deleteAnEventAction: () => { },
 
   };
 
@@ -120,20 +120,6 @@ describe('<EventHomePage />', () => {
     expect(wrapper.find('option')).to.have.length(2);
   });
 
-  // it('Should handle location', () => {
-  //   wrapper = mount(<EventHomePage {...props} />);
-  //   wrapper.setProps({
-  //     centerState: [newCenter],
-  //   });
-  //   // wrapper.find('select').node.value = newCenter.name;
-  //   // console.log(wrapper.find('o'))
-  //   // wrapper.find('select').instance().props.onChange(({ target: { value: 'Anike Event Centre' } }));
-  //   // wrapper.find('select').simulate('change');
-  //   // expect(wrapper.find('select').props().value).to.be.equal('Anike Event Centre');
-  //   // expect(wrapper.find('option')).to.have.length(2);
-  //   // console.log(wrapper.find('select[defaultValue]').props());
-  //   // expect(wrapper.instance().handleLocation()).to.be.equal(false);
-  // });
 
   it('Should return the number of table ', () => {
     expect(wrapper.find('table')).to.have.length(1);
@@ -158,27 +144,4 @@ describe('<EventHomePage />', () => {
     expect(wrapper.find('tr')).to.have.length(2);
   });
 
-  // it('Should return the number of offset-md-3 class ', () => {
-  //   expect(wrapper.find('.offset-md-3')).to.have.length(1);
-  // });
-
-  // it('Should return the number of .loginErroMessage id ', () => {
-  //   expect(wrapper.find('#loginErroMessage')).to.have.length(1);
-  // });
-
-  // it('Should return the number of form on signup page ', () => {
-  //   expect(wrapper.find('form')).to.have.length(1);
-  // });
-
-  // it('Should return the number of form-group on signup page ', () => {
-  //   expect(wrapper.find('.form-group')).to.have.length(2);
-  // });
-
-  // it('Should return the number of section-signUp class on signup page ', () => {
-  //   expect(wrapper.find('.section-sign-in')).to.have.length(1);
-  // });
-
-  // it('Should return the number of cover-section-signup on signup page ', () => {
-  //   expect(wrapper.find('.cover-section-signin')).to.have.length(1);
-  // });
 });
