@@ -25,7 +25,6 @@ export class EditEvent extends Component {
 
         };
 
-        this.handleLocation = this.handleLocation.bind(this);
         this.handleEditEvent = this.handleEditEvent.bind(this);
         this.handleBookingView = this.handleBookingView.bind(this);
         this.handleEventName = this.handleEventName.bind(this);
@@ -99,22 +98,11 @@ export class EditEvent extends Component {
                 });
                 window.document.getElementById('eventdateEdit').value = event.eventDate;
             }
+            
         });
+        return true;
     }
 
-    handleLocation() {
-        if (this.refs.eventCenterId.value !== 'Please select center') {
-            this.props.centerState.map((center) => {
-                if (this.refs.eventCenterId.value === center.name) {
-                    window.document.getElementById('location').value = center.location;
-                    return true;
-                }
-                window.document.getElementById('location').innerHTML = 'London bridge';
-            });
-        }
-        window.document.getElementById('location').innerHTML = 'London bridge';
-        return false;
-    }
 
     render() {
         return (
@@ -179,7 +167,9 @@ export class EditEvent extends Component {
 
                                                                     {/* Execute edit operation */}
                                                                     <div className="col mb-2">
-                                                                        <button type="button" onClick={this.handleStoringId.bind(this, event.id)} className="btn btn-success btn-block">
+                                                                        <button type="button" 
+                                                                        onClick={this.handleStoringId.bind(this, event.id)} 
+                                                                        className="btn btn-success btn-block">
                                                                             <i className="fa fa-pencil" aria-hidden="true"></i>
                                                                         </button>
                                                                     </div>
@@ -214,7 +204,9 @@ export class EditEvent extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="eventCentreEdit">Event Centre</label>
-                                            <select className="form-control" id="eventCentreEdit" onChange={this.handleCenter}>
+                                            <select className="form-control" 
+                                            id="eventCentreEdit" 
+                                            onChange={this.handleCenter}>
                                                 <option>Please select center</option>
                                                 {this.props.centerState.map((center, i) => <option key={i} i={i} value={center.name}>{center.name}</option>)}
                                             </select>
@@ -228,7 +220,7 @@ export class EditEvent extends Component {
                                                 className="form-control"
                                                 readOnly
                                                 placeholder="Location"
-                                                Onchange={this.handleEventLocation} />
+                                                onChange={this.handleEventLocation} />
                                         </div>
 
                                         <div className="form-group">

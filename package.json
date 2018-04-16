@@ -12,12 +12,16 @@
     "js": "npm run db:migrate && nyc --reporter=html --reporter=text mocha --compilers js:babel-register --require babel-polyfill --recursive server/test --timeout 15000 --exit",
     "test:cli": "nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register --require babel-polyfill --recursive server/test/ --timeout 15000 --exit",
     "test": "nyc --reporter=html --reporter=text mocha --compilers js:babel-register --require jsdom-global --require mock-local-storage --require babel-polyfill --require ignore-styles --recursive client/test --timeout 15000 --exit",
+    "test:client": "jest ./client",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "db:migrate": "sequelize --config ./server/config/config.json --migrations-path ./server/migrations db:migrate:undo:all && sequelize --config ./server/config/config.json --migrations-path ./server/migrations db:migrate",
     "prod": "webpack-dev-server --config webpack.prod.js",
     "web:webpack": "webpack --watch",
     "product2": "babel-node -- ./client/clientServer/prodServer.js",
     "postinstall": "webpack -p"
+  },
+  "jest": {
+    "collectCoverage": true
   },
   "repository": {
     "type": "git",
@@ -35,6 +39,7 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.2",
+    "babel-jest": "^22.4.3",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-es2015-destructuring": "^6.23.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
@@ -68,6 +73,7 @@
     "ignore-styles": "^5.0.1",
     "istanbul": "^0.4.5",
     "istanbul-coveralls": "^1.0.3",
+    "jest": "^22.4.3",
     "jquery": "^3.2.1",
     "jsdom": "^11.6.2",
     "jsdom-global": "3.0.2",
@@ -94,6 +100,7 @@
     "redux": "^3.7.2",
     "redux-mock-store": "^1.5.1",
     "redux-thunk": "^2.2.0",
+    "regenerator-runtime": "^0.11.1",
     "sass-loader": "^6.0.6",
     "sequelize": "^4.24.0",
     "sequelize-cli": "^3.1.0",

@@ -8,6 +8,7 @@ import cancelBookingAction from '../action/cancelBookingAction';
 import getUserEmailAction from '../action/getUserEmailAction';
 import sendMailNotificationAction from '../action/sendMailNotificationAction';
 import Footer from './Footer';
+import CentreDetailsHeader from './CentreDetailsHeader';
 
 export class CenterDetails extends Component {
     constructor(props) {
@@ -87,20 +88,7 @@ export class CenterDetails extends Component {
         return (
             <div>
                 {/* Setup the header  */}
-                <div className="bg-primary container-fluid p-2 text-center">
-                    <div className="row">
-                        <div className="col">
-                            <h3>EVENT CENTER MANAGEMENT</h3>
-                        </div>
-
-                        <div className="col">
-                            <ul className="nav justify-content-end">
-                                <li className="nav-item"> <a href="/" className="text-white"> SIGNOUT <i className="fa fa-chevron-right"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                </div>
+                <CentreDetailsHeader />
 
                 {/* Create two columns for the management content  */}
                 {/* create a section  */}
@@ -204,7 +192,7 @@ export class CenterDetails extends Component {
                     </div>
                 </div>
 
-                <Footer/>
+                <Footer />
 
             </div>
         );
