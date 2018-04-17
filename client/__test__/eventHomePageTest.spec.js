@@ -1,4 +1,4 @@
-import 'jsdom-global/register';
+// import 'jsdom-global/register';
 import React from 'react';
 import { expect } from 'chai';
 import { shallow, configure, mount } from 'enzyme';

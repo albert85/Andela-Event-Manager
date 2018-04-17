@@ -115,20 +115,20 @@ describe('<EditEvent />', () => {
     expect(wrapper.instance().handleEventDate({ target: { value: '2017-11-12' } })).to.be.equal(true);
   });
 
-  it('Should return false when Please select center on Editted on Edit Event component', () => {
-    //  wrapper.setRefs({
-    //   eventCenterId: {
-    //     value: 'Please select center',
-    //   }
-    //  })
-    wrapper = mount(<EditEvent {...props} />,attac);
-    wrapper.setProps({
-      eventState: [newEvent],
-      centerState: [newCenter],
-    });
-    // console.log(wrapper.instance().handleStoringId(2));
-    expect(wrapper.instance().handleStoringId(1)).to.be.equal(true);
-  });
+  // it('Should return false when Please select center on Editted on Edit Event component', () => {
+  //   //  wrapper.setRefs({
+  //   //   eventCenterId: {
+  //   //     value: 'Please select center',
+  //   //   }
+  //   //  })
+  //   wrapper = mount(<EditEvent {...props} />);
+  //   wrapper.setProps({
+  //     eventState: [newEvent],
+  //     centerState: [newCenter],
+  //   });
+  //   // console.log(wrapper.instance().handleStoringId(2));
+  //   expect(wrapper.instance().handleStoringId(1)).to.be.equal(true);
+  // });
 /*
   it('Should return true when Center is Editted on Edit Event component', () => {
     expect(wrapper.instance().handleStoringId({ target: { value: 'Apollan' } })).to.be.equal(true);
