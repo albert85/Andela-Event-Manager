@@ -12,6 +12,13 @@ import CentreEventTable from './CentreEventTable';
 export class BookingDetails extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            centreLocation: "",
+            centreCapacity:"",
+            centreAmount:"",
+            centreName:""
+        }
         this.handleLocation = this.handleLocation.bind(this);
     }
 
@@ -19,23 +26,24 @@ export class BookingDetails extends Component {
         this.props.getAllCenterAction();
     }
 
-    handleLocation() {
-        if (this.refs.eventCenterId.value !== 'Please select center') {
+    handleLocation(e) {
+        // this.setState({centreName: e.})
+        // console.log(e.target.value);
+        if (e.target.value !== 'Please select center') {
             this.props.centerState.map((center) => {
-                if (this.refs.eventCenterId.value === center.name) {
+                if (e.target.value  === center.name) {
                     this.props.getACenterAction(center.id);
-                    window.document.getElementById('eventCenterLocation').value = center.location;
-                    window.document.getElementById('eventCenterCapacity').value = center.capacity;
-                    return window.document.getElementById('eventcenteramountEdit').value = center.amount;
+                    this.setState({centreLocation: center.location});
+                    this.setState({centreCapacity: center.capacity});
+                    this.setState({centreAmount: center.amount});
                 }
-                window.document.getElementById('eventCenterLocation').innerHTML = 'London bridge';
+        
             });
         }
-        if (this.refs.eventCenterId.value === 'Please select center') {
-            //   this.props.getACenterAction(100000);
-            window.document.getElementById('eventCenterLocation').value = '';
-            window.document.getElementById('eventCenterCapacity').value = '';
-            return window.document.getElementById('eventcenteramountEdit').value = '';
+        if (e.target.value  === 'Please select center') {
+                    this.setState({centreLocation: ''});
+                    this.setState({centreCapacity: ''});
+                    this.setState({centreAmount: ''});
         }
         return false;
     }
@@ -73,17 +81,33 @@ export class BookingDetails extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="eventCenterLocation"> Location:</label>
-                                            <input type="text" readOnly id="eventCenterLocation" className="form-control" placeholder="" aria-describedby="helpId" />
+                                            <input type="text" 
+                                            readOnly 
+                                            id="eventCenterLocation" 
+                                            className="form-control" 
+                                            placeholder="Location" 
+                                            value={this.state.centreLocation}/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="eventCenterCapacity"> Capacity:</label>
-                                            <input type="text" readOnly id="eventCenterCapacity" className="form-control" placeholder="" aria-describedby="helpId" />
+                                            <input type="text" 
+                                            readOnly 
+                                            id="eventCenterCapacity" 
+                                            className="form-control" 
+                                            placeholder="Capacity"
+                                            value={this.state.centreCapacity}
+                                             />
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="eventcenteramountEdit"> Amount:</label>
-                                            <input type="numbers" id="eventcenteramountEdit" className="form-control" placeholder="" aria-describedby="helpId" required />
+                                            <input type="numbers" 
+                                            id="eventcenteramountEdit" 
+                                            className="form-control" 
+                                            placeholder="Capacity" 
+                                            value={this.state.centreAmount}
+                                            required />
                                         </div>
 
                                         <a className="btn btn-success btn-sm btn-block mb-3" href="/event-home-page">

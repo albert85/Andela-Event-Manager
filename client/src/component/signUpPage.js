@@ -24,6 +24,7 @@ export class SignUp extends Component {
       },
       errorPassword: false,
       checkAdminStatus: false,
+      errorMessage:" ",
     };
     // this.signUpNewUser = this.signUpNewUser.bind(this);
 
@@ -76,10 +77,8 @@ export class SignUp extends Component {
   handleSignUpNewUser(e) {
     e.preventDefault();
     let isAdminStatus = false;
-    // console.log('signup');
     if (this.state.signUpDetails.password !== this.state.signUpDetails.confirmPassword) {
-      window.document.getElementById('errorMessage').innerHTML = 'wrong password';
-      return this.setState({ errorPassword: true });
+      return this.setState({errorMessage: 'wrong password'});
     }
 
     if (this.state.signUpDetails.password === 'admin') {
@@ -180,7 +179,9 @@ export class SignUp extends Component {
                         onKeyUp={this.checkPassword}
                         onChange={this.handleConfirmPasswordInput}
                       />
-                      <span id='errorMessage' className='text-danger'></span>
+                      <span id='errorMessage' 
+                      className='text-danger'
+                      >{this.state.errorMessage}</span>
                     </div>
 
                     <div className="row text-center">

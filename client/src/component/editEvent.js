@@ -18,15 +18,15 @@ export class EditEvent extends Component {
         super(props);
 
         this.state = {
-            editEventName: "",
+            editEventName: "Event Name",
             editLocation: "",
             editEventDate: "",
-            editEventCenter: ""
+            editEventCenter: "Centre Name",
+            editEventLocation: "Centre Location"
 
         };
 
         this.handleEditEvent = this.handleEditEvent.bind(this);
-        this.handleBookingView = this.handleBookingView.bind(this);
         this.handleEventName = this.handleEventName.bind(this);
         this.handleEventLocation = this.handleEventLocation.bind(this);
         this.handleCenter = this.handleCenter.bind(this);
@@ -60,9 +60,6 @@ export class EditEvent extends Component {
         return true;
     }
 
-    handleBookingView() {
-        return this.props.history.push('/booking-details');
-    }
 
     handleEditEvent(editDetails) {
         editDetails.preventDefault();
@@ -88,15 +85,16 @@ export class EditEvent extends Component {
         localStorage.setItem('index', index);
         this.props.eventState.map((event) => {
             if (event.id === index) {
-                window.document.getElementById('eventnameEdit').value = event.name;
+                this.setState({editEventName: event.name})
                 this.props.centerState.map((center) => {
                     if (center.id === event.centerId) {
-                        window.document.getElementById('eventCentreEdit').value = center.name;
-                        window.document.getElementById('locationEdit').value = center.location;
+                        this.setState({editEventCenter: center.name, editEventLocation: center.location});
                     }
                     return center;
                 });
-                window.document.getElementById('eventdateEdit').value = event.eventDate;
+
+                this.setState({editEventDate: event.eventDate})
+                // window.document.getElementById('eventdateEdit').value = event.eventDate;
             }
             
         });
@@ -168,6 +166,7 @@ export class EditEvent extends Component {
                                                                     {/* Execute edit operation */}
                                                                     <div className="col mb-2">
                                                                         <button type="button" 
+                                                                        id="editButton"
                                                                         onClick={this.handleStoringId.bind(this, event.id)} 
                                                                         className="btn btn-success btn-block">
                                                                             <i className="fa fa-pencil" aria-hidden="true"></i>
@@ -199,18 +198,20 @@ export class EditEvent extends Component {
                                                 id="eventnameEdit"
                                                 className="form-control"
                                                 placeholder="Event Name"
+                                                value={this.state.editEventName}
                                                 onChange={this.handleEventName} />
                                         </div>
 
-                                        <div className="form-group">
-                                            <label htmlFor="eventCentreEdit">Event Centre</label>
-                                            <select className="form-control" 
-                                            id="eventCentreEdit" 
-                                            onChange={this.handleCenter}>
-                                                <option>Please select center</option>
-                                                {this.props.centerState.map((center, i) => <option key={i} i={i} value={center.name}>{center.name}</option>)}
-                                            </select>
 
+                                        <div className="form-group">
+                                        <label htmlFor="eventCentreEdit">Event Centre</label>
+                                            <input type="text"
+                                                id="eventCentreEdit"
+                                                className="form-control"
+                                                readOnly
+                                                placeholder="Event Centre"
+                                                onChange={this.handleCenter} 
+                                                value={this.state.editEventCenter} />
                                         </div>
 
                                         <div className="form-group">
@@ -220,7 +221,8 @@ export class EditEvent extends Component {
                                                 className="form-control"
                                                 readOnly
                                                 placeholder="Location"
-                                                onChange={this.handleEventLocation} />
+                                                onChange={this.handleEventLocation} 
+                                                value={this.state.editEventLocation}/>
                                         </div>
 
                                         <div className="form-group">
@@ -230,6 +232,7 @@ export class EditEvent extends Component {
                                                 className="form-control"
                                                 placeholder="Event Date"
                                                 onChange={this.handleEventDate}
+                                                value={this.state.editEventDate}
                                             /><br />
                                             <span id='dateAvailableModal' className='text-danger'></span>
                                         </div>

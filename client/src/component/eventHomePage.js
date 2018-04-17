@@ -20,10 +20,12 @@ export class EventHomePage extends Component {
         this.state = {
             addEventDetails: {
                 eventName: '',
-                eventLocation: '',
+                eventLocation: 'Location',
                 eventVenue: '',
                 eventDate: '',
             },
+            eventLocation: '',
+            eventCentreName:"",
         };
 
         this.handleEventName = this.handleEventName.bind(this);
@@ -57,7 +59,7 @@ export class EventHomePage extends Component {
         //   prevent submitting automatically
         eventDetails.preventDefault();
         this.props.centerState.map((center) => {
-            if (this.refs.eventCenterId.value === center.name) {
+            if (this.state.eventCentreName === center.name) {
                 const cent = center.id;
                 localStorage.setItem('AddcenterId', center.id);
                 return cent;
@@ -75,20 +77,22 @@ export class EventHomePage extends Component {
 
         // Add new event
         this.props.addNewEvent(eventToAdd);
+
+        this.setState({ addEventDetails: Object.assign(this.state.addEventDetails, { eventLocation: 'Location' }) });
     }
 
-    handleLocation() {
-        if (this.refs.eventCenterId.value !== 'Please select center') {
+    handleLocation(e) {
+        this.setState({eventCentreName: e.target.value});
+        if (e.target.value !== 'Please select center') {
+
             this.props.centerState.map((center) => {
-                if (this.refs.eventCenterId.value === center.name) {
-                    window.document.getElementById('location').value = center.location;
+                if (e.target.value === center.name) {
                     this.setState({ addEventDetails: Object.assign(this.state.addEventDetails, { eventLocation: center.location, eventVenue: center.name }) });
                     return true;
                 }
-                window.document.getElementById('location').innerHTML = 'London bridge';
             });
         }
-        window.document.getElementById('location').innerHTML = 'London bridge';
+        
         return false;
     }
 
@@ -179,14 +183,18 @@ export class EventHomePage extends Component {
                                                 id="eventname"
                                                 required
                                                 className="form-control"
-                                                placeholder="e.g.Wedding"
+                                                placeholder="Event Name"
                                                 aria-describedby="helpId"
                                                 onChange={this.handleEventName} />
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="eventCentre">Event Centre</label>
-                                            <select ref='eventCenterId' className="form-control" id="eventCentre" required onChange={this.handleLocation}>
+                                            <select
+                                            className="form-control" 
+                                            id="eventCentre" 
+                                            required 
+                                            onChange={this.handleLocation}>
                                                 <option defaultValue>Please select center</option>
                                                 {this.props.centerState.map((center, i) => <option key={i} i={i} value={center.name}>{center.name}</option>)}
                                             </select>
@@ -201,7 +209,8 @@ export class EventHomePage extends Component {
                                                 className="form-control"
                                                 readOnly
                                                 placeholder="London bridge"
-                                                aria-describedby="helpId" />
+                                                aria-describedby="helpId" 
+                                                value={this.state.addEventDetails.eventLocation}/>
                                         </div>
 
                                         <div className="form-group">
@@ -215,7 +224,8 @@ export class EventHomePage extends Component {
                                                 onChange={this.handleEventDate} /><br />
                                             <span id='dateAvailable' className='text-danger'></span>
                                         </div>
-                                        <button type="submit" className="btn btn-success btn-sm btn-block mb-3">
+                                        <button type="submit" 
+                                        className="btn btn-success btn-sm btn-block mb-3">
                                             <h4 className="text-white"><i className="fa fa-save" aria-hidden="true"> Add Event</i></h4>
                                         </button>
                                     </form>
