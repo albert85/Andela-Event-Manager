@@ -11,40 +11,67 @@ export class EditCenter extends Component {
     constructor(props) {
         super(props);
 
-        this.data = {
+        this.state = {
             centerIdNo: 0,
+            centreName: "",
+            centreLocation: "",
+            centreAmount: "",
+            centreCapacity: "",
         };
 
         this.handleEditCenterDetails = this.handleEditCenterDetails.bind(this);
+        this.handleChangeCentreName = this.handleChangeCentreName.bind(this);
+        this.handleChangeCentreLocation = this.handleChangeCentreLocation.bind(this);
+        this.handleChangeCentreAmount = this.handleChangeCentreAmount.bind(this);
+        this.handleChangeCentreCapacity = this.handleChangeCentreCapacity.bind(this);
     }
 
     componentDidMount() {
         this.props.getAllCenters();
     }
 
+    // stores centre name
+    handleChangeCentreName(e) {
+        this.setState({ centreName: e.target.value });
+    }
+
+    // Stores Centre Location
+    handleChangeCentreLocation(e) {
+        this.setState({ centreLocation: e.target.value });
+    }
+
+    // Stores centreAmount
+    handleChangeCentreAmount(e) {
+        this.setState({ centreAmount: e.target.value });
+    }
+
+    // Stores centreAmount
+    handleChangeCentreCapacity(e) {
+        this.setState({ centreCapacity: e.target.value });
+    }
+
+
+
     // Saving Centre Details
     handleEditCenterDetails(EditCenter) {
         EditCenter.preventDefault();
 
         const modifyCenter = {
-            name: window.document.getElementById('eventnameEdit').value,
-            location: window.document.getElementById('eventcenterlocationEdit').value,
-            capacity: window.document.getElementById('eventcentercapacityEdit').value,
-            amount: window.document.getElementById('eventcenteramountEdit').value,
+            name: this.state.centreName,
+            location: this.state.centreLocation,
+            capacity: this.state.centreCapacity,
+            amount: this.state.centreAmount,
         };
 
         this.props.editACenterAction(modifyCenter, this.state.centerIdNo);
     }
-    
+
     //    Editing Centre Details
     handleCenterDetails(centerId) {
         this.setState({ centerIdNo: centerId });
         this.props.centerState.map((center) => {
             if (center.id === centerId) {
-                window.document.getElementById('eventnameEdit').value = center.name;
-                window.document.getElementById('eventcenterlocationEdit').value = center.location;
-                window.document.getElementById('eventcentercapacityEdit').value = center.capacity;
-                window.document.getElementById('eventcenteramountEdit').value = center.amount;
+                this.setState({ centreName: center.name, centreLocation: center.location, centreCapacity: center.capacity, centreAmount: center.amount })
             }
         });
     }
@@ -81,7 +108,8 @@ export class EditCenter extends Component {
                                             <tbody>
                                                 {
                                                     this.props.centerState.map((centers, i) =>
-                                                        //   <CenterTableRow centerId = { centers.id } centers = {centers} key= {i} i ={i} handleCenterDetails = {this.handleCenterDetails} handleEditCenterDetails = {this.handleEditCenterDetails} { ...this.props } />)
+
+
                                                         <tr className="border border-white" key={i} >
                                                             <td scope="row">{i + 1}</td>
                                                             <td>{centers.name}</td>
@@ -91,7 +119,9 @@ export class EditCenter extends Component {
                                                             <td>
                                                                 <div className="row">
                                                                     <div className="col mb-2">
-                                                                        <button type="button" onClick={this.handleCenterDetails.bind(this, centers.id)} className="btn btn-primary btn-block">
+                                                                        <button type="button"
+                                                                        id="editCenterDetails"
+                                                                        onClick={this.handleCenterDetails.bind(this, centers.id)} className="btn btn-primary btn-block">
                                                                             <i className="fa fa-pencil" aria-hidden="true"> Edit</i>
                                                                         </button>
                                                                     </div>
@@ -116,25 +146,52 @@ export class EditCenter extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="eventnameEdit"> Name:</label>
-                                            <input type="text" id="eventnameEdit" className="form-control" placeholder="Event Centre Name" required />
+                                            <input type="text"
+                                                id="eventnameEdit"
+                                                className="form-control"
+                                                placeholder="Event Centre Name"
+                                                onChange={this.handleChangeCentreName}
+                                                value={this.state.centreName}
+                                                required />
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="eventcenterlocationEdit"> Location:</label>
-                                            <input type="text" id="eventcenterlocationEdit" className="form-control" placeholder="Event Centre Location" required />
+                                            <input type="text"
+                                                id="eventcenterlocationEdit"
+                                                className="form-control"
+                                                value={this.state.centreLocation}
+                                                onChange={this.handleChangeCentreLocation}
+                                                placeholder="Event Centre Location"
+                                                required />
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="eventcentercapacityEdit"> Capacity:</label>
-                                            <input type="numbers" id="eventcentercapacityEdit" className="form-control" placeholder="Event Centre Capacity" required />
+                                            <input type="numbers"
+                                                id="eventcentercapacityEdit"
+                                                className="form-control"
+                                                placeholder="Event Centre Capacity"
+                                                onChange={this.handleChangeCentreCapacity}
+                                                value={this.state.centreCapacity}
+                                                required />
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="eventcenteramountEdit"> Amount:</label>
-                                            <input type="numbers" id="eventcenteramountEdit" className="form-control" placeholder="Amount for Booking" required />
+                                            <input type="numbers"
+                                                id="eventcenteramountEdit"
+                                                className="form-control"
+                                                placeholder="Amount for Booking"
+                                                onChange={this.handleChangeCentreAmount}
+                                                value={this.state.centreAmount}
+                                                required />
                                         </div><br />
 
-                                        <button type="submit" className="btn btn-success btn-sm btn-block mb-3" onClick={this.handleEditCenterDetails} >
+                                        <button type="submit"
+                                            id="editButton"
+                                            className="btn btn-success btn-sm btn-block mb-3"
+                                            onClick={this.handleEditCenterDetails} >
                                             <h4 className="text-white">
                                                 <i className="fa fa-save"></i> SAVE CENTER
                             </h4>
