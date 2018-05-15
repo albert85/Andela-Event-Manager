@@ -1,16 +1,8 @@
 language: node_js
 
 node_js:
+ - '9'
 
- - stable
-env:
-  - CXX=g++-4.8
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - g++-4.8
 before_script:
 - sequelize --config ./server --migrations-path ./server/migrations --url postgres://sfmsdcys:DI9XoAJIExLqpPIkdlO4Xx9q1RMw0_yh@baasu.db.elephantsql.com:5432/sfmsdcys db:migrate:undo:all
 - sequelize --config ./server --migrations-path ./server/migrations --url postgres://sfmsdcys:DI9XoAJIExLqpPIkdlO4Xx9q1RMw0_yh@baasu.db.elephantsql.com:5432/sfmsdcys db:migrate
