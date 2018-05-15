@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 
 const ViewBookHeader = () => (
 <div className="bg-primary container-fluid p-2 text-center">
