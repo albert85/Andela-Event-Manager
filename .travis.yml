@@ -3,6 +3,14 @@ language: node_js
 node_js:
 
  - stable
+ before_install:
+  - npm install -g node-gyp
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-5
 before_script:
 - sequelize --config ./server --migrations-path ./server/migrations --url postgres://sfmsdcys:DI9XoAJIExLqpPIkdlO4Xx9q1RMw0_yh@baasu.db.elephantsql.com:5432/sfmsdcys db:migrate:undo:all
 - sequelize --config ./server --migrations-path ./server/migrations --url postgres://sfmsdcys:DI9XoAJIExLqpPIkdlO4Xx9q1RMw0_yh@baasu.db.elephantsql.com:5432/sfmsdcys db:migrate
