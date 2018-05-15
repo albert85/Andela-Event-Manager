@@ -26,6 +26,13 @@ describe('<Center />', () => {
     capacity: 200,
   };
 
+  const newEvent = {
+    name: 'Wedding',
+    id: 1,
+    eventDate: '2018-05-23',
+    bookingStatus: 0,
+};
+
   beforeEach(() => {
     wrapper = shallow(<Center { ...props } />);
   });

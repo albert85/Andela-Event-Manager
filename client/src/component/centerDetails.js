@@ -11,41 +11,47 @@ import Footer from './Footer';
 import CentreDetailsHeader from './CentreDetailsHeader';
 
 export class CenterDetails extends Component {
-    constructor(props) {
-        super(props);
-        this.handleLocation = this.handleLocation.bind(this);
-    }
+  constructor(props) {
+    super(props);
 
-    componentDidMount() {
-        this.props.getAllCenterAction();
-        this.props.getUserEmailAction();
-    }
+    this.state = {
+      centreAmount: '',
+      centreCapacity: '',
+      centreLocation: '',
+    };
+    this.handleLocation = this.handleLocation.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.getAllCenterAction();
+    this.props.getUserEmailAction();
+  }
 
 
-    handleReBooking(eventId) {
-        this.props.getACenterState.map((events) => {
-            if (events.id === eventId) {
-                const changeBooking = {
-                    bookingStatus: 1,
-                    eventDate: events.eventDate,
-                };
-                this.props.cancelBookingAction(changeBooking, eventId, events.id);
-            }
-        });
-    }
+  handleReBooking(eventId) {
+    this.props.getACenterState.map((events) => {
+      if (events.id === eventId) {
+        const changeBooking = {
+          bookingStatus: 1,
+          eventDate: events.eventDate,
+        };
+        this.props.cancelBookingAction(changeBooking, eventId, events.id);
+      }
+    });
+  }
 
-    handleCancelBooking(eventId) {
-        this.props.getACenterState.map((events) => {
-            if (events.id === eventId) {
-                const changeBooking = {
-                    bookingStatus: 0,
-                    eventDate: events.eventDate,
-                };
-                this.props.userEmailState.map((user) => {
-                    if (user.id === events.userId) {
-                        const userEmail = {
-                            email: user.email,
-                            messageBody: `Dear ${user.firstName},
+  handleCancelBooking(eventId) {
+    this.props.getACenterState.map((events) => {
+      if (events.id === eventId) {
+        const changeBooking = {
+          bookingStatus: 0,
+          eventDate: events.eventDate,
+        };
+        this.props.userEmailState.map((user) => {
+          if (user.id === events.userId) {
+            const userEmail = {
+              email: user.email,
+              messageBody: `Dear ${user.firstName},
               
             We regret to inform you that the ${events.name} event you booked, which was slated for ${events.eventDate} has been cancelled for some unavoidable reason.
               
@@ -53,39 +59,34 @@ export class CenterDetails extends Component {
               
             Yours faithfully,
             The Event Manager`,
-                        };
-                        this.props.sendMailNotificationAction(userEmail);
-                    }
-                    return user;
-                });
-                return this.props.cancelBookingAction(changeBooking, eventId, events.id);
-            }
-            return events;
+            };
+            this.props.sendMailNotificationAction(userEmail);
+          }
+          return user;
         });
-    }
+        return this.props.cancelBookingAction(changeBooking, eventId, events.id);
+      }
+      return events;
+    });
+  }
 
-    handleLocation() {
-        if (this.refs.eventCenterId.value !== 'Please select center') {
-            this.props.centerState.map((center) => {
-                if (this.refs.eventCenterId.value === center.name) {
-                    this.props.getACenterAction(center.id);
-                    window.document.getElementById('eventCenterLocation').value = center.location;
-                    window.document.getElementById('eventCenterCapacity').value = center.capacity;
-                    return window.document.getElementById('eventcenteramountEdit').value = center.amount;
-                }
-                window.document.getElementById('eventCenterLocation').innerHTML = 'London bridge';
-            });
+  handleLocation(e) {
+    if (e.target.value !== 'Please select center') {
+      this.props.centerState.map((center) => {
+        if (e.target.value === center.name) {
+          this.props.getACenterAction(center.id);
+          this.setState({ centreAmount: center.amount, centreCapacity: center.capacity, centreLocation: center.location });
         }
-        if (this.refs.eventCenterId.value === 'Please select center') {
-            window.document.getElementById('eventCenterLocation').value = '';
-            window.document.getElementById('eventCenterCapacity').value = '';
-            return window.document.getElementById('eventcenteramountEdit').value = '';
-        }
-        return false;
+      });
     }
+    if (e.target.value === 'Please select center') {
+      this.setState({ centreAmount: '', centreCapacity: '', centreLocation: '' });
+    }
+    return false;
+  }
 
-    render() {
-        return (
+  render() {
+    return (
             <div>
                 {/* Setup the header  */}
                 <CentreDetailsHeader />
@@ -105,7 +106,9 @@ export class CenterDetails extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="centerName">Center Name</label>
-                                            <select ref='eventCenterId' className="form-control" id="centerName" required onChange={this.handleLocation}>
+                                            <select
+                                            className="form-control"
+                                            id="centerName" required onChange={this.handleLocation}>
                                                 <option>Please select center</option>
                                                 {this.props.centerState.map((center, i) => <option key={i} i={i} value={center.name}>{center.name}</option>)}
                                             </select>
@@ -114,17 +117,33 @@ export class CenterDetails extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="eventCenterLocation"> Location:</label>
-                                            <input type="text" readOnly id="eventCenterLocation" className="form-control" placeholder="" aria-describedby="helpId" />
+                                            <input type="text"
+                                            readOnly
+                                            id="eventCenterLocation"
+                                            className="form-control"
+                                            placeholder="Location"
+                                            value={this.state.centreLocation}
+                                            />
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="eventCenterCapacity"> Capacity:</label>
-                                            <input type="text" readOnly id="eventCenterCapacity" className="form-control" placeholder="" aria-describedby="helpId" />
+                                            <input type="text"
+                                            readOnly
+                                            id="eventCenterCapacity"
+                                            className="form-control"
+                                            value={this.state.centreCapacity}
+                                            placeholder="Capacity"/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="eventcenteramountEdit"> Amount:</label>
-                                            <input type="numbers" id="eventcenteramountEdit" className="form-control" placeholder="" aria-describedby="helpId" required />
+                                            <input type="numbers"
+                                            id="eventcenteramountEdit"
+                                            className="form-control"
+                                            placeholder="Amount"
+                                            value={this.state.centreAmount}
+                                            required />
                                         </div>
 
                                         <a className="btn btn-success btn-sm btn-block mb-3" href="/centers">
@@ -166,12 +185,19 @@ export class CenterDetails extends Component {
                                                             <td>
                                                                 <div className="row">
                                                                     <div className="col mb-2">
-                                                                        <button type="button" className="btn btn-success btn-block" index={i} onClick={this.handleReBooking.bind(this, centers.id)} >
+                                                                        <button type="button"
+                                                                        className="btn btn-success btn-block"
+                                                                        id="rebookingButton"
+                                                                        index={i}
+                                                                        onClick={this.handleReBooking.bind(this, centers.id)} >
                                                                             <i className="fa fa-book" aria-hidden="true"></i>
                                                                         </button>
                                                                     </div>
                                                                     <div className="col">
-                                                                        <button type="button" className="btn btn-danger btn-block" index={i} onClick={this.handleCancelBooking.bind(this, centers.id)} >
+                                                                        <button type="button" className="btn btn-danger btn-block"
+                                                                        index={i}
+                                                                        id='cancelBookingBtn'
+                                                                        onClick={this.handleCancelBooking.bind(this, centers.id)} >
                                                                             <i className="fa fa-close" aria-hidden="true"></i>
                                                                         </button>
                                                                     </div>
@@ -195,21 +221,21 @@ export class CenterDetails extends Component {
                 <Footer />
 
             </div>
-        );
-    }
+    );
+  }
 }
 
 const mapStateToProps = state => ({
-    centerState: state.centerState,
-    getACenterState: state.getACenterState,
-    userEmailState: state.userEmailState,
+  centerState: state.centerState,
+  getACenterState: state.getACenterState,
+  userEmailState: state.userEmailState,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    getAllCenterAction,
-    getACenterAction,
-    cancelBookingAction,
-    getUserEmailAction,
-    sendMailNotificationAction,
+  getAllCenterAction,
+  getACenterAction,
+  cancelBookingAction,
+  getUserEmailAction,
+  sendMailNotificationAction,
 }, dispatch);
 export default connect(mapStateToProps, mapDispatchToProps)(CenterDetails);

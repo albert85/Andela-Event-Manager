@@ -9,7 +9,6 @@
         "import"
     ],
     "globals": {
-        "Materialize": true,
         "window": true,
         "location": true,
         "localStorage": true,
