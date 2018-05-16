@@ -4,7 +4,7 @@ import db from '../models/index';
 export default class UserControllerClass {
   static signUp(req, res) {
     // check if email exist
-    console.log(db.user);
+    // console.log(db.user);
     db.user.findAll({
       where: {
         email: req.body.email,
@@ -13,7 +13,7 @@ export default class UserControllerClass {
       if (result.length !== 0) {
         return res.status(400).send({ message: 'Credential exist' });
       }
-  
+
       // Setting up password for hash
       const saltRound = 10;
       const { password } = req.body;
@@ -28,9 +28,11 @@ export default class UserControllerClass {
         })
         .then((userDetails) => {
           const { firstName, lastName, email } = userDetails;
-          res.status(201).send({ message: 'sucessful', firstName, lastName, email });
+          res.status(201).send({
+            message: 'sucessful', firstName, lastName, email,
+          });
         })
         .catch(() => res.status(400).send({ message: 'Resource not Created' })));
-    }).catch((err) => res.status(400).send({ message: 'Resource not Found', error: err, }));
+    }).catch(err => res.status(400).send({ message: 'Resource not Found', error: err }));
   }
 }
