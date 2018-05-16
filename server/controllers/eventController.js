@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { Event } from '../models';
+import db from '../models/index';
 
 export default class EventControllerClass {
   static create(req, res) {
@@ -9,7 +9,7 @@ export default class EventControllerClass {
       return res.status(401).json({ message: 'Token expired' });
     }
     // check if date is available
-    return Event
+    return db.Event
       .findAll({
         where: {
           eventDate: new Date(req.body.eventDate),
@@ -18,7 +18,7 @@ export default class EventControllerClass {
       }).then((dateAvailability) => {
         // console.log(dateAvailability)
         if (dateAvailability.length === 0) {
-          return Event
+          return db.Event
             .create({
               name: req.body.name,
               userId: decoded.id,
@@ -40,7 +40,7 @@ export default class EventControllerClass {
     if (!decoded) {
       return res.json({ message: 'Token expired' });
     }
-    return Event
+    return db.Event
       .findById(req.params.eventId)
       .then((eventDetails) => {
         if (!eventDetails) {
@@ -59,7 +59,7 @@ export default class EventControllerClass {
       return res.status(403).json({ message: 'Token expired' });
     }
 
-    return Event
+    return db.Event
       .findAll()
       .then(eventDetails => res.status(200).json({ message: 'sucessful', eventDetails }))
       .catch(() => res.status(404).json('No Events Found'));
@@ -73,7 +73,7 @@ export default class EventControllerClass {
       return res.status(403).json({ message: 'Token expired' });
     }
 
-    return Event
+    return db.Event
       .findAll({
         where: {
           userId: req.params.userIdNo,
@@ -90,7 +90,7 @@ export default class EventControllerClass {
       return res.status(403).json({ message: 'Token expired' });
     }
     // check if date is available
-    return Event
+    return db.Event
       .findAll({
         where: {
           eventDate: new Date(req.body.eventDate),
@@ -99,7 +99,7 @@ export default class EventControllerClass {
         // if data is available, update records
         if (checkAvailability.length === 0) {
           // if the record to be updated
-          return Event
+          return db.Event
             .findById(req.params.eventId)
             .then((eventDetails) => {
               // check if the id exists
@@ -131,7 +131,7 @@ export default class EventControllerClass {
       return res.status(403).json({ message: 'Token expired' });
     }
     // check if date is available
-    return Event
+    return db.Event
       .findAll({
         where: {
           eventDate: new Date(req.body.eventDate),
@@ -140,7 +140,7 @@ export default class EventControllerClass {
         // if data is available, update records
         if (checkAvailability.length !== 0) {
           // if the record to be updated
-          return Event
+          return db.Event
             .findById(req.params.eventId)
             .then((eventDetails) => {
               // check if the id exists
@@ -166,7 +166,7 @@ export default class EventControllerClass {
   }
 
   static deleteAnEvent(req, res) {
-    return Event
+    return db.Event
       .findById(req.params.eventId)
       .then((eventDetails) => {
         // check if the event exist

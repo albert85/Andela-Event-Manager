@@ -2,8 +2,8 @@ import axios from 'axios';
 
 import { EDIT_AN_EVENT } from '../common/types';
 
-// const CLIENT_ROOT_URL = process.env.ROOT_URL || 'http://localhost:8000';
-const CLIENT_ROOT_URL = 'https://andela-event-manager-app.herokuapp.com';
+const CLIENT_ROOT_URL = process.env.ROOT_URL || 'http://localhost:8000';
+// const CLIENT_ROOT_URL = 'https://andela-event-manager-app.herokuapp.com';
 
 const updateAnEventsAsync = (modifiedData, eventId) => ({
   type: EDIT_AN_EVENT,

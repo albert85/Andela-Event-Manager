@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "andeladeveloper",
+    "username": "postgres",
     "password": "",
-    "database": "EventMan",
+    "database": "eventmanagerdb",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },

@@ -26,7 +26,7 @@ app.post('/api/v1/events', validator.createEventValidation, auth.checkIfAuthoriz
 // get all event
 app.get('/api/v1/events', auth.checkIfAuthorize, eventDetails.getAllEvents);
 
-// get all event for a specific user
+// get all events for a specific user
 app.get('/api/v1/user/events/:userIdNo', auth.checkIfAuthorize, eventDetails.getUserAllEvents);
 
 // updating event operation

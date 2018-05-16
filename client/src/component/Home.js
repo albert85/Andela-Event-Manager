@@ -4,11 +4,11 @@ import { bindActionCreators } from 'redux';
 
 import '../../style.scss';
 import loginAction from '../action/loginAction';
+import Footer from './Footer';
 
 export class Home extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       loginDetails: {
         email: '',
@@ -120,6 +120,7 @@ export class Home extends React.Component {
             </div>
           </div>
         </div>
+        <Footer/>
      </div>
     );
   }

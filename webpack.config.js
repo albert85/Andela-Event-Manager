@@ -1,4 +1,5 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   entry: './client/index.js',
@@ -22,7 +23,7 @@ module.exports = {
 
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -49,7 +50,23 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin('css/style.css', {
-      allChunks: true,
+      allChunks: true,}),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        unused: true,
+        dead_code: true, // big one--strip code that will never execute
+        warnings: false, // good for prod apps so users can't peek behind curtain
+        drop_debugger: true,
+        conditionals: true,
+        evaluate: true,
+        drop_console: true, // strips console statements
+        sequences: true,
+        booleans: true,
+      },
+      comments: false,
+      sourceMap: true,
+      minimize: false
     }),
   ],
   node: {

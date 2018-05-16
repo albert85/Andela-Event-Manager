@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { ADD_AN_EVENT } from '../common/types';
 
-const addNewEventAsync = newEventDetails => ({
+export const addNewEventAsync = newEventDetails => ({
   type: ADD_AN_EVENT,
   payload: newEventDetails,
 });
@@ -18,13 +18,13 @@ const addNewEvent = newEventDetails => (dispatch) => {
       // check if successfully added
       if (res.data.message === 'sucessfully created') {
         window.document.getElementById('dateAvailable').innerHTML = '';
-        return window.document.getElementById('addEventForm').reset();
+        window.document.getElementById('addEventForm').reset();
       }
     })
     .catch(() =>
       // localStorage.setItem('message', error.response.data.message);
       // check if the data is available
-      window.document.getElementById('dateAvailable').innerHTML = 'Date not Available for booking' );
+      window.document.getElementById('dateAvailable').innerHTML = 'Date not Available for booking');
 };
 
 export default addNewEvent;

@@ -23,6 +23,6 @@ app.use(router);
 const port = parseInt(process.env.PORT, 10) || 8000;
 app.set('port', port);
 
-app.listen(port);
+app.listen(port, ()=> console.log('Server is runing on port ', port));
 
 export default app;
