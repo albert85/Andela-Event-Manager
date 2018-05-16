@@ -2,8 +2,8 @@ import axios from 'axios';
 
 import { LOGIN_USER } from '../common/types';
 
-const CLIENT_ROOT_URL = process.env.ROOT_URL || 'http://localhost:8000';
-// const CLIENT_ROOT_URL = 'https://andela-event-manager-app.herokuapp.com';
+// const CLIENT_ROOT_URL = process.env.ROOT_URL || 'http://localhost:8000';
+const CLIENT_ROOT_URL = 'https://andela-event-manager-app.herokuapp.com';
 
 const loginUserAsync = userData => ({
   type: LOGIN_USER,
