@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import db from '../models/index';
 
-export default class Auth {
+export default class CheckAuth {
   static checkIfAuthorize(req, res, next) {
     const bearerHeader = req.headers.authorization;
     if (typeof bearerHeader !== 'undefined') {

@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import db from '../models/index';
 
-export default class UserControllerClass {
+export default class UserController {
   static signUp(req, res) {
     // check if email exist
     // console.log(db.user);

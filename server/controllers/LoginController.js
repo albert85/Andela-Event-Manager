@@ -6,7 +6,7 @@ import db from '../models/index';
 const nodemailer = require('nodemailer');
 
 dotenv.config();
-export default class LogInControllerClass {
+export default class LoginController {
   static signIn(req, res) {
     return db.user
       .findOne({

@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import db from '../models/index';
 
-export default class EventControllerClass {
+export default class EventController {
   static create(req, res) {
     // get the id of the user
     const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);

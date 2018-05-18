@@ -2,7 +2,7 @@
 import jwt from 'jsonwebtoken';
 import db from '../models/index';
 
-export default class CenterControllerClass {
+export default class CenterController {
   // Creating a new center
   static create(req, res) {
     // check if details exist
