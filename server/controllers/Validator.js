@@ -1,6 +1,6 @@
 
 
-export default class ValidatorClass {
+export default class Validator {
   static loginValidator(req, res, next) {
     // check for validity of the email
     req.checkBody('email', 'check email').notEmpty().isEmail();

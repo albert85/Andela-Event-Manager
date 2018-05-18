@@ -2,7 +2,7 @@ import express from 'express';
 import userDetails from '../controllers/UserController';
 import eventDetails from '../controllers/EventController';
 import centerDetails from '../controllers/CenterController';
-import validator from '../controllers/validator';
+import validator from '../controllers/Validator';
 import loginController from '../controllers/LoginController';
 import auth from '../controllers/CheckAuth';
 
