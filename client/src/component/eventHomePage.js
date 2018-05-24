@@ -14,90 +14,97 @@ import Footer from './Footer';
 import EventHomePageHeader from './EventHomePageHeader';
 
 export class EventHomePage extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            addEventDetails: {
-                eventName: '',
-                eventLocation: 'Location',
-                eventVenue: '',
-                eventDate: '',
-            },
-            eventLocation: '',
-            eventCentreName:"",
-        };
+    this.state = {
+      addEventDetails: {
+        eventName: '',
+        eventLocation: 'Location',
+        eventVenue: 'Please select center',
+        eventDate: '',
+      },
+      eventLocation: '',
+      eventCentreName: '',
+    };
 
-        this.handleEventName = this.handleEventName.bind(this);
-        this.handleLocation = this.handleLocation.bind(this);
-        this.handleAddEvent = this.handleAddEvent.bind(this);
-        this.handleEventDate = this.handleEventDate.bind(this);
-    }
-
-
-    componentDidMount() {
-        this.props.getAllCenters();
-        this.props.getUsersAllEventAction(localStorage.getItem('userIdNo'));
-    }
-
-    handleEventName(e) {
-        this.setState({ addEventDetails: Object.assign(this.state.addEventDetails, { eventName: e.target.value }) });
-        return true;
-    }
-
-    handleEventDate(e) {
-        this.setState({ addEventDetails: Object.assign(this.state.addEventDetails, { eventDate: e.target.value }) });
-        return true;
-    }
-
-    handleDeleteEvent(index) {
-        this.props.deleteAnEventAction(index);
-        return true;
-    }
-
-    handleAddEvent(eventDetails) {
-        //   prevent submitting automatically
-        eventDetails.preventDefault();
-        this.props.centerState.map((center) => {
-            if (this.state.eventCentreName === center.name) {
-                const cent = center.id;
-                localStorage.setItem('AddcenterId', center.id);
-                return cent;
-            }
-        });
+    this.handleEventName = this.handleEventName.bind(this);
+    this.handleLocation = this.handleLocation.bind(this);
+    this.handleAddEvent = this.handleAddEvent.bind(this);
+    this.handleEventDate = this.handleEventDate.bind(this);
+  }
 
 
-        // get event details
-        const eventToAdd = {
-            name: this.state.addEventDetails.eventName,
-            bookingStatus: 1, // 0 signifies booking cancel while 1 signifies booking booked
-            centerId: localStorage.getItem('AddcenterId'),
-            eventDate: this.state.addEventDetails.eventDate,
-        };
+  componentDidMount() {
+    this.props.getAllCenters();
+    this.props.getUsersAllEventAction(localStorage.getItem('userIdNo'));
+  }
 
-        // Add new event
-        this.props.addNewEvent(eventToAdd);
+  handleEventName(e) {
+    this.setState({ addEventDetails: Object.assign(this.state.addEventDetails, { eventName: e.target.value }) });
+    return true;
+  }
 
-        this.setState({ addEventDetails: Object.assign(this.state.addEventDetails, { eventLocation: 'Location' }) });
-    }
+  handleEventDate(e) {
+    this.setState({ addEventDetails: Object.assign(this.state.addEventDetails, { eventDate: e.target.value }) });
+    return true;
+  }
 
-    handleLocation(e) {
-        this.setState({eventCentreName: e.target.value});
-        if (e.target.value !== 'Please select center') {
+  handleDeleteEvent(index) {
+    this.props.deleteAnEventAction(index);
+    return true;
+  }
 
-            this.props.centerState.map((center) => {
-                if (e.target.value === center.name) {
-                    this.setState({ addEventDetails: Object.assign(this.state.addEventDetails, { eventLocation: center.location, eventVenue: center.name }) });
-                    return true;
-                }
-            });
+  handleAddEvent(eventDetails) {
+    //   prevent submitting automatically
+    eventDetails.preventDefault();
+    this.props.centerState.map((center) => {
+      if (this.state.eventCentreName === center.name) {
+        const cent = center.id;
+        localStorage.setItem('AddcenterId', center.id);
+        return cent;
+      }
+    });
+
+
+    // get event details
+    const eventToAdd = {
+      name: this.state.addEventDetails.eventName,
+      bookingStatus: 1, // 0 signifies booking cancel while 1 signifies booking booked
+      centerId: localStorage.getItem('AddcenterId'),
+      eventDate: this.state.addEventDetails.eventDate,
+    };
+
+    // Add new event
+    this.props.addNewEvent(eventToAdd);
+    
+    this.setState({
+      addEventDetails: Object.assign(this.state.addEventDetails, {
+        eventName: '',
+        eventLocation: 'Location',
+        eventVenue: 'Please select center',
+        eventDate: '',
+
+      }),
+    });
+  }
+
+  handleLocation(e) {
+    this.setState({ eventCentreName: e.target.value });
+    if (e.target.value !== 'Please select center') {
+      this.props.centerState.map((center) => {
+        if (e.target.value === center.name) {
+          this.setState({ addEventDetails: Object.assign(this.state.addEventDetails, { eventLocation: center.location, eventVenue: center.name }) });
+          return true;
         }
-        
-        return false;
+      });
     }
 
-    render() {
-        return (
+    return false;
+  }
+
+  render() {
+    return (
             <div >
                 <EventHomePageHeader/>
 
@@ -107,6 +114,7 @@ export class EventHomePage extends Component {
                     < div className="section-cover-user" >
                         <div className="container">
                             <div className="row event-body">
+
                                 <div className="col-md-7 col-sm-12 mb-4 pt-2">
                                     <div className="text-center bg-danger text-white p-2 mb-2">
                                         <h4>EVENTS</h4>
@@ -185,15 +193,18 @@ export class EventHomePage extends Component {
                                                 className="form-control"
                                                 placeholder="Event Name"
                                                 aria-describedby="helpId"
+                                                value = {this.state.addEventDetails.eventName}
+                                                defaultValue = ""
                                                 onChange={this.handleEventName} />
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="eventCentre">Event Centre</label>
                                             <select
-                                            className="form-control" 
-                                            id="eventCentre" 
-                                            required 
+                                            className="form-control"
+                                            value = {this.state.addEventDetails.eventVenue}
+                                            id="eventCentre"
+                                            required
                                             onChange={this.handleLocation}>
                                                 <option defaultValue>Please select center</option>
                                                 {this.props.centerState.map((center, i) => <option key={i} i={i} value={center.name}>{center.name}</option>)}
@@ -208,8 +219,9 @@ export class EventHomePage extends Component {
                                                 required
                                                 className="form-control"
                                                 readOnly
+                                                value = {this.state.addEventDetails.location}
                                                 placeholder="London bridge"
-                                                aria-describedby="helpId" 
+                                                aria-describedby="helpId"
                                                 value={this.state.addEventDetails.eventLocation}/>
                                         </div>
 
@@ -218,13 +230,14 @@ export class EventHomePage extends Component {
                                             <input type="date"
                                                 id="eventdate"
                                                 className="form-control"
-                                                placeholder="12/22/2017"
+                                                placeholder=""
+                                                value = {this.state.addEventDetails.eventDate}
                                                 aria-describedby="helpId"
                                                 required
                                                 onChange={this.handleEventDate} /><br />
-                                            <span id='dateAvailable' className='text-danger'></span>
+                                            <span id='dateAvailable' value = "" className='text-danger'></span>
                                         </div>
-                                        <button type="submit" 
+                                        <button type="submit"
                                         className="btn btn-success btn-sm btn-block mb-3">
                                             <h4 className="text-white"><i className="fa fa-save" aria-hidden="true"> Add Event</i></h4>
                                         </button>
@@ -232,7 +245,8 @@ export class EventHomePage extends Component {
 
 
                                 </div>
-                            </div>
+                                </div>
+
                         </div>
                     </div>
                 </div>
@@ -241,20 +255,20 @@ export class EventHomePage extends Component {
                     <Footer />
                 </div>
             </div>
-        );
-    }
+    );
+  }
 }
 
 const mapStateToProps = state => ({
-    centerState: state.centerState,
-    eventState: state.eventState,
+  centerState: state.centerState,
+  eventState: state.eventState,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    getAllCenters: getAllCenterAction,
-    addNewEvent: addEventAction,
-    getUsersAllEventAction,
-    deleteAnEventAction,
+  getAllCenters: getAllCenterAction,
+  addNewEvent: addEventAction,
+  getUsersAllEventAction,
+  deleteAnEventAction,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventHomePage);

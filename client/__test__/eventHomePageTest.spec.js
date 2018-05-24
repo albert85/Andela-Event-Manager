@@ -22,7 +22,7 @@ describe('<EventHomePage />', () => {
     getAllCenters: () => { },
     getUsersAllEventAction: (event) => { },
     deleteAnEventAction: () => { },
-    addNewEvent:() => {}
+    addNewEvent: () => {},
 
   };
 
@@ -169,10 +169,9 @@ describe('<EventHomePage />', () => {
       centerState: [newCenter],
     });
 
-    wrapper.find('#eventCentre').simulate('change',{target: {value: 'Anike Event Centre'}});
+    wrapper.find('#eventCentre').simulate('change', { target: { value: 'Anike Event Centre' } });
     expect(spy.called).to.be.equal(true);
     spy.restore();
-  
   });
 
   it('Should return true when select option was selected on Homepage component', () => {
@@ -187,13 +186,11 @@ describe('<EventHomePage />', () => {
       ddEventDetails: {
         eventName: 'Wedding',
         eventDate: '2018-04-10',
-    },
-    })
+      },
+    });
 
-    wrapper.find('#addEventForm').simulate('submit',{preventDefault: ()=>{} });
+    wrapper.find('#addEventForm').simulate('submit', { preventDefault: () => {} });
     expect(spy.called).to.be.equal(true);
     spy.restore();
-  
   });
-
 });

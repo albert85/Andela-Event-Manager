@@ -9,7 +9,7 @@ const getAllUserEventsAsync = getAllEventsDetail => ({
 
 const getAllUserEvents = userIdNo => (dispatch) => {
   axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('token')}`;
-  axios
+  return axios
     .get(`/api/v1/user/events/${userIdNo}`)
     .then((res) => {
       localStorage.setItem('message', res.data.message);

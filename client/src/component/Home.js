@@ -22,14 +22,10 @@ export class Home extends React.Component {
     // sthis.checkIfExist = this.checkIfExist.bind(this);
   }
 
-  componentDidMount() {
-    // localStorage.removeItem('token');
-  }
-
   /**
    * @method
    * @param {strings}
-   * @returns{null}
+   * @returns{boolean}
    */
   handleChangeEmailInput(e) {
     this.setState({ loginDetails: Object.assign(this.state.loginDetails, { email: e.target.value }) });
@@ -39,7 +35,7 @@ export class Home extends React.Component {
   /**
    * @method
    * @param {strings}
-   * @returns{null}
+   * @returns{boolean}
    */
   handleChangePasswordInput(e) {
     this.setState({ loginDetails: Object.assign(this.state.loginDetails, { password: e.target.value }) });
@@ -59,16 +55,10 @@ export class Home extends React.Component {
     };
 
     // Login to generate token and get Id no
-    this.props.loginUser(userLoginDetails);
+    this.props.loginUser(userLoginDetails, this.props.history);
     return true;
   }
 
-  // checkIfExist() {
-  //   if (this.props.loginUserDetail === 'successfully login') {
-  //     return true;
-  //   }
-  //   return false;
-  // }
 
   render() {
     return (
@@ -77,7 +67,7 @@ export class Home extends React.Component {
           <div className="container" >
             <div className="row">
               <div className="col-md-6 offset-md-3">
-                <div className="sigin-section">
+                <div className="signin-section">
                   <form className="p-4 text-white sigininnersection" name="signInForm" onSubmit={this.handleUserLogin}>
                     <h3 className="text-center">SIGN IN</h3>
                     <hr className="hr" /><br />

@@ -9,7 +9,7 @@ const getACentersAsync = eventDetails => ({
 
 const getACenter = centerId => (dispatch) => {
   axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('token')}`;
-  axios
+  return axios
     .get(`/api/v1/centers/${centerId}`)
     .then((res) => {
       localStorage.setItem('message', res.data.message);

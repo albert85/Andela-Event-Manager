@@ -24,7 +24,7 @@ export class SignUp extends Component {
       },
       errorPassword: false,
       checkAdminStatus: false,
-      errorMessage:" ",
+      errorMessage: ' ',
     };
     // this.signUpNewUser = this.signUpNewUser.bind(this);
 
@@ -78,7 +78,7 @@ export class SignUp extends Component {
     e.preventDefault();
     let isAdminStatus = false;
     if (this.state.signUpDetails.password !== this.state.signUpDetails.confirmPassword) {
-      return this.setState({errorMessage: 'wrong password'});
+      return this.setState({ errorMessage: 'wrong password' });
     }
 
     if (this.state.signUpDetails.password === 'admin') {
@@ -94,7 +94,7 @@ export class SignUp extends Component {
       isAdmin: isAdminStatus,
     };
 
-    this.props.signUpNewUser(userDetails);
+    this.props.addUserAction(userDetails, this.props.history);
     return true;
   }
 
@@ -179,7 +179,7 @@ export class SignUp extends Component {
                         onKeyUp={this.checkPassword}
                         onChange={this.handleConfirmPasswordInput}
                       />
-                      <span id='errorMessage' 
+                      <span id='errorMessage'
                       className='text-danger'
                       >{this.state.errorMessage}</span>
                     </div>
@@ -208,7 +208,7 @@ export class SignUp extends Component {
         </div>
         <Footer />
       </div>
- 
+
     );
   }
 }
@@ -218,7 +218,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  signUpNewUser: addUserAction,
+  addUserAction,
 }, dispatch);
+
+// const actionCreators = {
+//   addUserAction,
+// };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

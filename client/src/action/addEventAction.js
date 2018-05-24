@@ -1,4 +1,5 @@
 import axios from 'axios';
+import toastr from 'toastr';
 
 import { ADD_AN_EVENT } from '../common/types';
 
@@ -9,22 +10,18 @@ export const addNewEventAsync = newEventDetails => ({
 
 const addNewEvent = newEventDetails => (dispatch) => {
   axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('token')}`;
-  axios
+  return axios
     .post('/api/v1/events', newEventDetails)
     .then((res) => {
       // localStorage.setItem('message', res.data.message);
       dispatch(addNewEventAsync(res.data.eventDetails));
 
-      // check if successfully added
-      if (res.data.message === 'sucessfully created') {
-        window.document.getElementById('dateAvailable').innerHTML = '';
-        window.document.getElementById('addEventForm').reset();
-      }
+      toastr.success('sucessfully created');
     })
-    .catch(() =>
-      // localStorage.setItem('message', error.response.data.message);
+    .catch(() => {
       // check if the data is available
-      window.document.getElementById('dateAvailable').innerHTML = 'Date not Available for booking');
+      toastr.error('Date not Available for booking');
+    });
 };
 
 export default addNewEvent;

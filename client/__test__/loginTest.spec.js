@@ -66,9 +66,6 @@ describe('<LogIn />', () => {
     expect(wrapper.find('.container')).to.have.length(1);
   });
 
-  it('Should return the number of .sigin-section class ', () => {
-    expect(wrapper.find('.sigin-section')).to.have.length(1);
-  });
 
   it('Should return the number of .col-md-6 class ', () => {
     expect(wrapper.find('.col-md-6')).to.have.length(3);

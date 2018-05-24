@@ -13,7 +13,7 @@ const updateBookingStatusAsync = (bookingStatus, eventId, index) => ({
 
 const updateBookingStatus = (bookingStatusData, eventId, index) => (dispatch) => {
   axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('token')}`;
-  axios
+  return axios
     .put(`/api/v1/events/admin/${eventId}`, bookingStatusData)
     .then((res) => {
       localStorage.setItem('message', res.data.message);

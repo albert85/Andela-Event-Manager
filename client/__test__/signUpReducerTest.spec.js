@@ -12,6 +12,7 @@ describe('<signUpReducer />', () => {
     isAdmin: false,
     password: 'admin',
     email: 'you@yahoo.com',
+    message: 'successfully registered',
   };
 
   it('Should return initial state', () => {
@@ -22,6 +23,6 @@ describe('<signUpReducer />', () => {
     expect(signUpReducer(signUpDetails, {
       type: types.ADD_NEW_USER,
       payload: signUpDetails,
-    })).to.be.eqls([signUpDetails]);
+    })).to.be.eqls({ message: signUpDetails.message });
   });
 });

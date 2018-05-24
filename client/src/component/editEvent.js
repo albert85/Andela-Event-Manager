@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import getAllCenterAction from '../action/getAllCentersAction';
-import addEventAction from '../action/addEventAction';
 import getUsersAllEventAction from '../action/getUsersAllEventAction';
-import deleteAnEventAction from '../action/deleteAnEventAction';
 import editAnEventAction from '../action/editAnEventAction';
 
 
@@ -14,96 +12,95 @@ import EditEventHeader from './EditEventHeader';
 import Footer from './Footer';
 
 export class EditEvent extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            editEventName: "Event Name",
-            editLocation: "",
-            editEventDate: "",
-            editEventCenter: "Centre Name",
-            editEventLocation: "Centre Location"
+    this.state = {
+      editEventName: 'Event Name',
+      editLocation: '',
+      editEventDate: '',
+      editEventCenter: 'Centre Name',
+      editEventLocation: 'Centre Location',
 
-        };
+    };
 
-        this.handleEditEvent = this.handleEditEvent.bind(this);
-        this.handleEventName = this.handleEventName.bind(this);
-        this.handleEventLocation = this.handleEventLocation.bind(this);
-        this.handleCenter = this.handleCenter.bind(this);
-        this.handleEventDate = this.handleEventDate.bind(this);
-    }
-
-
-    componentDidMount() {
-        this.props.getAllCenters();
-        this.props.getUsersAllEventAction(localStorage.getItem('userIdNo'));
-    }
-
-    handleEventDate(e) {
-        this.setState({ editEventDate: e.target.value });
-        return true
-    }
-
-    handleCenter(e) {
-        this.setState({ editEventCenter: e.target.value });
-        return true
-    }
-
-    handleEventLocation(e) {
-        this.setState({ editLocation: e.target.value });
-        return true
-    }
+    this.handleEditEvent = this.handleEditEvent.bind(this);
+    this.handleEventName = this.handleEventName.bind(this);
+    this.handleEventLocation = this.handleEventLocation.bind(this);
+    this.handleCenter = this.handleCenter.bind(this);
+    this.handleEventDate = this.handleEventDate.bind(this);
+  }
 
 
-    handleEventName(e) {
-        this.setState({ editEventName: e.target.value });
-        return true;
-    }
+  componentDidMount() {
+    this.props.getAllCenters();
+    this.props.getUsersAllEventAction(localStorage.getItem('userIdNo'));
+  }
+
+  handleEventDate(e) {
+    this.setState({ editEventDate: e.target.value });
+    return true;
+  }
+
+  handleCenter(e) {
+    this.setState({ editEventCenter: e.target.value });
+    return true;
+  }
+
+  handleEventLocation(e) {
+    this.setState({ editLocation: e.target.value });
+    return true;
+  }
 
 
-    handleEditEvent(editDetails) {
-        editDetails.preventDefault();
+  handleEventName(e) {
+    this.setState({ editEventName: e.target.value });
+    return true;
+  }
 
+
+  handleEditEvent(editDetails) {
+    editDetails.preventDefault();
+
+    this.props.centerState.map((center) => {
+      if (this.state.editEventCenter === center.name) {
+        localStorage.setItem('centerEditId', center.id);
+        return center.id;
+      }
+    });
+
+    const editDetailData = {
+      name: this.state.editEventName,
+      eventDate: this.state.editEventDate,
+      centerId: Number(localStorage.getItem('centerEditId')),
+    };
+
+    this.props.editAnEventAction(editDetailData, Number(localStorage.getItem('index')), this.props.history);
+  }
+
+
+  handleStoringId(index) {
+    localStorage.setItem('index', index);
+    this.props.eventState.map((event) => {
+      if (event.id === index) {
+        this.setState({ editEventName: event.name });
         this.props.centerState.map((center) => {
-            if (this.state.editEventCenter === center.name) {
-                localStorage.setItem('centerEditId', center.id);
-                return center.id;
-            }
+          if (center.id === event.centerId) {
+            this.setState({ editEventCenter: center.name, editEventLocation: center.location });
+          }
+          return center;
         });
 
-        const editDetailData = {
-            name: this.state.editEventName,
-            eventDate: this.state.editEventDate,
-            centerId: Number(localStorage.getItem('centerEditId')),
-        };
-
-        this.props.editAnEventAction(editDetailData, Number(localStorage.getItem('index')));
-    }
+        this.setState({ editEventDate: event.eventDate });
+        // window.document.getElementById('eventdateEdit').value = event.eventDate;
+      }
+    });
+    return true;
+  }
 
 
-    handleStoringId(index) {
-        localStorage.setItem('index', index);
-        this.props.eventState.map((event) => {
-            if (event.id === index) {
-                this.setState({editEventName: event.name})
-                this.props.centerState.map((center) => {
-                    if (center.id === event.centerId) {
-                        this.setState({editEventCenter: center.name, editEventLocation: center.location});
-                    }
-                    return center;
-                });
-
-                this.setState({editEventDate: event.eventDate})
-                // window.document.getElementById('eventdateEdit').value = event.eventDate;
-            }
-            
-        });
-        return true;
-    }
-
-
-    render() {
-        return (
+  render() {
+    return (
             <div >
 
                 <EditEventHeader />
@@ -165,9 +162,9 @@ export class EditEvent extends Component {
 
                                                                     {/* Execute edit operation */}
                                                                     <div className="col mb-2">
-                                                                        <button type="button" 
+                                                                        <button type="button"
                                                                         id="editButton"
-                                                                        onClick={this.handleStoringId.bind(this, event.id)} 
+                                                                        onClick={this.handleStoringId.bind(this, event.id)}
                                                                         className="btn btn-success btn-block">
                                                                             <i className="fa fa-pencil" aria-hidden="true"></i>
                                                                         </button>
@@ -210,7 +207,7 @@ export class EditEvent extends Component {
                                                 className="form-control"
                                                 readOnly
                                                 placeholder="Event Centre"
-                                                onChange={this.handleCenter} 
+                                                onChange={this.handleCenter}
                                                 value={this.state.editEventCenter} />
                                         </div>
 
@@ -221,7 +218,7 @@ export class EditEvent extends Component {
                                                 className="form-control"
                                                 readOnly
                                                 placeholder="Location"
-                                                onChange={this.handleEventLocation} 
+                                                onChange={this.handleEventLocation}
                                                 value={this.state.editEventLocation}/>
                                         </div>
 
@@ -251,19 +248,19 @@ export class EditEvent extends Component {
 
                 <Footer />
             </div>
-        );
-    }
+    );
+  }
 }
 
 const mapStateToProps = state => ({
-    centerState: state.centerState,
-    eventState: state.eventState,
+  centerState: state.centerState,
+  eventState: state.eventState,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    getAllCenters: getAllCenterAction,
-    getUsersAllEventAction,
-    editAnEventAction,
+  getAllCenters: getAllCenterAction,
+  getUsersAllEventAction,
+  editAnEventAction,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditEvent);
