@@ -1,13 +1,12 @@
 import { combineReducers } from 'redux';
+import 'jquery';
 
-import '../../public/css/bootstrap.min.css';
 import '../../public/css/font-awesome.min.css';
 import '../../public/css/style.css';
 
+import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min';
 
-import '../../public/js/jquery-3.2.1.min';
-import '../../public/js/popper';
-import '../../public/js/bootstrap.min';
 
 import addNewUser from '../reducer/signUpReducer';
 import loginUsers from '../reducer/loginReducer';
