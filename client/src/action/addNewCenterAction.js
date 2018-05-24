@@ -1,4 +1,5 @@
 import axios from 'axios';
+import toastr from 'toastr';
 
 import { ADD_A_CENTER } from '../common/types';
 
@@ -9,16 +10,16 @@ const addNewCenterAsync = newCenterDetails => ({
 
 const addNewCenter = newCenterDetails => (dispatch) => {
   axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('token')}`;
-  axios
+  return axios
     .post('/api/v1/centers', newCenterDetails)
     .then((res) => {
-      localStorage.setItem('message', res.data.message);
       dispatch(addNewCenterAsync(newCenterDetails));
-      return window.document.getElementById('addNewCenterForm').reset();
+      localStorage.setItem('message', res.data.message);
+      toastr.success('successfully added');
+      // history.push('')
     })
     .catch(() => {
-      // localStorage.setItem('message', error.response.data.message)
-      window.document.getElementById('addCenterMessage').innerHTML = 'Credential exist';
+      toastr.error('Credential exist');
     });
 };
 

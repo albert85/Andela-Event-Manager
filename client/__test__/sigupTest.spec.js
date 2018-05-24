@@ -12,7 +12,7 @@ configure({ adapter: new Adapter() });
 describe('<SignUp />', () => {
   let wrapper;
   const props = {
-    signUpNewUser: () => {},
+    addUserAction: () => {},
 
   };
 

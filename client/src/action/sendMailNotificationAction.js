@@ -9,7 +9,7 @@ const sendEmailAsync = userEmailAddress => ({
 
 const sendEmail = userEmailAddress => (dispatch) => {
   axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('token')}`;
-  axios
+  return axios
     .post('/api/v1/user/recipientEmail', userEmailAddress)
     .then((res) => {
       localStorage.setItem('message', res.data.message);

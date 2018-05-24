@@ -8,33 +8,33 @@ import Footer from './Footer';
 import CenterHomePageHeader from './CenterHomePageHeader';
 
 export class Center extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.addNewCenter = this.addNewCenter.bind(this);
-    }
+    this.addNewCenter = this.addNewCenter.bind(this);
+  }
 
-    componentDidMount() {
-        this.props.getAllCenters();
-    }
+  componentDidMount() {
+    this.props.getAllCenters();
+  }
 
 
-    addNewCenter(center) {
-        center.preventDefault();
-        const newCenter = {
-            name: center.target[0].value,
-            location: center.target[1].value,
-            capacity: center.target[2].value,
-            amount: center.target[3].value,
-        };
+  addNewCenter(center) {
+    center.preventDefault();
+    const newCenter = {
+      name: center.target[0].value,
+      location: center.target[1].value,
+      capacity: center.target[2].value,
+      amount: center.target[3].value,
+    };
 
-        this.props.addNewCenterAction(newCenter);
+    this.props.addNewCenterAction(newCenter);
 
-        return true;
-    }
+    return true;
+  }
 
-    render() {
-        return (
+  render() {
+    return (
             <div>
                 {/* Center Home Page Header */}
                 <CenterHomePageHeader/>
@@ -92,27 +92,30 @@ export class Center extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="eventname"> Name:</label>
-                                            <input type="text" 
-                                            id="eventname" 
-                                            className="form-control" 
-                                            placeholder="Event Centre's name"  
+                                            <input type="text"
+                                            id="eventname"
+                                            className="form-control"
+                                            placeholder="Event Centre's name"
+                                            value = ""
                                             required />
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="eventcenterlocation"> Location:</label>
-                                            <input type="text" 
-                                            name="eventcenterlocation" 
-                                            className="form-control" 
+                                            <input type="text"
+                                            name="eventcenterlocation"
+                                            className="form-control"
+                                            value = ""
                                             placeholder="Event Centre's Location"
                                             required />
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="eventcentercapacity"> Capacity:</label>
-                                            <input type="numbers" 
-                                            id="eventcentercapacity" 
-                                            className="form-control" 
+                                            <input type="numbers"
+                                            id="eventcentercapacity"
+                                            className="form-control"
+                                            value = ""
                                             placeholder="Capacity of the Centre"
                                             required />
                                         </div>
@@ -122,7 +125,8 @@ export class Center extends Component {
                                             <input type="numbers"
                                             id="eventcenteramount"
                                             className="form-control"
-                                            placeholder="Amount for Booking Centre for Event" 
+                                            value = ""
+                                            placeholder="Amount for Booking Centre for Event"
                                             required />
                                         </div><br />
 
@@ -145,17 +149,17 @@ export class Center extends Component {
 
                 <Footer/>
             </div>
-        );
-    }
+    );
+  }
 }
 
 const mapStateToProps = state => ({
-    centerState: state.centerState,
+  centerState: state.centerState,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    getAllCenters: getAllCenterAction,
-    addNewCenterAction,
+  getAllCenters: getAllCenterAction,
+  addNewCenterAction,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Center);

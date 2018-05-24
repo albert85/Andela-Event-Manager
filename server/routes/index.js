@@ -1,10 +1,10 @@
 import express from 'express';
-import userDetails from '../controllers/userController';
-import eventDetails from '../controllers/eventController';
-import centerDetails from '../controllers/centerController';
-import validator from '../controllers/validator';
-import loginController from '../controllers/loginController';
-import auth from '../controllers/checkAuth';
+import userDetails from '../controllers/UserController';
+import eventDetails from '../controllers/EventController';
+import centerDetails from '../controllers/CenterController';
+import validator from '../controllers/Validator';
+import loginController from '../controllers/LoginController';
+import auth from '../controllers/CheckAuth';
 
 const app = express.Router();
 

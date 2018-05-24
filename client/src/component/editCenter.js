@@ -8,76 +8,77 @@ import Footer from './Footer';
 import EditCenterHeader from './EditCenterHeader';
 
 export class EditCenter extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            centerIdNo: 0,
-            centreName: "",
-            centreLocation: "",
-            centreAmount: "",
-            centreCapacity: "",
-        };
+    this.state = {
+      centerIdNo: 0,
+      centreName: '',
+      centreLocation: '',
+      centreAmount: '',
+      centreCapacity: '',
+    };
 
-        this.handleEditCenterDetails = this.handleEditCenterDetails.bind(this);
-        this.handleChangeCentreName = this.handleChangeCentreName.bind(this);
-        this.handleChangeCentreLocation = this.handleChangeCentreLocation.bind(this);
-        this.handleChangeCentreAmount = this.handleChangeCentreAmount.bind(this);
-        this.handleChangeCentreCapacity = this.handleChangeCentreCapacity.bind(this);
-    }
+    this.handleEditCenterDetails = this.handleEditCenterDetails.bind(this);
+    this.handleChangeCentreName = this.handleChangeCentreName.bind(this);
+    this.handleChangeCentreLocation = this.handleChangeCentreLocation.bind(this);
+    this.handleChangeCentreAmount = this.handleChangeCentreAmount.bind(this);
+    this.handleChangeCentreCapacity = this.handleChangeCentreCapacity.bind(this);
+  }
 
-    componentDidMount() {
-        this.props.getAllCenters();
-    }
+  componentDidMount() {
+    this.props.getAllCenters();
+  }
 
-    // stores centre name
-    handleChangeCentreName(e) {
-        this.setState({ centreName: e.target.value });
-    }
+  // stores centre name
+  handleChangeCentreName(e) {
+    this.setState({ centreName: e.target.value });
+  }
 
-    // Stores Centre Location
-    handleChangeCentreLocation(e) {
-        this.setState({ centreLocation: e.target.value });
-    }
+  // Stores Centre Location
+  handleChangeCentreLocation(e) {
+    this.setState({ centreLocation: e.target.value });
+  }
 
-    // Stores centreAmount
-    handleChangeCentreAmount(e) {
-        this.setState({ centreAmount: e.target.value });
-    }
+  // Stores centreAmount
+  handleChangeCentreAmount(e) {
+    this.setState({ centreAmount: e.target.value });
+  }
 
-    // Stores centreAmount
-    handleChangeCentreCapacity(e) {
-        this.setState({ centreCapacity: e.target.value });
-    }
+  // Stores centreAmount
+  handleChangeCentreCapacity(e) {
+    this.setState({ centreCapacity: e.target.value });
+  }
 
 
+  // Saving Centre Details
+  handleEditCenterDetails(EditCenter) {
+    EditCenter.preventDefault();
 
-    // Saving Centre Details
-    handleEditCenterDetails(EditCenter) {
-        EditCenter.preventDefault();
+    const modifyCenter = {
+      name: this.state.centreName,
+      location: this.state.centreLocation,
+      capacity: this.state.centreCapacity,
+      amount: this.state.centreAmount,
+    };
 
-        const modifyCenter = {
-            name: this.state.centreName,
-            location: this.state.centreLocation,
-            capacity: this.state.centreCapacity,
-            amount: this.state.centreAmount,
-        };
+    this.props.editACenterAction(modifyCenter, this.state.centerIdNo);
+  }
 
-        this.props.editACenterAction(modifyCenter, this.state.centerIdNo);
-    }
-
-    //    Editing Centre Details
-    handleCenterDetails(centerId) {
-        this.setState({ centerIdNo: centerId });
-        this.props.centerState.map((center) => {
-            if (center.id === centerId) {
-                this.setState({ centreName: center.name, centreLocation: center.location, centreCapacity: center.capacity, centreAmount: center.amount })
-            }
+  //    Editing Centre Details
+  handleCenterDetails(centerId) {
+    this.setState({ centerIdNo: centerId });
+    this.props.centerState.map((center) => {
+      if (center.id === centerId) {
+        this.setState({
+          centreName: center.name, centreLocation: center.location, centreCapacity: center.capacity, centreAmount: center.amount,
         });
-    }
+      }
+    });
+  }
 
-    render() {
-        return (
+  render() {
+    return (
             <div>
                 < EditCenterHeader />
 
@@ -213,17 +214,17 @@ export class EditCenter extends Component {
 
                 <Footer />
             </div>
-        );
-    }
+    );
+  }
 }
 
 const mapStateToProps = state => ({
-    centerState: state.centerState,
+  centerState: state.centerState,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    getAllCenters: getAllCenterAction,
-    editACenterAction,
+  getAllCenters: getAllCenterAction,
+  editACenterAction,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditCenter);

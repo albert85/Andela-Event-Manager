@@ -8,20 +8,7 @@ module.exports = {
     path: `${__dirname}/client/public/`,
     publicPath: '/',
   },
-  devServer: {
-    inline: true,
-    contentBase: './client/public',
-    historyApiFallback: true,
-    port: 3000,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-    },
-    proxy: {
-      '/api': 'http://[::1]:8000',
-      secure: false,
-    },
 
-  },
   module: {
     rules: [
       {
@@ -46,11 +33,11 @@ module.exports = {
         test: /.(png|woff|woff2|eot|ttf|svg|jpe?g)$/,
         loader: 'url-loader?limit=100000',
       },
+      { test: /tether\.js$/, loader: 'expose?Tether' },
     ],
   },
   plugins: [
-    new ExtractTextPlugin('css/style.css', {
-      allChunks: true,}),
+    new ExtractTextPlugin('css/style.css', { allChunks: true }),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
@@ -66,8 +53,15 @@ module.exports = {
       },
       comments: false,
       sourceMap: true,
-      minimize: false
+      minimize: false,
     }),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery',
+      Popper: ['popper.js', 'default'],
+    }),
+
   ],
   node: {
     console: false,
