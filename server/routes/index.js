@@ -11,11 +11,14 @@ const app = express.Router();
 // create a new user
 app.post('/api/v1/users/signUp', validator.signUpValidator, userDetails.signUp);
 
-// creating a secure API
+// creating a secure API for login
 app.post('/api/v1/user/login', validator.loginValidator, loginController.signIn);
 
+// change user's role (Admin-user or vice versa)
+app.put('/api/v1/admin-role/:userId', validator.validateUserChangeRole, auth.checkIfAuthorize, auth.checkIfAuthToManage, userDetails.changeRole);
+
 // get Users email address
-app.get('/api/v1/user/email', loginController.userEmail);
+app.get('/api/v1/user/email/:page&:limit', loginController.userEmail);
 
 // send email notification
 app.post('/api/v1/user/recipientEmail', auth.checkIfAuthorize, loginController.sendEmailNotifications);
@@ -24,13 +27,13 @@ app.post('/api/v1/user/recipientEmail', auth.checkIfAuthorize, loginController.s
 app.post('/api/v1/events', validator.createEventValidation, auth.checkIfAuthorize, eventDetails.create);
 
 // get all event
-app.get('/api/v1/events', auth.checkIfAuthorize, eventDetails.getAllEvents);
+app.get('/api/v1/events/:page&:limit', validator.validateParams, auth.checkIfAuthorize, eventDetails.getAllEvents);
 
 // get all events for a specific user
-app.get('/api/v1/user/events/:userIdNo', auth.checkIfAuthorize, eventDetails.getUserAllEvents);
+app.get('/api/v1/user/events/:userIdNo/:page&:limit', auth.checkIfAuthorize, eventDetails.getUserAllEvents);
 
 // updating event operation
-app.put('/api/v1/events/:eventId', auth.checkIfAuthorize, eventDetails.updateEvent);
+app.put('/api/v1/events/:eventId', validator.updateEventValidation, auth.checkIfAuthorize, eventDetails.updateEvent);
 
 // booking or cancelling events
 app.put('/api/v1/events/admin/:eventId', auth.checkIfAuthorize, eventDetails.updateAdminEvent);
@@ -38,23 +41,23 @@ app.put('/api/v1/events/admin/:eventId', auth.checkIfAuthorize, eventDetails.upd
 // get an event
 app.get('/api/v1/events/:eventId', auth.checkIfAuthorize, eventDetails.getAnEvent);
 
-
 // Deleting an event
 app.delete('/api/v1/events/:eventId', auth.checkIfAuthorize, eventDetails.deleteAnEvent);
 
 // get all centers
-// app.get('/api/v1/centers', auth.checkIfAuthorize, auth.checkIfAuthToManage, centerDetails.getAllCenter);
-app.get('/api/v1/centers', auth.checkIfAuthorize, centerDetails.getAllCenter);
+app.get('/api/v1/centers/:page&:limit', validator.validateParams, auth.checkIfAuthorize, centerDetails.getAllCenter);
 
 // creating new center
 app.post('/api/v1/centers', validator.creatCenterValidation, auth.checkIfAuthorize, auth.checkIfAuthToManage, centerDetails.create);
 
 // updates a center's detail
-app.put('/api/v1/centers/:centerId', auth.checkIfAuthorize, auth.checkIfAuthToManage, centerDetails.updateACenterDetails);
-
+app.put('/api/v1/centers/:centerId', validator.updateCenterValidation, auth.checkIfAuthorize, auth.checkIfAuthToManage, centerDetails.updateACenterDetails);
 
 // Get a center
 app.get('/api/v1/centers/:centerId', auth.checkIfAuthorize, centerDetails.getACenter);
+
+// Get a center's event details
+app.get('/api/v1/center/:centerId/:eventId/:page&:limit', auth.checkIfAuthorize, centerDetails.getACenterEventDetails);
 
 
 export default app;
