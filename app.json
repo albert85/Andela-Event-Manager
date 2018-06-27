@@ -1,0 +1,32 @@
+{
+  "name": "Andela-Event-Manager",
+  "scripts": {
+  },
+  "env": {
+    "DATABASE_URL": {
+      "required": true
+    },
+    "NODE_ENV": {
+      "required": true
+    },
+    "ROOT_URL": {
+      "required": true
+    },
+    "TOKEN_PASSWORD": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
