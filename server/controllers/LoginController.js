@@ -42,6 +42,7 @@ export default class LoginController {
                 result: 'successfully login',
                 token: userToken,
                 userIdNo: result.id,
+                role: result.dataValues.isAdmin ? 'Admin' : 'User',
               });
             }
           }

@@ -99,28 +99,28 @@ const endPointTestData = {
     name: 'Birthday Party',
     bookingStatus: 0,
     centerId: 1,
-    eventDate: new Date('2017-12-25'),
+    eventDate: new Date('2019-12-25'),
   },
 
   eventData2: {
     name: 'Wedding',
     bookingStatus: 0,
     centerId: 1,
-    eventDate: new Date('2017-12-25'),
+    eventDate: new Date('2019-12-25'),
   },
 
   updateEventData: {
     name: 'Birthday Party',
     bookingStatus: 0,
     centerId: 1,
-    eventDate: new Date('2017-12-26'),
+    eventDate: new Date('2019-12-26'),
   },
 
   cancelEvent: {
     name: 'Birthday Party',
     bookingStatus: 1,
     centerId: 1,
-    eventDate: new Date('2017-12-26'),
+    eventDate: new Date('2019-12-26'),
   },
 
   wrongCancelEventDate: {

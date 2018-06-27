@@ -14,23 +14,24 @@ const loginUserAsync = userData => ({
 const loginUser = (userData, history) => dispatch => axios
   .post('/api/v1/user/login', userData)
   .then((res) => {
-    // console.log(process.env.ROOT_URL);
-    // localStorage.setItem('message', res.data.message);
+    console.log(res.data);
     localStorage.setItem('token', res.data.token);
     localStorage.setItem('userIdNo', res.data.userIdNo);
+    localStorage.setItem('role', res.data.role);
 
-    dispatch(loginUserAsync(res.data.message));
+    dispatch(loginUserAsync(res.data.result));
 
-    if (res.data.message === 'successfully login') {
-      if (userData.password === 'admin') {
+    if (res.data.result === 'successfully login') {
+      if (res.data.role === 'Admin') {
         history.push('/centers');
       } else {
         history.push('/event-home-page');
       }
     }
   })
-  .catch(() => {
+  .catch((error) => {
     // localStorage.setItem('message', error.response.data.message)
+    console.log(error);
     toastr.error('Wrong password and email');
   });
 export default loginUser;

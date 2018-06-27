@@ -1,5 +1,6 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
+require('dotenv').config();
 
 module.exports = {
   entry: './client/index.js',
@@ -60,6 +61,12 @@ module.exports = {
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
       Popper: ['popper.js', 'default'],
+    }),
+
+    new webpack.DefinePlugin({
+      'process.env.CLOUDINARY_URL': JSON.stringify(process.env.CLOUDINARY_URL),
+      'process.env.CLOUDINARY_PRESET': JSON.stringify(process.env.CLOUDINARY_PRESET),
+      'process.env.CLOUDINARY_API_KEY': JSON.stringify(process.env.CLOUDINARY_API_KEY),
     }),
 
   ],

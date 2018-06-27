@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PropType from 'prop-types';
+import PaginationComponent from 'react-js-pagination';
 
 import getAllCenterAction from '../action/getAllCentersAction';
 import addEventAction from '../action/addEventAction';
 import getUsersAllEventAction from '../action/getUsersAllEventAction';
 import deleteAnEventAction from '../action/deleteAnEventAction';
+import ModalComponent from './modalComponent/ModalComponent';
 // import editAnEventAction from '../action/editAnEventAction';
 
 
@@ -26,18 +29,58 @@ export class EventHomePage extends Component {
       },
       eventLocation: '',
       eventCentreName: '',
+      pageNo: localStorage.getItem('PageNos'),
+      currentPage: 1,
+      currentCenterPage: 1,
+      centerId: 1,
+      eventCounts: 0,
+      recordLimit: 2,
+      checkifAnyRecordExist: false,
     };
 
     this.handleEventName = this.handleEventName.bind(this);
-    this.handleLocation = this.handleLocation.bind(this);
     this.handleAddEvent = this.handleAddEvent.bind(this);
     this.handleEventDate = this.handleEventDate.bind(this);
+    this.handlePagination = this.handlePagination.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+    this.handleCenterPagination = this.handleCenterPagination.bind(this);
+    this.handleSelectCenter = this.handleSelectCenter.bind(this);
   }
 
 
   componentDidMount() {
-    this.props.getAllCenters();
-    this.props.getUsersAllEventAction(localStorage.getItem('userIdNo'));
+    this.props.getAllCenters(1, this.state.recordLimit);
+
+    this.props.getUsersAllEventAction(1, localStorage.getItem('userIdNo'), 1);
+    if (this.props.eventState.length > 0) {
+      this.setState({ ...this.state, checkifAnyRecordExist: true });
+    }
+  }
+
+  handleSelectCenter(e) {
+    this.props.centerState.map((item) => {
+      if (Number(e.target.id) === item.id) {
+        // this.props.getUsersAllEventAction(item.id, localStorage.getItem('userIdNo'), 1);
+        this.setState({ ...this.state, centerId: item.id, addEventDetails: { ...this.state.addEventDetails, eventVenue: item.name, eventLocation: item.location } });
+      }
+      return item;
+    });
+  }
+
+  handleCenterPagination(pageNumNo) {
+    this.setState({ ...this.state, currentCenterPage: pageNumNo });
+    this.props.getAllCenters(pageNumNo, this.state.recordLimit);
+    // this.props.getUsersAllEventAction(1, localStorage.getItem('userIdNo'), 1);
+  }
+
+  handleLogout() {
+    localStorage.clear();
+    this.props.history.push('/');
+  }
+
+  handlePagination(pageNum) {
+    this.setState({ currentPage: pageNum });
+    this.props.getUsersAllEventAction(this.state.centerId, localStorage.getItem('userIdNo'), pageNum);
   }
 
   handleEventName(e) {
@@ -51,33 +94,37 @@ export class EventHomePage extends Component {
   }
 
   handleDeleteEvent(index) {
-    this.props.deleteAnEventAction(index);
+    this.props.deleteAnEventAction(index)
+      .then(() => {
+        // // call api to refresh stateeventCounts
+        this.props.getUsersAllEventAction(localStorage.getItem('userIdNo'), 1);
+        this.setState({ ...this.state, currentPage: 1 });
+      });
+    if (this.props.eventState.length === 0) {
+      this.setState({ ...this.state, checkifAnyRecordExist: false });
+    }
     return true;
   }
 
   handleAddEvent(eventDetails) {
     //   prevent submitting automatically
     eventDetails.preventDefault();
-    this.props.centerState.map((center) => {
-      if (this.state.eventCentreName === center.name) {
-        const cent = center.id;
-        localStorage.setItem('AddcenterId', center.id);
-        return cent;
-      }
-    });
-
 
     // get event details
     const eventToAdd = {
       name: this.state.addEventDetails.eventName,
       bookingStatus: 1, // 0 signifies booking cancel while 1 signifies booking booked
-      centerId: localStorage.getItem('AddcenterId'),
+      centerId: this.state.centerId,
       eventDate: this.state.addEventDetails.eventDate,
     };
 
     // Add new event
-    this.props.addNewEvent(eventToAdd);
-    
+    this.props.addNewEvent(eventToAdd)
+      .then(() => {
+        // call api to refresh state
+        this.props.getUsersAllEventAction(this.state.centerId, localStorage.getItem('userIdNo'), 1);
+      });
+
     this.setState({
       addEventDetails: Object.assign(this.state.addEventDetails, {
         eventName: '',
@@ -87,26 +134,21 @@ export class EventHomePage extends Component {
 
       }),
     });
-  }
 
-  handleLocation(e) {
-    this.setState({ eventCentreName: e.target.value });
-    if (e.target.value !== 'Please select center') {
-      this.props.centerState.map((center) => {
-        if (e.target.value === center.name) {
-          this.setState({ addEventDetails: Object.assign(this.state.addEventDetails, { eventLocation: center.location, eventVenue: center.name }) });
-          return true;
-        }
-      });
+    if (this.props.eventState.length > 0) {
+      this.setState({ ...this.state, checkifAnyRecordExist: true });
     }
-
-    return false;
   }
+
 
   render() {
+    //   window.console.log(this.props.centerPageNo.checkIfRecordExist);
     return (
+
             <div >
-                <EventHomePageHeader/>
+                <EventHomePageHeader
+                handleLogout = { this.handleLogout }
+                />
 
                 {/* Create two columns for the management content */}
                 {/* create a section  */}
@@ -136,13 +178,17 @@ export class EventHomePage extends Component {
                                             </thead>
                                             <tbody>
 
+                                                {
+                                                    !this.props.centerPageNo.checkIfRecordExist && (<p>No Record Exist</p>)
+                                                }
+
                                                 {/* populate the row of the table with events */}
                                                 {
+
                                                     // map through array of events and insert into the rows of the table
-                                                    this.props.eventState.map((event, index) =>
+                                                    this.props.centerPageNo.checkIfRecordExist && (this.props.eventState.map((event, index) =>
 
                                                         // return the rows generated
-
                                                         <tr key={index} index={index} addre={event.id} className="border border-white">
                                                             <td scope="row">{index + 1}</td>
                                                             <td>{event.name}</td>
@@ -171,11 +217,24 @@ export class EventHomePage extends Component {
 
                                                             </td>
 
-                                                        </tr>)
+                                                        </tr>))
                                                 }
+
                                             </tbody>
                                         </table>
                                     </div>
+                                    {
+                                        this.props.centerPageNo.checkIfRecordExist &&
+                                    (<PaginationComponent
+                                        activePage={this.state.currentPage}
+                                            itemsCountPerPage={this.state.recordLimit}
+                                            totalItemsCount={this.props.centerPageNo.totalNumOfPages}
+                                            pageRangeDisplayed={5}
+                                            itemClass = "page-item"
+                                            linkClass = "page-link"
+                                            onChange = {this.handlePagination}
+                                        />)
+                                        }
 
                                 </div>
 
@@ -192,7 +251,6 @@ export class EventHomePage extends Component {
                                                 required
                                                 className="form-control"
                                                 placeholder="Event Name"
-                                                aria-describedby="helpId"
                                                 value = {this.state.addEventDetails.eventName}
                                                 defaultValue = ""
                                                 onChange={this.handleEventName} />
@@ -200,15 +258,18 @@ export class EventHomePage extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="eventCentre">Event Centre</label>
-                                            <select
-                                            className="form-control"
-                                            value = {this.state.addEventDetails.eventVenue}
-                                            id="eventCentre"
-                                            required
-                                            onChange={this.handleLocation}>
-                                                <option defaultValue>Please select center</option>
-                                                {this.props.centerState.map((center, i) => <option key={i} i={i} value={center.name}>{center.name}</option>)}
-                                            </select>
+                                                <span >
+                                                <input type="text"
+                                                id="eventCentre"
+                                                required
+                                                className="form-control"
+                                                value = {this.state.addEventDetails.eventVenue}
+                                                placeholder="Select An Event Center"
+                                                />
+                                                <a className="btn btn-sm btn-primary text-white" data-toggle="modal" data-target="#selectCenter">SELECT</a>
+
+
+                                            </span>
 
                                         </div>
 
@@ -219,9 +280,7 @@ export class EventHomePage extends Component {
                                                 required
                                                 className="form-control"
                                                 readOnly
-                                                value = {this.state.addEventDetails.location}
-                                                placeholder="London bridge"
-                                                aria-describedby="helpId"
+                                                placeholder="Location"
                                                 value={this.state.addEventDetails.eventLocation}/>
                                         </div>
 
@@ -232,7 +291,6 @@ export class EventHomePage extends Component {
                                                 className="form-control"
                                                 placeholder=""
                                                 value = {this.state.addEventDetails.eventDate}
-                                                aria-describedby="helpId"
                                                 required
                                                 onChange={this.handleEventDate} /><br />
                                             <span id='dateAvailable' value = "" className='text-danger'></span>
@@ -243,6 +301,14 @@ export class EventHomePage extends Component {
                                         </button>
                                     </form>
 
+                                    <ModalComponent
+                                    id="selectCenter"
+                                    currentPage = {this.state.currentCenterPage}
+                                    numOfPages={this.props.centerPaginationNum}
+                                    centerArray = {this.props.centerState}
+                                    handleCenterPagination = {this.handleCenterPagination}
+                                    handleSelectCenter = {this.handleSelectCenter}
+                                    />
 
                                 </div>
                                 </div>
@@ -262,6 +328,10 @@ export class EventHomePage extends Component {
 const mapStateToProps = state => ({
   centerState: state.centerState,
   eventState: state.eventState,
+  centerPageNo: state.paginationNum,
+  messageStatus: state.messageStatus,
+  centerPaginationNum: state.centerPageNum,
+
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -270,6 +340,15 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   getUsersAllEventAction,
   deleteAnEventAction,
 }, dispatch);
+
+EventHomePage.propType = {
+  centerState: PropType.arrayOf(PropType.object),
+  eventState: PropType.arrayOf(PropType.object),
+  getAllCenters: PropType.func.isRequired,
+  addNewEvent: PropType.func.isRequired,
+  getUsersAllEventAction: PropType.func.isRequired,
+  deleteAnEventAction: PropType.func.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventHomePage);
 

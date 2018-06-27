@@ -72,7 +72,6 @@ export default class Validator {
 
   static updateEventValidation(req, res, next) {
     req.checkBody('name', 'Name of the event is required').notEmpty().isLength({ max: 256 });
-    req.checkBody('bookingStatus', 'Please indicate 0 for booking or 1 for canceling a booking').notEmpty().isInt({ min: 0, max: 1 });
     req.checkBody('eventDate', 'Supply a valid date for the event').notEmpty().toDate().isAfter();
     req.checkBody('centerId', 'Please indicate the id of the center where where the event is to be booked').notEmpty().isInt({ min: 1 });
     if (!req.validationErrors()) {

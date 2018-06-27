@@ -12,6 +12,7 @@ import deleteAnEventAction from '../src/action/deleteAnEventAction';
 
 window.alert = jest.fn();
 window.location = jest.fn();
+history.push = jest.fn();
 
 configure({ adapter: new Adapter() });
 const middleware = [thunk];

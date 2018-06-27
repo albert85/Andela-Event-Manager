@@ -27,10 +27,10 @@ app.post('/api/v1/user/recipientEmail', auth.checkIfAuthorize, loginController.s
 app.post('/api/v1/events', validator.createEventValidation, auth.checkIfAuthorize, eventDetails.create);
 
 // get all event
-app.get('/api/v1/events/:page&:limit', validator.validateParams, auth.checkIfAuthorize, eventDetails.getAllEvents);
+app.get('/api/v1/events/:centerId/:page&:limit', validator.validateParams, auth.checkIfAuthorize, eventDetails.getAllEvents);
 
 // get all events for a specific user
-app.get('/api/v1/user/events/:userIdNo/:page&:limit', auth.checkIfAuthorize, eventDetails.getUserAllEvents);
+app.get('/api/v1/user/events/:centerId/:userIdNo/:page&:limit', auth.checkIfAuthorize, eventDetails.getUserAllEvents);
 
 // updating event operation
 app.put('/api/v1/events/:eventId', validator.updateEventValidation, auth.checkIfAuthorize, eventDetails.updateEvent);
@@ -47,6 +47,9 @@ app.delete('/api/v1/events/:eventId', auth.checkIfAuthorize, eventDetails.delete
 // get all centers
 app.get('/api/v1/centers/:page&:limit', validator.validateParams, auth.checkIfAuthorize, centerDetails.getAllCenter);
 
+// search for a center by name and location
+app.post('/api/v1/center/search', auth.checkIfAuthorize, centerDetails.searchCenterByNameAndLocation);
+
 // creating new center
 app.post('/api/v1/centers', validator.creatCenterValidation, auth.checkIfAuthorize, auth.checkIfAuthToManage, centerDetails.create);
 
@@ -57,7 +60,7 @@ app.put('/api/v1/centers/:centerId', validator.updateCenterValidation, auth.chec
 app.get('/api/v1/centers/:centerId', auth.checkIfAuthorize, centerDetails.getACenter);
 
 // Get a center's event details
-app.get('/api/v1/center/:centerId/:eventId/:page&:limit', auth.checkIfAuthorize, centerDetails.getACenterEventDetails);
+app.get('/api/v1/center/:centerId/:page&:limit', auth.checkIfAuthorize, centerDetails.getACenterEventDetails);
 
 
 export default app;

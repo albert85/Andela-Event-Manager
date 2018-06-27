@@ -59,6 +59,25 @@ export default class CenterController {
       .catch(() => res.status(400).json({ success: false, result: 'Center not found!!!' }));
   }
 
+  // search for a center using name and location
+  static searchCenterByNameAndLocation(req, res) {
+    // console.log(req.body.name);
+    return db.Center
+      .findAll({
+        where: {
+          name: req.body.name,
+          location: req.body.location,
+        },
+      }).then((centerDetails) => {
+      //  console.log(centerDetails);
+        if (!centerDetails) {
+          return res.status(404).json({ success: false, result: 'No Center Found' });
+        }
+        return res.status(200).json({ success: true, center: centerDetails });
+      })
+      .catch(() => res.status(404).json({ success: false, result: 'Center not found!!!' }));
+  }
+
   /**
    * @description Get a center detail
    * @param {object} req
@@ -94,6 +113,7 @@ export default class CenterController {
                 success: true,
                 eventDetail: eventDetail.rows,
                 numOfPage,
+                totalNumPage: eventDetail.count,
               });
             }
             return res.status(404).json({ success: false, result: `Please supply a valid page number. Number of Pages: ${numOfPage}` });
@@ -129,6 +149,7 @@ export default class CenterController {
 
         if (suppliedPageNo <= numOfPage) {
           return res.status(200).json({
+            totalNumPage: result.count,
             success: true,
             centerDetails: result.rows,
             numOfPage,
@@ -159,6 +180,7 @@ export default class CenterController {
             location: req.body.location || centerDetails.location,
             capacity: req.body.capacity || centerDetails.capacity,
             amount: req.body.amount || centerDetails.amount,
+            centerUrl: req.body.centerUrl || centerDetails.centerUrl,
           })
           .then(() => res.status(200).json({ success: true, result: 'successful', centerDetails }))
           .catch(() => res.status(400).json({ success: false, result: 'fails to update' }));

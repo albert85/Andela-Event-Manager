@@ -61,6 +61,9 @@ export default class EventController {
 
     return db.Event
       .findAndCountAll({
+        where: {
+          centerId: req.params.centerId,
+        },
         limit: req.params.limit,
         offset: req.params.limit * (req.params.page - 1),
       })
@@ -70,6 +73,7 @@ export default class EventController {
 
         if (suppliedPageNo <= numOfPage) {
           return res.status(200).json({
+            totalNumOfEvent: result.count,
             success: true,
             eventDetails: result.rows,
             numOfPage,
@@ -92,6 +96,7 @@ export default class EventController {
       .findAndCountAll({
         where: {
           userId: req.params.userIdNo,
+          centerId: req.params.centerId,
         },
         limit: req.params.limit,
         offset: req.params.limit * (req.params.page - 1),
@@ -105,6 +110,7 @@ export default class EventController {
 
         if (suppliedPageNo <= numOfPage) {
           return res.status(200).json({
+            totalCount: result.count,
             success: true,
             eventDetails: result.rows,
             numOfPage,
@@ -137,12 +143,13 @@ export default class EventController {
               if (!eventDetails) {
                 return res.status(404).send({ success: false, result: 'Event not found' });
               }
+              console.log(res.body);
               // if the event exist update
               return eventDetails
                 .update({
                   name: req.body.name || eventDetails.name,
-                  bookingStatus: req.body.bookingStatus || eventDetails.bookingStatus,
-                  userId: req.body.userId || eventDetails.userId,
+                  bookingStatus: eventDetails.bookingStatus,
+                  userId: eventDetails.userId,
                   centerId: req.body.centerId || eventDetails.centerId,
                   eventDate: req.body.eventDate || eventDetails.eventDate,
                 }).then(() => res.status(200).send({ success: true, result: 'sucessfully updated', eventDetails }));

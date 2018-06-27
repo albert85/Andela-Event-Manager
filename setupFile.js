@@ -6,6 +6,11 @@ global.Popper = Popper;
 global.$ = $;
 global.jQuery = $;
 
+const historymock = {
+  push: jest.fn(),
+};
+global.history = historymock;
+
 
 const localStorageMock = {
   getItem: jest.fn(),
