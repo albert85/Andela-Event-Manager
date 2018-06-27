@@ -1,8 +1,13 @@
 import React from 'react';
-import CentreEventList from './CentreEventList'
+import CentreEventList from './CentreEventList';
 
-const CentreEventTable = ({ getCentreEvent }) =>(
-    <table className="table-sm text-center table-hover mx-auto bg-white table-responsive-sm table-striped">
+const CentreEventTable = ({ checkRecordIfExist, getCentreEvent }) => {
+  let checkNoEvent = true;
+  if (getCentreEvent.length !== 0) {
+    checkNoEvent = false;
+  }
+  return (
+    <table className="table text-center table-hover mx-auto bg-white table-responsive-sm table-striped">
     <thead className="text-center text-white bg-info border border-white" >
         <tr className="p-3">
             <th scope="col" className="border border-white"> S/N</th>
@@ -13,10 +18,14 @@ const CentreEventTable = ({ getCentreEvent }) =>(
     </thead>
     <tbody>
         {
-            <CentreEventList getCentreEvent={getCentreEvent} />
+           !checkNoEvent && checkRecordIfExist && (<CentreEventList getCentreEvent={getCentreEvent} />)
+        }
+        {
+            (checkNoEvent || !checkRecordIfExist) && (<p className="text-center">No Record Exists</p>)
         }
     </tbody>
 </table>
-);
+  );
+};
 
 export default CentreEventTable;

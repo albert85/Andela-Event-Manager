@@ -3,7 +3,7 @@ import { ADD_AN_EVENT, GET_ALL_EVENTS, EDIT_AN_EVENT, DELETE_AN_EVENT, GET_USER_
 const eventMethodReducer = (state = [], action) => {
   switch (action.type) {
     case ADD_AN_EVENT:
-      return [action.payload, ...state];
+      return [...state, action.payload];
     case EDIT_AN_EVENT:
       return state.map((event) => {
         if (event.id !== action.payload.eventId) {

@@ -14,6 +14,9 @@ import centerReducer from '../reducer/centerReducer';
 import eventReducer from '../reducer/eventReducer';
 import getACenterReducer from '../reducer/getACenterReducer';
 import getUsersEmailReducer from '../reducer/getUsersEmailReducer';
+import messageReducer from '../reducer/messageReducer';
+import paginationReducer from '../reducer/paginationReducer';
+import centerPageNum from '../reducer/centerPaginationReducer';
 
 const rootReducer = combineReducers({
   signUpUser: addNewUser,
@@ -22,6 +25,10 @@ const rootReducer = combineReducers({
   eventState: eventReducer,
   getACenterState: getACenterReducer,
   userEmailState: getUsersEmailReducer,
+  messageStatus: messageReducer,
+  paginationNum: paginationReducer,
+  centerPageNum,
+
 });
 
 export default rootReducer;

@@ -10,13 +10,18 @@ export default class CheckAuth {
       req.token = bearerToken;
       return next();
     }
-    return res.status(403).json({ message: 'Unauthorized Action' });
+    return res.status(403).json({ success: false, result: 'Unauthorized Action' });
   }
 
   static checkIfAuthToManage(req, res, next) {
     jwt.verify(req.token, process.env.TOKEN_PASSWORD, (err, decoded) => {
       if (!decoded) {
-        return res.json({ message: 'Token expired, please login to get another token'});
+        return res.status(401).json({
+          success: false,
+          result: 'Token expired, please login to get another token',
+          err,
+          token_oput: req.token,
+        });
       }
       // find if authorize
       return db.user
@@ -26,10 +31,10 @@ export default class CheckAuth {
           },
         }).then((result) => {
           if (!result.isAdmin) {
-            return res.json({ message: 'You are not authorized' });
+            return res.status(401).json({ success: false, result: 'You are not authorized' });
           }
           return next();
-        }).catch(() => res.json({ message: 'Record does not exist' }));
+        }).catch(() => res.status(400).json({ success: false, result: 'Record does not exist' }));
     });
   }
 }

@@ -6,7 +6,7 @@ export default class EventController {
     // get the id of the user
     const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
     if (!decoded) {
-      return res.status(401).json({ message: 'Token expired' });
+      return res.status(401).json({ success: false, result: 'Token expired' });
     }
     // check if date is available
     return db.Event
@@ -26,11 +26,11 @@ export default class EventController {
               centerId: req.body.centerId,
               eventDate: req.body.eventDate,
             })
-            .then(eventDetails => res.status(201).json({ message: 'sucessfully created', eventDetails }))
-            .catch(error => res.status(404).json({ message: 'location does not exist', error }));
+            .then(eventDetails => res.status(201).json({ success: true, result: 'event sucessfully created', eventDetails }))
+            .catch(error => res.status(404).json({ success: false, result: 'The location does not exist', error }));
         }
-        return res.status(400).json({ message: 'The date is not available, please choose another' });
-      }).catch(() => res.status(400).json({ message: 'Check your credentials' }));
+        return res.status(400).json({ success: false, result: 'The date is not available, please choose another date' });
+      }).catch(() => res.status(400).json({ success: false, result: 'Please check your credentials' }));
   }
 
   // get An event
@@ -38,17 +38,17 @@ export default class EventController {
     // get the id of the user
     const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
     if (!decoded) {
-      return res.json({ message: 'Token expired' });
+      return res.json({ success: false, result: 'Token expired please login to generate new token' });
     }
     return db.Event
       .findById(req.params.eventId)
       .then((eventDetails) => {
         if (!eventDetails) {
-          res.status(404).json({ message: 'Event not found!!!' });
+          res.status(404).json({ success: false, result: 'Event not found!!!' });
         }
-        res.status(200).json({ event: eventDetails });
+        res.status(200).json({ success: true, result: eventDetails });
       })
-      .catch(() => res.status(404).json({ message: 'Event not found!!!' }));
+      .catch(() => res.status(404).json({ success: false, result: 'Event not found!!!' }));
   }
 
   // get All events
@@ -56,13 +56,32 @@ export default class EventController {
     // get the id of the user
     const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
     if (!decoded) {
-      return res.status(403).json({ message: 'Token expired' });
+      return res.status(403).json({ success: false, result: 'Token expired please login to generate new token' });
     }
 
     return db.Event
-      .findAll()
-      .then(eventDetails => res.status(200).json({ message: 'sucessful', eventDetails }))
-      .catch(() => res.status(404).json('No Events Found'));
+      .findAndCountAll({
+        where: {
+          centerId: req.params.centerId,
+        },
+        limit: req.params.limit,
+        offset: req.params.limit * (req.params.page - 1),
+      })
+      .then((result) => {
+        const numOfPage = Math.ceil(result.count / req.params.limit);
+        const suppliedPageNo = req.params.page;
+
+        if (suppliedPageNo <= numOfPage) {
+          return res.status(200).json({
+            totalNumOfEvent: result.count,
+            success: true,
+            eventDetails: result.rows,
+            numOfPage,
+          });
+        }
+        return res.status(404).json({ success: false, result: `Please supply a valid page number. Number of Pages: ${numOfPage}` });
+      })
+      .catch(() => res.status(404).json({ success: false, result: 'No Events Found' }));
   }
 
   // get All events for a specific user
@@ -70,24 +89,43 @@ export default class EventController {
     // get the id of the user
     const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
     if (!decoded) {
-      return res.status(403).json({ message: 'Token expired' });
+      return res.status(403).json({ success: false, result: 'Token expired please login to generate new token' });
     }
 
     return db.Event
-      .findAll({
+      .findAndCountAll({
         where: {
           userId: req.params.userIdNo,
+          centerId: req.params.centerId,
         },
+        limit: req.params.limit,
+        offset: req.params.limit * (req.params.page - 1),
       })
-      .then(eventDetails => res.status(200).json({ message: 'sucessful', eventDetails }))
-      .catch(() => res.status(404).json('No Events Found'));
+      .then((result) => {
+        if (result.count === 0) {
+          return res.status(200).json({ success: true, result: 'No Events in the user\'s record' });
+        }
+        const numOfPage = Math.ceil(result.count / req.params.limit);
+        const suppliedPageNo = req.params.page;
+
+        if (suppliedPageNo <= numOfPage) {
+          return res.status(200).json({
+            totalCount: result.count,
+            success: true,
+            eventDetails: result.rows,
+            numOfPage,
+          });
+        }
+        return res.status(404).json({ success: false, result: `Please supply a valid page number. Number of Pages: ${numOfPage}` });
+      })
+      .catch(() => res.status(404).json({ success: false, result: 'No Events Found' }));
   }
 
   static updateEvent(req, res) {
     // get the id of the user
     const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
     if (!decoded) {
-      return res.status(403).json({ message: 'Token expired' });
+      return res.status(403).json({ success: false, result: 'Token expired please login to generate new token' });
     }
     // check if date is available
     return db.Event
@@ -102,33 +140,33 @@ export default class EventController {
           return db.Event
             .findById(req.params.eventId)
             .then((eventDetails) => {
-              // check if the id exists
               if (!eventDetails) {
-                return res.status(404).send({ message: 'Event not found' });
+                return res.status(404).send({ success: false, result: 'Event not found' });
               }
+              console.log(res.body);
               // if the event exist update
               return eventDetails
                 .update({
                   name: req.body.name || eventDetails.name,
-                  bookingStatus: req.body.bookingStatus || eventDetails.bookingStatus,
-                  userId: req.body.userId || eventDetails.userId,
+                  bookingStatus: eventDetails.bookingStatus,
+                  userId: eventDetails.userId,
                   centerId: req.body.centerId || eventDetails.centerId,
                   eventDate: req.body.eventDate || eventDetails.eventDate,
-                }).then(() => res.status(200).send({ message: 'sucessfully updated', eventDetails }));
+                }).then(() => res.status(200).send({ success: true, result: 'sucessfully updated', eventDetails }));
             })
-            .catch(() => res.status(400).json('Bad request'));
+            .catch(() => res.status(400).json({ success: false, result: 'Bad request' }));
         }
         // Returns pre-define error meesage if data not available
-        return res.status(401).json({ message: 'date not available' });
+        return res.status(400).json({ success: false, result: 'date not available' });
       })
-      .catch(() => res.status(400));
+      .catch(() => res.status(400).json({ success: false, result: 'Please check your credentials' }));
   }
 
   static updateAdminEvent(req, res) {
     // get the id of the user
     const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
     if (!decoded) {
-      return res.status(403).json({ message: 'Token expired' });
+      return res.status(403).json({ success: false, result: 'Token expired please login to generate new token' });
     }
     // check if date is available
     return db.Event
@@ -145,7 +183,7 @@ export default class EventController {
             .then((eventDetails) => {
               // check if the id exists
               if (!eventDetails) {
-                return res.status(404).send({ message: 'Event not found' });
+                return res.status(404).send({ success: false, result: 'Event not found' });
               }
               // if the event exist update
               return eventDetails
@@ -155,12 +193,12 @@ export default class EventController {
                   userId: req.body.userId || eventDetails.userId,
                   centerId: req.body.centerId || eventDetails.centerId,
                   eventDate: req.body.eventDate || eventDetails.eventDate,
-                }).then(eventDetail => res.status(200).send({ message: 'successfully updated', eventDetail }));
+                }).then(eventDetail => res.status(200).send({ success: true, result: 'successfully updated', eventDetail }));
             })
-            .catch(() => res.status(400).json('Bad request'));
+            .catch(() => res.status(400).json({ success: false, result: 'Bad request' }));
         }
         // Returns pre-define error meesage if data not available
-        return res.status(401).json({ message: 'Error updating' });
+        return res.status(401).json({ success: false, result: 'Error updating' });
       })
       .catch(() => res.status(400));
   }
@@ -171,13 +209,13 @@ export default class EventController {
       .then((eventDetails) => {
         // check if the event exist
         if (!eventDetails) {
-          return res.status(404).json({ message: 'Event not found' });
+          return res.status(404).json({ success: false, result: 'Event not found' });
         }
         // delete the records
         return eventDetails
           .destroy()
-          .then(() => res.status(200).json({ message: 'Successful', eventDetails }));
+          .then(() => res.status(200).json({ success: true, result: 'Successful deleted', eventDetails }));
       })
-      .catch(error => res.status(401).json({ message: 'operation failed', error }));
+      .catch(() => res.status(401).json({ success: false, result: 'operation failed' }));
   }
 }

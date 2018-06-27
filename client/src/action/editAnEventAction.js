@@ -19,26 +19,16 @@ const updateAnEvents = (modifiedData, eventId, history) => (dispatch) => {
   return axios
     .put(`/api/v1/events/${eventId}`, modifiedData)
     .then((res) => {
-      localStorage.setItem('message', res.data.message);
-
-      dispatch(updateAnEventsAsync(modifiedData, eventId));
+      localStorage.setItem('message', res.data.result);
       
-      if (res.data.message === 'sucessfully updated') {
+      dispatch(updateAnEventsAsync(modifiedData, eventId));
+      if (res.data.result === 'sucessfully updated') {
         toastr.success('sucessfully updated');
         history.push('/event-home-page');
       }
-
-      // // Check if successful
-      // if (res.data.message === 'sucessfully updated') {
-      //   window.document.getElementById('addEventFormEdit').reset();
-      //   window.document.getElementById('dateAvailableModal').innerHTML = '';
-      //   return window.location.assign(`${CLIENT_ROOT_URL}/event-home-page`);
-      // }
     })
     .catch(() => {
-      // localStorage.setItem('message', error.response.data.message)
       toastr.error('Date not Available for booking');
-      // window.document.getElementById('dateAvailableModal').innerHTML = 'Date not Available for booking';
     });
 };
 export default updateAnEvents;

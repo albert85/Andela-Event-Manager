@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PropType from 'prop-types';
+import PaginationComponent from 'react-js-pagination';
 
 import getAllCenterAction from '../action/getAllCentersAction';
 import editACenterAction from '../action/editACenterAction';
 import Footer from './Footer';
+import UploadCenterImage from '../action/uploadCenterImage';
 import EditCenterHeader from './EditCenterHeader';
 
 export class EditCenter extends Component {
@@ -17,6 +20,12 @@ export class EditCenter extends Component {
       centreLocation: '',
       centreAmount: '',
       centreCapacity: '',
+      imageUpload: '',
+      recordLimit: 4,
+      checkRecordIfExist: false,
+      currentPage: 1,
+      centreUrl: '',
+      disablesavebtn: false,
     };
 
     this.handleEditCenterDetails = this.handleEditCenterDetails.bind(this);
@@ -24,15 +33,43 @@ export class EditCenter extends Component {
     this.handleChangeCentreLocation = this.handleChangeCentreLocation.bind(this);
     this.handleChangeCentreAmount = this.handleChangeCentreAmount.bind(this);
     this.handleChangeCentreCapacity = this.handleChangeCentreCapacity.bind(this);
+    this.handlePagination = this.handlePagination.bind(this);
+    this.handleImageUpload = this.handleImageUpload.bind(this);
   }
 
   componentDidMount() {
-    this.props.getAllCenters();
+    // Populate the center on the table
+    this.props.getAllCenters(1, this.state.recordLimit)
+      .then(() => {
+        // If centers exist show the pagination bar
+        if (this.props.centerState.length > 0) {
+          this.setState({ checkRecordIfExist: true });
+        }
+      });
+  }
+
+  // handles pagination
+  handlePagination(pageNum) {
+    this.setState({ currentPage: pageNum });
+    this.props.getAllCenters(pageNum, this.state.recordLimit);
   }
 
   // stores centre name
   handleChangeCentreName(e) {
     this.setState({ centreName: e.target.value });
+  }
+
+  // store image url
+  handleImageUpload(e) {
+    const file = e.target.files[0];
+    // Create a form data
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', `${process.env.CLOUDINARY_PRESET}`);
+    this.props.UploadCenterImage(formData)
+      .then((res) => {
+        this.setState({ centreUrl: res });
+      });
   }
 
   // Stores Centre Location
@@ -52,17 +89,27 @@ export class EditCenter extends Component {
 
 
   // Saving Centre Details
-  handleEditCenterDetails(EditCenter) {
-    EditCenter.preventDefault();
+  handleEditCenterDetails(EditCenterDetails) {
+    EditCenterDetails.preventDefault();
 
     const modifyCenter = {
       name: this.state.centreName,
       location: this.state.centreLocation,
       capacity: this.state.centreCapacity,
       amount: this.state.centreAmount,
+      centerUrl: this.state.centreUrl,
     };
 
-    this.props.editACenterAction(modifyCenter, this.state.centerIdNo);
+    this.props.editACenterAction(modifyCenter, this.state.centerIdNo)
+      .then(() => {
+        this.setState({
+          centreName: '',
+          centreLocation: '',
+          centreCapacity: '',
+          centreAmount: '',
+          centerUrl: '',
+        });
+      });
   }
 
   //    Editing Centre Details
@@ -71,7 +118,11 @@ export class EditCenter extends Component {
     this.props.centerState.map((center) => {
       if (center.id === centerId) {
         this.setState({
-          centreName: center.name, centreLocation: center.location, centreCapacity: center.capacity, centreAmount: center.amount,
+          centreName: center.name,
+          centreLocation: center.location,
+          centreCapacity: center.capacity,
+          centreAmount: center.amount,
+          centreUrl: center.centerUrl,
         });
       }
     });
@@ -136,12 +187,22 @@ export class EditCenter extends Component {
                                             </tbody>
                                         </table>
                                     </div>
-
+                                    {
+                                      this.state.checkRecordIfExist && (<PaginationComponent
+                                            activePage={this.state.currentPage}
+                                                itemsCountPerPage={this.state.recordLimit}
+                                                totalItemsCount={this.props.centerPageNo.totalNumOfPages}
+                                                pageRangeDisplayed={5}
+                                                itemClass = "page-item"
+                                                linkClass = "page-link"
+                                                onChange = {this.handlePagination}
+                                            />)
+                                    }
                                 </div>
 
                                 <div className="col-md-5 col-sm-12 pl-4 pr-4 pb-4 mb-3">
                                     <form className="p-2" id='addNewCenterFormEdit'>
-                                        <div className="bg-danger text-center text-white p-2 mb-3">
+                                        <div className="bg-danger text-center text-white p-2 mb-2">
                                             <h4>EDIT EVENT CENTER</h4>
                                         </div>
 
@@ -187,18 +248,30 @@ export class EditCenter extends Component {
                                                 onChange={this.handleChangeCentreAmount}
                                                 value={this.state.centreAmount}
                                                 required />
-                                        </div><br />
+                                        </div>
+                                        <div className="form-group mb-3">
+                                            <label htmlFor="eventcenteramount"> Upload Center Image:</label>
+                                            <input type="file"
+                                            id="eventcenterupload"
+                                            className="form-control"
+                                            value = {this.state.centerUrl}
+                                            onChange={this.handleImageUpload}
+                                            required />
+
+                                        </div>
 
                                         <button type="submit"
                                             id="editButton"
-                                            className="btn btn-success btn-sm btn-block mb-3"
+                                            disabled = {this.state.disablesavebtn}
+                                            className="btn btn-success btn-sm btn-block mb-2"
                                             onClick={this.handleEditCenterDetails} >
                                             <h4 className="text-white">
-                                                <i className="fa fa-save"></i> SAVE CENTER
-                            </h4>
+                                                <i className="fa fa-save"></i> SAVE CENTER </h4>
                                         </button>
 
-                                        <a href="/centers" className="btn btn-danger btn-sm btn-block mb-3" >
+
+                                        <a href="/centers"
+                                        className="btn btn-danger btn-sm btn-block mb-3" >
                                             <h4 className="text-white">
                                                 <i className="fa fa-close"></i> CLOSE
                             </h4>
@@ -220,12 +293,23 @@ export class EditCenter extends Component {
 
 const mapStateToProps = state => ({
   centerState: state.centerState,
+  centerPageNo: state.centerPageNum,
+  messageStatus: state.messageStatus,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getAllCenters: getAllCenterAction,
   editACenterAction,
+  UploadCenterImage,
 }, dispatch);
+
+EditCenter.propType = {
+  centerState: PropType.arrayOf(PropType.object),
+  centerPageNo: PropType.object,
+  getAllCenters: PropType.func.isRequired,
+  editACenterAction: PropType.func.isRequired,
+  UploadCenterImage: PropType.func.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditCenter);
 

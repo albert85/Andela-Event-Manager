@@ -5,6 +5,7 @@ export default (sequelize, DataTypes) => {
     location: DataTypes.STRING,
     capacity: DataTypes.INTEGER,
     amount: DataTypes.DECIMAL,
+    centerUrl: DataTypes.STRING,
   });
   // Associates with user table
   Center.associate = (models) => {

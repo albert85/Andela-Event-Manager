@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PropType from 'prop-types';
+import PaginationComponent from 'react-js-pagination';
 
 import getAllCenterAction from '../action/getAllCentersAction';
 import getUsersAllEventAction from '../action/getUsersAllEventAction';
@@ -21,7 +23,8 @@ export class EditEvent extends Component {
       editEventDate: '',
       editEventCenter: 'Centre Name',
       editEventLocation: 'Centre Location',
-
+      currentPage: 1,
+      eventItemsCountPerPage: 4,
     };
 
     this.handleEditEvent = this.handleEditEvent.bind(this);
@@ -29,12 +32,13 @@ export class EditEvent extends Component {
     this.handleEventLocation = this.handleEventLocation.bind(this);
     this.handleCenter = this.handleCenter.bind(this);
     this.handleEventDate = this.handleEventDate.bind(this);
+    this.handlePagination = this.handlePagination.bind(this);
   }
 
 
   componentDidMount() {
-    this.props.getAllCenters();
-    this.props.getUsersAllEventAction(localStorage.getItem('userIdNo'));
+    this.props.getAllCenters(1);
+    this.props.getUsersAllEventAction(localStorage.getItem('userIdNo'), 1);
   }
 
   handleEventDate(e) {
@@ -56,6 +60,12 @@ export class EditEvent extends Component {
   handleEventName(e) {
     this.setState({ editEventName: e.target.value });
     return true;
+  }
+
+  // handles pagination
+  handlePagination(pageNum) {
+    this.setState({ currentPage: pageNum });
+    this.props.getUsersAllEventAction(localStorage.getItem('userIdNo'), pageNum);
   }
 
 
@@ -180,6 +190,16 @@ export class EditEvent extends Component {
                                         </table>
                                     </div>
 
+                                    <PaginationComponent
+                                        activePage={this.state.currentPage}
+                                            itemsCountPerPage={this.state.eventItemsCountPerPage}
+                                            totalItemsCount={this.props.centerPageNo.totalNumOfPages}
+                                            pageRangeDisplayed={5}
+                                            itemClass = "page-item"
+                                            linkClass = "page-link"
+                                            onChange = {this.handlePagination}
+                                        />
+
                                 </div>
 
                                 <div className="col-md-5 col-sm-12 pl-4 pr-4 pb-4 mb-3">
@@ -255,6 +275,7 @@ export class EditEvent extends Component {
 const mapStateToProps = state => ({
   centerState: state.centerState,
   eventState: state.eventState,
+  centerPageNo: state.paginationNum,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -262,6 +283,16 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   getUsersAllEventAction,
   editAnEventAction,
 }, dispatch);
+
+EditEvent.PropType = {
+  centerState: PropType.arrayOf(PropType.object),
+  eventState: PropType.arrayOf(PropType.object),
+  centerPageNo: PropType.object,
+  getAllCenters: PropType.func.isRequired,
+  getAllCenterAction: PropType.func.isRequired,
+  getUsersAllEventAction: PropType.func.isRequired,
+  editAnEventAction: PropType.func.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditEvent);
 

@@ -8,15 +8,14 @@ const addNewCenterAsync = newCenterDetails => ({
   payload: newCenterDetails,
 });
 
-const addNewCenter = newCenterDetails => (dispatch) => {
+const addNewCenter = (newCenterDetails, history) => (dispatch) => {
   axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('token')}`;
   return axios
     .post('/api/v1/centers', newCenterDetails)
     .then((res) => {
       dispatch(addNewCenterAsync(newCenterDetails));
-      localStorage.setItem('message', res.data.message);
+      localStorage.setItem('message', res.data.result);
       toastr.success('successfully added');
-      // history.push('')
     })
     .catch(() => {
       toastr.error('Credential exist');

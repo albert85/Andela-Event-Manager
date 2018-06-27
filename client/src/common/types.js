@@ -1,3 +1,19 @@
+export const CHECK_PAGE_LOADING_STATUS = 'check_page_loading_status';
+
+export const UPLOAD_IMAGE = 'upload_image_to_server';
+
+export const SEARCH_CENTER = 'search_center_by_name_and_location';
+
+export const SUCCESS_MESSAGE = 'status_success';
+
+export const FAILURE_MESSAGE = 'status_failure';
+
+export const GET_CENTERS_PAGE_NOS = 'get_total_no_of_center_pages';
+
+export const GET_EVENTS_PAGE_NOS = 'get_total_no_of_event_pages';
+
+export const ERROR_MESSAGE = 'error_message';
+
 export const ADD_NEW_USER = 'add_new_user';
 
 export const CHANGE_BOOKING_STATUS = 'change_booking_status';
