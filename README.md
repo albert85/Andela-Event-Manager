@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/albert85/Andela-Event-Manager.svg?branch=develop)](https://travis-ci.org/albert85/Andela-Event-Manager)
-[![Coverage Status](https://coveralls.io/repos/github/albert85/Andela-Event-Manager/badge.svg)](https://coveralls.io/github/albert85/Andela-Event-Manager)
+[![Coverage Status](https://coveralls.io/repos/github/albert85/Andela-Event-Manager/badge.svg?branch=develop)](https://coveralls.io/github/albert85/Andela-Event-Manager?branch=develop)
 [![Maintainability](https://api.codeclimate.com/v1/badges/1cbee7336aea932d58d3/maintainability)](https://codeclimate.com/github/albert85/Andela-Event-Manager/maintainability)
 
 # Andela-Event-Manager
