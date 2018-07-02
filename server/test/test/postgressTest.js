@@ -37,12 +37,11 @@ describe('Testing of data on Postgress database', () => {
     it('it should return a predefined error message when the databse is empty', (done) => {
       // Login
       chai.request(server)
-        .get('/api/v1/user/email/1&2')
+        .get('/api/v1/user/email/1')
         .send(changeRole)
         .set('Authorization', `Bearer ${adminTokenId}`)
         .end((err, res) => {
-          expect(res).to.have.status(200);
-          expect(res.body).to.have.property('success').eql(true);
+          expect(res).to.have.status(404);
           done();
         });
     });
@@ -230,13 +229,14 @@ describe('Testing of data on Postgress database', () => {
     it('it should return a success message when get user email from database is requested', (done) => {
       // Login
       chai.request(server)
-        .get('/api/v1/user/email/1&2')
+        .get('/api/v1/user/email/1')
         .send(changeRole)
         .set('Authorization', `Bearer ${adminTokenId}`)
         .end((err, res) => {
+          console.log(res.body);
           expect(res).to.have.status(200);
           expect(res.body).to.have.property('success').eql(true);
-          expect(res.body).to.have.property('numOfPage').eql(2);
+          expect(res.body).to.have.property('userEmail');
           done();
         });
     });
