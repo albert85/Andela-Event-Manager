@@ -3,6 +3,12 @@ import jwt from 'jsonwebtoken';
 import db from '../models/index';
 
 export default class CenterController {
+  /**
+   * @description Create a new center
+   * @param {object} req
+   * @param {object} res
+   * @return {object}
+   */
   // Creating a new center
   static create(req, res) {
     // check if details exist
@@ -43,7 +49,7 @@ export default class CenterController {
    * @description Get a center detail
    * @param {object} req
    * @param {object} res
-   * @param {object}
+   * @return {object}
    */
 
   // get A center
@@ -59,6 +65,13 @@ export default class CenterController {
       .catch(() => res.status(400).json({ success: false, result: 'Center not found!!!' }));
   }
 
+  /**
+   * @description Search for a particular center with name and location
+   * @param {object} req
+   * @param {object} res
+   * @return {object}
+   */
+
   // search for a center using name and location
   static searchCenterByNameAndLocation(req, res) {
     // console.log(req.body.name);
@@ -69,8 +82,7 @@ export default class CenterController {
           location: req.body.location,
         },
       }).then((centerDetails) => {
-      //  console.log(centerDetails);
-        if (!centerDetails) {
+        if (centerDetails.length === 0) {
           return res.status(404).json({ success: false, result: 'No Center Found' });
         }
         return res.status(200).json({ success: true, center: centerDetails });
@@ -82,7 +94,7 @@ export default class CenterController {
    * @description Get a center detail
    * @param {object} req
    * @param {object} res
-   * @param {object}
+   * @return {object}
    */
 
   // get A center's event details
@@ -126,7 +138,7 @@ export default class CenterController {
    * @description Get all centers detail
    * @param {object} req
    * @param {object} res
-   * @param {object}
+   * @return {object}
    */
 
   // get All centers
@@ -142,6 +154,9 @@ export default class CenterController {
       .findAndCountAll({
         limit: req.params.limit,
         offset: req.params.limit * (req.params.page - 1),
+        order: [
+          ['id', 'ASC'],
+        ],
       })
       .then((result) => {
         const numOfPage = Math.ceil(result.count / req.params.limit);
@@ -163,7 +178,7 @@ export default class CenterController {
    * @description Update a center detail
    * @param {object} req
    * @param {object} res
-   * @param {object}
+   * @return {object}
    */
   // Updating a center detail
   static updateACenterDetails(req, res) {

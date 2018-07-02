@@ -2,6 +2,12 @@ import jwt from 'jsonwebtoken';
 import db from '../models/index';
 
 export default class EventController {
+  /**
+   * @description Create an event
+   * @param {object} req
+   * @param {object} res
+   * @returns {object}
+   */
   static create(req, res) {
     // get the id of the user
     const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
@@ -33,6 +39,13 @@ export default class EventController {
       }).catch(() => res.status(400).json({ success: false, result: 'Please check your credentials' }));
   }
 
+  /**
+   * @description get an event
+   * @param {object} req
+   * @param {object} res
+   * @returns {object}
+   */
+
   // get An event
   static getAnEvent(req, res) {
     // get the id of the user
@@ -51,6 +64,13 @@ export default class EventController {
       .catch(() => res.status(404).json({ success: false, result: 'Event not found!!!' }));
   }
 
+  /**
+   * @description get all events
+   * @param {object} req
+   * @param {object} res
+   * @returns {object}
+   */
+
   // get All events
   static getAllEvents(req, res) {
     // get the id of the user
@@ -58,6 +78,7 @@ export default class EventController {
     if (!decoded) {
       return res.status(403).json({ success: false, result: 'Token expired please login to generate new token' });
     }
+    console.log('*********', db.Event);
 
     return db.Event
       .findAndCountAll({
@@ -81,8 +102,15 @@ export default class EventController {
         }
         return res.status(404).json({ success: false, result: `Please supply a valid page number. Number of Pages: ${numOfPage}` });
       })
-      .catch(() => res.status(404).json({ success: false, result: 'No Events Found' }));
+      .catch(err => res.status(404).json({ success: false, result: 'No Events Found', error: err }));
   }
+
+  /**
+   * @description get all the event of a particular user
+   * @param {object} req
+   * @param {object} res
+   * @returns {object}
+   */
 
   // get All events for a specific user
   static getUserAllEvents(req, res) {
@@ -91,6 +119,7 @@ export default class EventController {
     if (!decoded) {
       return res.status(403).json({ success: false, result: 'Token expired please login to generate new token' });
     }
+
 
     return db.Event
       .findAndCountAll({
@@ -103,7 +132,7 @@ export default class EventController {
       })
       .then((result) => {
         if (result.count === 0) {
-          return res.status(200).json({ success: true, result: 'No Events in the user\'s record' });
+          return res.status(200).json({ success: true, result: 'No Events in the user\'s record', eventDetails: [] });
         }
         const numOfPage = Math.ceil(result.count / req.params.limit);
         const suppliedPageNo = req.params.page;
@@ -121,6 +150,12 @@ export default class EventController {
       .catch(() => res.status(404).json({ success: false, result: 'No Events Found' }));
   }
 
+  /**
+   * @description Update the event of a particular user
+   * @param {object} req
+   * @param {object} res
+   * @returns {object}
+   */
   static updateEvent(req, res) {
     // get the id of the user
     const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
@@ -162,6 +197,12 @@ export default class EventController {
       .catch(() => res.status(400).json({ success: false, result: 'Please check your credentials' }));
   }
 
+  /**
+   * @description Cancel an event booking
+   * @param {object} req
+   * @param {object} res
+   * @returns {object}
+   */
   static updateAdminEvent(req, res) {
     // get the id of the user
     const decoded = jwt.verify(req.token, process.env.TOKEN_PASSWORD);
@@ -203,6 +244,12 @@ export default class EventController {
       .catch(() => res.status(400));
   }
 
+  /**
+   * @description delete an event
+   * @param {object} req
+   * @param {object} res
+   * @returns {object}
+   */
   static deleteAnEvent(req, res) {
     return db.Event
       .findById(req.params.eventId)

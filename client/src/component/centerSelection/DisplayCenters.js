@@ -9,8 +9,7 @@ class DisplayCenters extends Component {
             <div>
               <div class="card-deck em-align-center-items">
               {
-                centerArray.map((center, index) => {
-                  return (
+                centerArray.map((center, index) => (
                   <div className="card em-card-width">
                     <img className="card-img-top adjust-card-imag" src={center.centerUrl} alt="Card image cap" />
                             <div class="card-body">
@@ -28,8 +27,7 @@ class DisplayCenters extends Component {
                             {/* <div class="card-footer bg-primary">
 
                     </div> */}
-                  </div>);
-                })
+                  </div>))
 
                 }
             </div>

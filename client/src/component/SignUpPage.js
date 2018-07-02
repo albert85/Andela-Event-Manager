@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Proptype from 'prop-types';
 
 import '../../style.scss';
 import addUserAction from '../action/signUpAction';
+import DisplayLoading from './helpers/LoadingBar';
 import Footer from './Footer';
 
 export class SignUp extends Component {
@@ -39,8 +41,8 @@ export class SignUp extends Component {
 
   /**
  * @method
- * @param {none}
- * @returns {strings}
+ * @param {object}
+ * @returns {boolean}
  */
 
   // It handles saving first name to the state
@@ -48,42 +50,63 @@ export class SignUp extends Component {
     this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { firstName: e.target.value }) });
     return true;
   }
-  // it handles saving last name to the state
+
+  /**
+ * @method
+ * @description This method handles saving user's last name to the state
+ * @param {object}
+ * @returns {boolean}
+ */
   handleLastNameInput(e) {
     this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { lastName: e.target.value }) });
     return true;
   }
 
-  // it handles saving email address to the state
+  /**
+ * @method
+ * @description This method handles saving user's email address to the state
+ * @param {object}
+ * @returns {boolean}
+ */
+
   handleEmailInput(e) {
     this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { email: e.target.value }) });
     return true;
   }
 
-  // it handles saving password to the state
+  /**
+ * @method
+ * @description This method handles saving user's password to the state
+ * @param {object}
+ * @returns {boolean}
+ */
   handlePasswordInput(e) {
     this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { password: e.target.value }) });
     return true;
   }
 
-  // it handles saving confirm password top the state
-  handleConfirmPasswordInput(e) {
-    this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { confirmPassword: e.target.value }) });
+  /**
+ * @method
+ * @description This method handles saving user's confirm password to the state
+ * @param {object}
+ * @returns {boolean}
+ */
+  handleConfirmPasswordInput(userPassword) {
+    this.setState({ signUpDetails: Object.assign(this.state.signUpDetails, { confirmPassword: userPassword.target.value }) });
 
     return true;
   }
 
-
-  handleSignUpNewUser(e) {
-    e.preventDefault();
-    let isAdminStatus = false;
+  /**
+ * @method
+ * @description This method handles user's signing up
+ * @param {object}
+ * @returns {strings}
+ */
+  handleSignUpNewUser(userDetail) {
+    userDetail.preventDefault();
     if (this.state.signUpDetails.password !== this.state.signUpDetails.confirmPassword) {
       return this.setState({ errorMessage: 'wrong password' });
-    }
-
-    if (this.state.signUpDetails.password === 'admin') {
-      isAdminStatus = true;
-      this.setState({ checkAdminStatus: true });
     }
 
     const userDetails = {
@@ -91,7 +114,7 @@ export class SignUp extends Component {
       lastName: this.state.signUpDetails.lastName,
       email: this.state.signUpDetails.email,
       password: this.state.signUpDetails.password,
-      isAdmin: isAdminStatus,
+      isAdmin: false,
     };
 
     this.props.addUserAction(userDetails, this.props.history);
@@ -186,14 +209,25 @@ export class SignUp extends Component {
 
                     <div className="row text-center">
                       <div className="col-md-12 col-sm-12">
+
                         <button
                           type="submit"
-                          className="btn btn-danger btn-lg btn-block"
+                          className="btn btn-primary btn-lg btn-block"
 
                         >
                           <strong>
+
+                          {
+                            this.props.messageStatus.checkStatus.isLoading && (<DisplayLoading/>)
+                          }
+
                             SIGN UP</strong>
                         </button>
+
+                      </div>
+
+                      <div className="mx-auto">
+                        Already have an account <a href="/" className="text-danger"> <strong>Sign In</strong></a>
                       </div>
 
                     </div>
@@ -215,14 +249,17 @@ export class SignUp extends Component {
 
 const mapStateToProps = state => ({
   newUserDetail: state.signUpUser,
+  messageStatus: state.messageStatus,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   addUserAction,
 }, dispatch);
 
-// const actionCreators = {
-//   addUserAction,
-// };
+SignUp.proptype = {
+  newUserDetail: Proptype.arrayOf(Proptype.object),
+  messageStatus: Proptype.object,
+  addUserAction: Proptype.func.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
