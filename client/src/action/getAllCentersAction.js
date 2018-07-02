@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import { checkPageStatus, successMessage, errorMessage } from '../common/DispatchMessage';
 import {
   GET_ALL_CENTERS,
   GET_CENTERS_PAGE_NOS,
@@ -8,49 +9,56 @@ import {
   ERROR_MESSAGE,
 } from '../common/types';
 
+/**
+ * @description This dispatches get all centers
+ * @param {object} getAllCentersDetail
+ * @returns {string} type
+ * @returns {object} payload
+ */
 const getallCentersAsync = getAllCentersDetail => ({
   type: GET_ALL_CENTERS,
   payload: getAllCentersDetail,
 });
 
-const getCenterPageNos = (numOfPages, totalNumOfPages) => ({
+/**
+ * @description This dispatches get all centers meta data
+ * @param {int} numOfPages
+ * @param {int} totalNumOfPages
+ * @returns {string} type
+ * @returns {object} payload
+ */
+const getCenterPageNos = (numOfPages, totalNumOfPages, checkIfRecordExist) => ({
   type: GET_CENTERS_PAGE_NOS,
   payload: {
     numOfPages,
     totalNumOfPages,
+    checkIfRecordExist,
   },
 });
 
-const checkPageStatus = loading => ({
-  type: CHECK_PAGE_LOADING_STATUS,
-  payload: loading,
-});
-
-const successMessage = checkStatus => ({
-  type: SUCCESS_MESSAGE,
-  payload: checkStatus,
-});
-
-const errorMessage = checkStatus => ({
-  type: ERROR_MESSAGE,
-  payload: checkStatus,
-});
-
+/**
+ * @description This method gets all center from the database
+ * @param {int} pageNo
+ * @param {int} limitNo
+ * @returns {promise}
+ */
 const getallCenters = (pageNo, limitNo) => (dispatch) => {
-  dispatch(checkPageStatus(true));
+  dispatch(checkPageStatus(CHECK_PAGE_LOADING_STATUS));
   axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('token')}`;
   return axios
     .get(`/api/v1/centers/${pageNo}&${limitNo}`)
     .then((res) => {
-      localStorage.setItem('message', res.data.success);
-      dispatch(getCenterPageNos(res.data.numOfPage, res.data.totalNumPage));
-      dispatch(successMessage(res.data.success));
+      let checkIfRecordExist = false;
+      if (res.data.centerDetails.length > 0) {
+        checkIfRecordExist = true;
+      }
+      dispatch(getCenterPageNos(res.data.numOfPage, res.data.totalNumPage, checkIfRecordExist));
+      dispatch(successMessage(SUCCESS_MESSAGE));
       dispatch(getallCentersAsync(res.data.centerDetails));
       dispatch(checkPageStatus(false));
     })
-    .catch((error) => {
-      // localStorage.setItem('message', error.response.data.success);
-      dispatch(errorMessage(error.response.data.success));
+    .catch(() => {
+      dispatch(errorMessage(ERROR_MESSAGE));
     });
 };
 export default getallCenters;

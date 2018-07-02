@@ -1,7 +1,7 @@
 .section-sign-in{
 
 .cover-section-signin{
-    background: url('./public/img/eventcenter.jpg') center  center no-repeat;
+    background: url('./public/img/shebaEventCentre.png') center  center no-repeat;
     background-size: cover;
      min-height: 100vh;
 }
@@ -97,3 +97,9 @@ hr{
    .em-card-width{
        max-width: 20rem;
    }
+.center-header{
+    a:hover{
+        background: #2e7cf6;
+        color: #ffffff;
+    }
+}

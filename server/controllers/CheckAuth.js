@@ -2,6 +2,12 @@ import jwt from 'jsonwebtoken';
 import db from '../models/index';
 
 export default class CheckAuth {
+  /**
+   * @description Check if the user is authorized
+   * @param {object} req
+   * @param {object} res
+   * @returns {object}
+   */
   static checkIfAuthorize(req, res, next) {
     const bearerHeader = req.headers.authorization;
     if (typeof bearerHeader !== 'undefined') {
@@ -12,6 +18,13 @@ export default class CheckAuth {
     }
     return res.status(403).json({ success: false, result: 'Unauthorized Action' });
   }
+
+  /**
+   * @description Check if the user is authorized to manage a center
+   * @param {object} req
+   * @param {object} res
+   * @returns {object}
+   */
 
   static checkIfAuthToManage(req, res, next) {
     jwt.verify(req.token, process.env.TOKEN_PASSWORD, (err, decoded) => {

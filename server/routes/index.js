@@ -18,7 +18,7 @@ app.post('/api/v1/user/login', validator.loginValidator, loginController.signIn)
 app.put('/api/v1/admin-role/:userId', validator.validateUserChangeRole, auth.checkIfAuthorize, auth.checkIfAuthToManage, userDetails.changeRole);
 
 // get Users email address
-app.get('/api/v1/user/email/:page&:limit', loginController.userEmail);
+app.get('/api/v1/user/email/:userId', loginController.userEmail);
 
 // send email notification
 app.post('/api/v1/user/recipientEmail', auth.checkIfAuthorize, loginController.sendEmailNotifications);
