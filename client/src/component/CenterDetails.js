@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import PropType from 'prop-types';
 import PaginationComponent from 'react-js-pagination';
 
-import DisplayLoading from './helpers/LoadingBar';
+import DisplayLoading from './loadingBar/LoadingBar';
 import getAllCenterAction from '../action/getAllCentersAction';
 import getACenterAction from '../action/getACenterAction';
 import getAllEventsAction from '../action/getAllEventsAction';

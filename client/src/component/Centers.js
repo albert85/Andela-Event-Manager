@@ -6,7 +6,7 @@ import toastr from 'toastr';
 import PropType from 'prop-types';
 
 import getAllCenterAction from '../action/getAllCentersAction';
-import DisplayLoading from './helpers/LoadingBar';
+import DisplayLoading from './loadingBar/LoadingBar';
 import addNewCenterAction from '../action/addNewCenterAction';
 import UploadCenterImage from '../action/uploadCenterImage';
 import Footer from './Footer';

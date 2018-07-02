@@ -9,7 +9,7 @@ import addEventAction from '../action/addEventAction';
 import getUsersAllEventAction from '../action/getUsersAllEventAction';
 import deleteAnEventAction from '../action/deleteAnEventAction';
 import ModalComponent from './modalComponent/ModalComponent';
-import DisplayLoading from './helpers/LoadingBar';
+import DisplayLoading from './loadingBar/LoadingBar';
 
 
 import '../../style.scss';

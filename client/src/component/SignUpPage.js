@@ -5,7 +5,7 @@ import Proptype from 'prop-types';
 
 import '../../style.scss';
 import addUserAction from '../action/signUpAction';
-import DisplayLoading from './helpers/LoadingBar';
+import DisplayLoading from './loadingBar/LoadingBar';
 import Footer from './Footer';
 
 export class SignUp extends Component {

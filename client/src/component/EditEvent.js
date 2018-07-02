@@ -8,7 +8,7 @@ import getAllCenterAction from '../action/getAllCentersAction';
 import getUsersAllEventAction from '../action/getUsersAllEventAction';
 import editAnEventAction from '../action/editAnEventAction';
 import ModalComponent from './modalComponent/ModalComponent';
-import DisplayLoading from './helpers/LoadingBar';
+import DisplayLoading from './loadingBar/LoadingBar';
 
 
 import '../../style.scss';
