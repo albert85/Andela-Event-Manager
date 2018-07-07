@@ -31,6 +31,16 @@ const EMDetails = {
     eventDate: '2018-12-12',
   },
 
+  centerToSearch: {
+    name: 'Andela',
+    location: 'Anthony',
+  },
+
+  uploadDetails: {
+    name: 'event.jpg',
+    size: 3000,
+    path: '/user/path/to/image',
+  },
 
   getEditEventDetails: {
     id: 1,

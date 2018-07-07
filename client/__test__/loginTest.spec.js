@@ -12,6 +12,14 @@ describe('<LogIn />', () => {
   let wrapper;
   const props = {
     loginUser: () => {},
+    loginUserDetail: [],
+    messageStatus: {
+      checkStatus: {
+        isLoading: false,
+        success: false,
+        error: false,
+      },
+    },
 
   };
 
@@ -68,7 +76,7 @@ describe('<LogIn />', () => {
 
 
   it('Should return the number of .col-md-6 class ', () => {
-    expect(wrapper.find('.col-md-6')).to.have.length(3);
+    expect(wrapper.find('.col-md-6')).to.have.length(1);
   });
 
   it('Should return the number of offset-md-3 class ', () => {

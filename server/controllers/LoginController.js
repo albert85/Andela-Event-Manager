@@ -63,25 +63,22 @@ export default class LoginController {
   static userEmail(req, res) {
     return db.user
 
-      .findAndCountAll({
-        limit: req.params.limit,
-        offset: req.params.limit * (req.params.page - 1),
+      .findOne({
+        where: {
+          id: req.params.userId,
+        },
       })
       .then((result) => {
         if (result.count === 0) {
           return res.status(200).json({ success: true, result: 'No email found' });
         }
-        const numOfPage = Math.ceil(result.count / req.params.limit);
-        const suppliedPageNo = req.params.page;
-
-        if (suppliedPageNo <= numOfPage) {
-          return res.status(200).json({
-            success: true,
-            userEmail: result.rows,
-            numOfPage,
-          });
-        }
-        return res.status(404).json({ success: false, result: `Please supply a valid page number. Number of Pages: ${numOfPage}` });
+        return res.status(200).json({
+          success: true,
+          userEmail: {
+            email: result.email,
+            name: result.firstName,
+          },
+        });
       })
       .catch(() => res.status(404).json({ success: false, result: 'Resource not Found' }));
   }
@@ -125,7 +122,7 @@ export default class LoginController {
           if (error) {
             return res.status(400).json({ success: false, result: 'email not sent' });
           }
-          return res.status(200).json({ success: true, result: 'successful sent' });
+          return res.status(200).json({ success: true, result: 'successfully sent' });
         });
       })
       .catch(() => res.status(400).json({ success: false, result: 'Error in mail' }));

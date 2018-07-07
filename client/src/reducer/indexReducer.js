@@ -17,6 +17,7 @@ import getUsersEmailReducer from '../reducer/getUsersEmailReducer';
 import messageReducer from '../reducer/messageReducer';
 import paginationReducer from '../reducer/paginationReducer';
 import centerPageNum from '../reducer/centerPaginationReducer';
+import imageUrl from '../reducer/imageUrlReducer';
 
 const rootReducer = combineReducers({
   signUpUser: addNewUser,
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   messageStatus: messageReducer,
   paginationNum: paginationReducer,
   centerPageNum,
+  imageUrl,
 
 });
 

@@ -9,7 +9,7 @@ const EditEventHeader = () => (
 
                         <div className="col">
                             <ul className="nav justify-content-end">
-                                <li className="nav-item"> <a href="/event-home-page" className="text-white mr-1"> HOME | </a></li>
+                                <li className="nav-item"> <a href="/event-home-page" className="text-white mr-1" id="home"> HOME | </a></li>
                                 <li className="nav-item"> <a href="/" className="text-white">    SIGNOUT <i className="fa fa-chevron-right"></i></a></li>
                             </ul>
                         </div>

@@ -4,11 +4,11 @@ import { bindActionCreators } from 'redux';
 import PaginationComponent from 'react-js-pagination';
 import PropType from 'prop-types';
 
+import DisplayLoading from './loadingBar/LoadingBar';
 import getAllCenterAction from '../action/getAllCentersAction';
 import getACenterAction from '../action/getACenterAction';
 import ViewBookingHeaderComponent from '../component/ViewBookingHeaderComponent';
 import SearchedCenter from '../action/searchCenter';
-// import CentreEventList from '../component/CentreEventList';
 import Footer from '../component/Footer';
 import CentreEventTable from './CentreEventTable';
 
@@ -119,15 +119,11 @@ export class BookingDetails extends Component {
                                                 placeholder = "Please select center"
                                                 onChange={this.handleCenterName}/>
 
-                                                {
+                                            {
                                                 this.state.displayNameError && (<span className="text-danger"> Please Indicate Location</span>)
                                             }
 
-                                                {/* <option>Please select center</option>
-                                                {this.props.centerState.map((center, i) => <option key={i} i={i} value={center.name}>{center.name}</option>)} */}
-
-
-                                        <button type="button" className="center-btn-search" onClick={this.handleLocation}>
+                                        <button type="button" id="searchBtn" className="center-btn-search" onClick={this.handleLocation}>
                                         SEARCH
                                         </button>
 
@@ -169,7 +165,7 @@ export class BookingDetails extends Component {
                                             required />
                                         </div>
 
-                                        <a className="btn btn-success btn-sm btn-block mb-3" href="/event-home-page">
+                                        <a id="eventHome" className="btn btn-success btn-sm btn-block mb-3" href="/event-home-page">
                                             <h4 className="text-white">
                                                 <i className="fa fa-home" aria-hidden="true"></i>
                                             </h4>
@@ -181,7 +177,12 @@ export class BookingDetails extends Component {
 
                                 <div className="col-md-7 col-sm-12 mb-4 pt-2">
                                     <div className="text-center bg-danger text-white p-2 mb-2">
-                                        <h4>EVENTS</h4>
+                                        <h4>
+                                            {
+                                                this.props.messageStatus.checkStatus.isLoading && (<DisplayLoading/>)
+                                            }
+                                            EVENTS
+                                        </h4>
                                     </div>
 
                                     <div className="eventlist bg-primary text-center text-dark p-3" >
@@ -222,6 +223,7 @@ const mapStateToProps = state => ({
   centerState: state.centerState,
   getACenterState: state.getACenterState,
   centerPageNo: state.paginationNum,
+  messageStatus: state.messageStatus,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -234,6 +236,7 @@ BookingDetails.PropType = {
   centerState: PropType.arrayOf(PropType.object),
   getACenterState: PropType.arrayOf(PropType.object),
   centerPageNo: PropType.object,
+  messageStatus: PropType.object,
   getAllCenterAction: PropType.func.isRequired,
   getACenterAction: PropType.func.isRequired,
   SearchedCenter: PropType.func.isRequired,

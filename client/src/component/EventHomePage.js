@@ -9,7 +9,7 @@ import addEventAction from '../action/addEventAction';
 import getUsersAllEventAction from '../action/getUsersAllEventAction';
 import deleteAnEventAction from '../action/deleteAnEventAction';
 import ModalComponent from './modalComponent/ModalComponent';
-// import editAnEventAction from '../action/editAnEventAction';
+import DisplayLoading from './loadingBar/LoadingBar';
 
 
 import '../../style.scss';
@@ -24,7 +24,7 @@ export class EventHomePage extends Component {
       addEventDetails: {
         eventName: '',
         eventLocation: 'Location',
-        eventVenue: 'Please select center',
+        eventVenue: '',
         eventDate: '',
       },
       eventLocation: '',
@@ -60,7 +60,7 @@ export class EventHomePage extends Component {
   handleSelectCenter(e) {
     this.props.centerState.map((item) => {
       if (Number(e.target.id) === item.id) {
-        // this.props.getUsersAllEventAction(item.id, localStorage.getItem('userIdNo'), 1);
+        this.props.getUsersAllEventAction(item.id, localStorage.getItem('userIdNo'), 1);
         this.setState({ ...this.state, centerId: item.id, addEventDetails: { ...this.state.addEventDetails, eventVenue: item.name, eventLocation: item.location } });
       }
       return item;
@@ -70,7 +70,6 @@ export class EventHomePage extends Component {
   handleCenterPagination(pageNumNo) {
     this.setState({ ...this.state, currentCenterPage: pageNumNo });
     this.props.getAllCenters(pageNumNo, this.state.recordLimit);
-    // this.props.getUsersAllEventAction(1, localStorage.getItem('userIdNo'), 1);
   }
 
   handleLogout() {
@@ -142,7 +141,6 @@ export class EventHomePage extends Component {
 
 
   render() {
-    //   window.console.log(this.props.centerPageNo.checkIfRecordExist);
     return (
 
             <div >
@@ -159,11 +157,18 @@ export class EventHomePage extends Component {
 
                                 <div className="col-md-7 col-sm-12 mb-4 pt-2">
                                     <div className="text-center bg-danger text-white p-2 mb-2">
-                                        <h4>EVENTS</h4>
+                                        <h4>
+                                        {
+                                            this.props.messageStatus.checkStatus.isLoading && (<DisplayLoading/>)
+                                        }
+                                            EVENTS
+                                        </h4>
                                     </div>
+
 
                                     {/* Create a table and populate it with events from the database */}
                                     <div className="eventlist bg-primary text-center text-dark p-3">
+
                                         <table className="table-sm text-center table-hover mx-auto table-responsive-sm table-striped bg-white">
                                             <thead className="text-center bg-info border border-white text-white">
                                                 <tr className="p-3">
@@ -176,13 +181,13 @@ export class EventHomePage extends Component {
                                                     <th scope="col"></th>
                                                 </tr>
                                             </thead>
+
                                             <tbody>
 
                                                 {
                                                     !this.props.centerPageNo.checkIfRecordExist && (<p>No Record Exist</p>)
                                                 }
 
-                                                {/* populate the row of the table with events */}
                                                 {
 
                                                     // map through array of events and insert into the rows of the table
@@ -210,7 +215,7 @@ export class EventHomePage extends Component {
 
 
                                                                     {/* Execute delete operation */}
-                                                                    <div className="col"><button type="button" onClick={this.handleDeleteEvent.bind(this, event.id)} className="btn btn-danger btn-block">
+                                                                    <div className="col"><button id="delBtn" type="button" onClick={this.handleDeleteEvent.bind(this, event.id)} className="btn btn-danger btn-block">
                                                                         <i className="fa fa-trash-o" aria-hidden="true"></i>
                                                                     </button></div>
                                                                 </div>
@@ -221,6 +226,7 @@ export class EventHomePage extends Component {
                                                 }
 
                                             </tbody>
+
                                         </table>
                                     </div>
                                     {
@@ -235,6 +241,7 @@ export class EventHomePage extends Component {
                                             onChange = {this.handlePagination}
                                         />)
                                         }
+
 
                                 </div>
 
@@ -266,7 +273,7 @@ export class EventHomePage extends Component {
                                                 value = {this.state.addEventDetails.eventVenue}
                                                 placeholder="Select An Event Center"
                                                 />
-                                                <a className="btn btn-sm btn-primary text-white" data-toggle="modal" data-target="#selectCenter">SELECT</a>
+                                                <a id="achorSelectCenter" className="btn btn-sm btn-primary text-white" data-toggle="modal" data-target="#selectCenter">SELECT</a>
 
 
                                             </span>
@@ -296,6 +303,7 @@ export class EventHomePage extends Component {
                                             <span id='dateAvailable' value = "" className='text-danger'></span>
                                         </div>
                                         <button type="submit"
+                                        id="eventAddBtn"
                                         className="btn btn-success btn-sm btn-block mb-3">
                                             <h4 className="text-white"><i className="fa fa-save" aria-hidden="true"> Add Event</i></h4>
                                         </button>
@@ -344,6 +352,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 EventHomePage.propType = {
   centerState: PropType.arrayOf(PropType.object),
   eventState: PropType.arrayOf(PropType.object),
+  centerPaginationNum: PropType.object,
+  messageStatus: PropType.object,
   getAllCenters: PropType.func.isRequired,
   addNewEvent: PropType.func.isRequired,
   getUsersAllEventAction: PropType.func.isRequired,

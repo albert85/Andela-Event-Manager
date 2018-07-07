@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 class CenterRows extends Component {
-
   render() {
     return (
 
