@@ -21,6 +21,7 @@ const {
   centerData2,
   centerData3,
   centerData4,
+  centerData5,
   updateCenterData,
   eventData,
   updateEventData,
@@ -37,12 +38,11 @@ describe('Testing of data on Postgress database', () => {
     it('it should return a predefined error message when the databse is empty', (done) => {
       // Login
       chai.request(server)
-        .get('/api/v1/user/email/1&2')
+        .get('/api/v1/user/email/1')
         .send(changeRole)
         .set('Authorization', `Bearer ${adminTokenId}`)
         .end((err, res) => {
-          expect(res).to.have.status(200);
-          expect(res.body).to.have.property('success').eql(true);
+          expect(res).to.have.status(404);
           done();
         });
     });
@@ -114,7 +114,6 @@ describe('Testing of data on Postgress database', () => {
           done();
         });
     });
-  
   });
 
   describe('Login Controller ', () => {
@@ -230,13 +229,14 @@ describe('Testing of data on Postgress database', () => {
     it('it should return a success message when get user email from database is requested', (done) => {
       // Login
       chai.request(server)
-        .get('/api/v1/user/email/1&2')
+        .get('/api/v1/user/email/1')
         .send(changeRole)
         .set('Authorization', `Bearer ${adminTokenId}`)
         .end((err, res) => {
+          console.log(res.body);
           expect(res).to.have.status(200);
           expect(res.body).to.have.property('success').eql(true);
-          expect(res.body).to.have.property('numOfPage').eql(2);
+          expect(res.body).to.have.property('userEmail');
           done();
         });
     });
@@ -311,6 +311,42 @@ describe('Testing of data on Postgress database', () => {
           expect(res.body).to.have.property('centerDetail').to.have.property('name').eql(centerData4.name);
           expect(res.body).to.have.property('centerDetail').to.have.property('location').eql(centerData4.location);
           expect(res.body).to.have.property('centerDetail').to.have.property('capacity').eql(centerData4.capacity);
+          done();
+        });
+    });
+    it('it should search for a center', (done) => {
+      // Creating centers with authentication
+      chai.request(server)
+        .post('/api/v1/center/search')
+        .send(centerData4)
+        .set('Authorization', `Bearer ${adminTokenId}`)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.center).to.have.length(1);
+          done();
+        });
+    });
+    it('it should return no result if center no found', (done) => {
+      // Creating centers with authentication
+      chai.request(server)
+        .post('/api/v1/center/search')
+        .send(centerData5)
+        .set('Authorization', `Bearer ${adminTokenId}`)
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          expect(res.body.success).to.be.eq(false);
+          done();
+        });
+    });
+    it('it should return an error message when result if center no found', (done) => {
+      // Creating centers with authentication
+      chai.request(server)
+        .post('/api/v1/center/search')
+        .send(undefined)
+        .set('Authorization', `Bearer ${adminTokenId}`)
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          expect(res.body.success).to.be.eq(false);
           done();
         });
     });
@@ -538,7 +574,6 @@ describe('Testing of data on Postgress database', () => {
     });
 
     it('it should return error message when invalid event Id is supplied', (done) => {
-      
       chai.request(server)
         .put('/api/v1/events/one')
         .send(updateEventData)
@@ -550,7 +585,6 @@ describe('Testing of data on Postgress database', () => {
     });
 
     it('it should return predefine message when eventId not found', (done) => {
-      
       chai.request(server)
         .put('/api/v1/events/1000')
         .send(updateEventData)
@@ -562,7 +596,6 @@ describe('Testing of data on Postgress database', () => {
     });
 
     it('Should allow admin to cancel a booking', (done) => {
-      
       chai.request(server)
         .put('/api/v1/events/admin/1')
         .send(cancelEvent)
@@ -575,7 +608,6 @@ describe('Testing of data on Postgress database', () => {
 
 
     it('Should return event in a center', (done) => {
-     
       chai.request(server)
         .get('/api/v1/center/1/1&2')
         .send(cancelEvent)
@@ -587,7 +619,6 @@ describe('Testing of data on Postgress database', () => {
     });
 
     it('Should return descriptive error message when an invalid page number is supplied', (done) => {
-      
       chai.request(server)
         .get('/api/v1/center/1/1/10&2')
         .send(cancelEvent)
@@ -611,7 +642,6 @@ describe('Testing of data on Postgress database', () => {
     });
 
     it('Should return descriptive error message when an invalid page number is supplied', (done) => {
-      
       chai.request(server)
         .get('/api/v1/center/1/1/1&hello')
         .send(cancelEvent)
@@ -999,6 +1029,17 @@ describe('Testing of data on Postgress database', () => {
     it('it should return predefine error message for validating changing user\'s role', (done) => {
       chai.request(server)
         .put('/api/v1/admin-role/1')
+        .send({})
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
+    });
+
+    // testing validating mail details
+    it('it should return predefine error message for validating mail details', (done) => {
+      chai.request(server)
+        .post('/api/v1/user/recipientEmail')
         .send({})
         .end((err, res) => {
           expect(res).to.have.status(400);

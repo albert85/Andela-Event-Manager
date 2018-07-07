@@ -1,37 +1,55 @@
 import axios from 'axios';
 import toastr from 'toastr';
 
-import { LOGIN_USER } from '../common/types';
+import { checkPageStatus, successMessage, errorMessage } from '../common/DispatchMessage';
+import {
+  LOGIN_USER,
+  SUCCESS_MESSAGE,
+  CHECK_PAGE_LOADING_STATUS,
+  ERROR_MESSAGE,
+} from '../common/types';
 
-// const CLIENT_ROOT_URL = process.env.ROOT_URL || 'http://localhost:8000';
-// const CLIENT_ROOT_URL = 'https://andela-event-manager-app.herokuapp.com';
-
+/**
+ * @description This dispatches login a user
+ * @param {object} userData
+ * @returns {string} type
+ * @returns {object} payload
+ */
 const loginUserAsync = userData => ({
   type: LOGIN_USER,
   payload: userData,
 });
 
-const loginUser = (userData, history) => dispatch => axios
-  .post('/api/v1/user/login', userData)
-  .then((res) => {
-    console.log(res.data);
-    localStorage.setItem('token', res.data.token);
-    localStorage.setItem('userIdNo', res.data.userIdNo);
-    localStorage.setItem('role', res.data.role);
+/**
+ * @description This method login a user
+ * @param {object} userData
+ * @param {object} history
+ * @returns {promise}
+ */
+const loginUser = (userData, history) => (dispatch) => {
+  dispatch(checkPageStatus(CHECK_PAGE_LOADING_STATUS));
+  return axios
+    .post('/api/v1/user/login', userData)
+    .then((res) => {
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('userIdNo', res.data.userIdNo);
+      localStorage.setItem('role', res.data.role);
 
-    dispatch(loginUserAsync(res.data.result));
+      dispatch(loginUserAsync(res.data.result));
+      dispatch(successMessage(SUCCESS_MESSAGE));
 
-    if (res.data.result === 'successfully login') {
-      if (res.data.role === 'Admin') {
-        history.push('/centers');
-      } else {
-        history.push('/event-home-page');
+      if (res.data.result === 'successfully login') {
+        if (res.data.role === 'Admin') {
+          history.push('/centers');
+        } else {
+          history.push('/event-home-page');
+        }
       }
-    }
-  })
-  .catch((error) => {
-    // localStorage.setItem('message', error.response.data.message)
-    console.log(error);
-    toastr.error('Wrong password and email');
-  });
+    })
+    .catch(() => {
+      dispatch(errorMessage(ERROR_MESSAGE));
+      toastr.error('Wrong password and email');
+      toastr.clear();
+    });
+};
 export default loginUser;

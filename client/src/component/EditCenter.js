@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import PropType from 'prop-types';
 import PaginationComponent from 'react-js-pagination';
 
+import DisplayLoading from './loadingBar/LoadingBar';
 import getAllCenterAction from '../action/getAllCentersAction';
 import editACenterAction from '../action/editACenterAction';
 import Footer from './Footer';
@@ -26,6 +27,8 @@ export class EditCenter extends Component {
       currentPage: 1,
       centreUrl: '',
       disablesavebtn: false,
+      clearImagePath: '',
+      files: {},
     };
 
     this.handleEditCenterDetails = this.handleEditCenterDetails.bind(this);
@@ -62,14 +65,13 @@ export class EditCenter extends Component {
   // store image url
   handleImageUpload(e) {
     const file = e.target.files[0];
+    this.setState({ clearImagePath: e.target.value });
     // Create a form data
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', `${process.env.CLOUDINARY_PRESET}`);
-    this.props.UploadCenterImage(formData)
-      .then((res) => {
-        this.setState({ centreUrl: res });
-      });
+    this.props.UploadCenterImage(formData);
+    this.setState({ files: file });
   }
 
   // Stores Centre Location
@@ -97,7 +99,7 @@ export class EditCenter extends Component {
       location: this.state.centreLocation,
       capacity: this.state.centreCapacity,
       amount: this.state.centreAmount,
-      centerUrl: this.state.centreUrl,
+      centerUrl: this.props.imageUrl.imageUrl,
     };
 
     this.props.editACenterAction(modifyCenter, this.state.centerIdNo)
@@ -108,6 +110,7 @@ export class EditCenter extends Component {
           centreCapacity: '',
           centreAmount: '',
           centerUrl: '',
+          clearImagePath: '',
         });
       });
   }
@@ -125,6 +128,7 @@ export class EditCenter extends Component {
           centreUrl: center.centerUrl,
         });
       }
+      return center;
     });
   }
 
@@ -203,13 +207,18 @@ export class EditCenter extends Component {
                                 <div className="col-md-5 col-sm-12 pl-4 pr-4 pb-4 mb-3">
                                     <form className="p-2" id='addNewCenterFormEdit'>
                                         <div className="bg-danger text-center text-white p-2 mb-2">
-                                            <h4>EDIT EVENT CENTER</h4>
+                                            <h4>
+                                                {
+                                                    this.props.messageStatus.checkStatus.isLoading && (<DisplayLoading/>)
+                                                }
+                                                EDIT EVENT CENTER
+                                            </h4>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="eventnameEdit"> Name:</label>
                                             <input type="text"
-                                                id="eventnameEdit"
+                                                id="centernameEdit"
                                                 className="form-control"
                                                 placeholder="Event Centre Name"
                                                 onChange={this.handleChangeCentreName}
@@ -254,7 +263,7 @@ export class EditCenter extends Component {
                                             <input type="file"
                                             id="eventcenterupload"
                                             className="form-control"
-                                            value = {this.state.centerUrl}
+                                            value = {this.state.clearImagePath}
                                             onChange={this.handleImageUpload}
                                             required />
 
@@ -262,7 +271,7 @@ export class EditCenter extends Component {
 
                                         <button type="submit"
                                             id="editButton"
-                                            disabled = {this.state.disablesavebtn}
+                                            disabled = {this.props.messageStatus.checkStatus.isLoading}
                                             className="btn btn-success btn-sm btn-block mb-2"
                                             onClick={this.handleEditCenterDetails} >
                                             <h4 className="text-white">
@@ -271,6 +280,8 @@ export class EditCenter extends Component {
 
 
                                         <a href="/centers"
+                                        id="editCloseBtn"
+                                        disabled={this.props.messageStatus.checkStatus.isLoading}
                                         className="btn btn-danger btn-sm btn-block mb-3" >
                                             <h4 className="text-white">
                                                 <i className="fa fa-close"></i> CLOSE
@@ -295,6 +306,7 @@ const mapStateToProps = state => ({
   centerState: state.centerState,
   centerPageNo: state.centerPageNum,
   messageStatus: state.messageStatus,
+  imageUrl: state.imageUrl,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -306,6 +318,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 EditCenter.propType = {
   centerState: PropType.arrayOf(PropType.object),
   centerPageNo: PropType.object,
+  imageUrl: PropType.object,
+  messageStatus: PropType.object,
   getAllCenters: PropType.func.isRequired,
   editACenterAction: PropType.func.isRequired,
   UploadCenterImage: PropType.func.isRequired,

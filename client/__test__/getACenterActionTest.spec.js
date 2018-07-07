@@ -6,7 +6,7 @@ import configureMockStore from 'redux-mock-store';
 import Adapter from 'enzyme-adapter-react-16';
 import { configure } from 'enzyme';
 
-import { VIEW_A_CENTER } from '../src/common/types';
+import { VIEW_A_CENTER, ERROR_MESSAGE } from '../src/common/types';
 import mockData from '../__mockData__/mockData';
 import getACenterAction from '../src/action/getACenterAction';
 
@@ -27,9 +27,9 @@ describe('Get A Center Action', () => {
       request.respondWith({
         status: 200,
         response: {
-          message: 'successfully retrieved',
-          token: 'e1e2e3rfefgsghrhdfsgdgddgdg',
-          eventDetails: mockData.getEventResponse,
+          numOfPage: 1,
+          totalNumPage: 1,
+          eventDetail: mockData.getEventResponse,
         },
       });
     });
@@ -42,7 +42,32 @@ describe('Get A Center Action', () => {
     const store = mockStore({});
     store.dispatch(getACenterAction(1))
       .then(() => {
-        expect(store.getActions()[0]).toEqual(expectedResponse);
+        expect(store.getActions()[1]).toEqual(expectedResponse);
+        done();
+      });
+  });
+  it('should dispatch an error message when an error occur', (done) => {
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent();
+      request.respondWith({
+        status: 404,
+        response: {
+          numOfPage: 1,
+          totalNumPage: 1,
+          eventDetail: mockData.getEventResponse,
+        },
+      });
+    });
+
+    const expectedResponse = {
+      type: VIEW_A_CENTER,
+      payload: mockData.getEventResponse,
+    };
+
+    const store = mockStore({});
+    store.dispatch(getACenterAction(1))
+      .then(() => {
+        expect(store.getActions()[1]).toEqual({ type: ERROR_MESSAGE });
         done();
       });
   });

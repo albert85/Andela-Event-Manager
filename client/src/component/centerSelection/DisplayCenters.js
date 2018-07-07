@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class DisplayCenters extends Component {
+class DisplayCenters extends React.Component {
   render() {
     const {
       centerArray,
@@ -9,9 +9,8 @@ class DisplayCenters extends Component {
             <div>
               <div class="card-deck em-align-center-items">
               {
-                centerArray.map((center, index) => {
-                  return (
-                  <div className="card em-card-width">
+                centerArray.map((center, index) => (
+                  <div className="card em-card-width" key= {index}>
                     <img className="card-img-top adjust-card-imag" src={center.centerUrl} alt="Card image cap" />
                             <div class="card-body">
                             <strong>Center Name:</strong>
@@ -28,8 +27,7 @@ class DisplayCenters extends Component {
                             {/* <div class="card-footer bg-primary">
 
                     </div> */}
-                  </div>);
-                })
+                  </div>))
 
                 }
             </div>

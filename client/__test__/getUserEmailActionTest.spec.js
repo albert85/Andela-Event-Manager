@@ -6,7 +6,7 @@ import configureMockStore from 'redux-mock-store';
 import Adapter from 'enzyme-adapter-react-16';
 import { configure } from 'enzyme';
 
-import { GET_ALL_EMAILS } from '../src/common/types';
+import { GET_ALL_EMAILS, ERROR_MESSAGE } from '../src/common/types';
 import mockData from '../__mockData__/mockData';
 import getUserEmailAction from '../src/action/getUserEmailAction';
 
@@ -29,7 +29,7 @@ describe('Get User Email Action', () => {
         response: {
           message: 'successfully login',
           token: 'e1e2e3rfefgsghrhdfsgdgddgdg',
-          result: mockData.getUserEmail,
+          userEmail: mockData.getUserEmail,
         },
       });
     });
@@ -42,7 +42,32 @@ describe('Get User Email Action', () => {
     const store = mockStore({});
     store.dispatch(getUserEmailAction())
       .then(() => {
-        expect(store.getActions()[0]).toEqual(expectedResponse);
+        expect(store.getActions()[1]).toEqual(expectedResponse);
+        done();
+      });
+  });
+  it('should dispatch an error message when an error occur', (done) => {
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent();
+      request.respondWith({
+        status: 404,
+        response: {
+          message: 'successfully login',
+          token: 'e1e2e3rfefgsghrhdfsgdgddgdg',
+          userEmail: mockData.getUserEmail,
+        },
+      });
+    });
+
+    const expectedResponse = {
+      type: GET_ALL_EMAILS,
+      payload: mockData.getUserEmail,
+    };
+
+    const store = mockStore({});
+    store.dispatch(getUserEmailAction())
+      .then(() => {
+        expect(store.getActions()[1]).toEqual({ type: ERROR_MESSAGE });
         done();
       });
   });

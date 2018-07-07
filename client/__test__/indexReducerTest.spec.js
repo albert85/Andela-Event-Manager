@@ -22,6 +22,11 @@ describe('Index Reducer', () => {
       eventState: [],
       getACenterState: [],
       userEmailState: [],
+      messageStatus:
+       { checkStatus: { isLoading: false, success: false, error: false } },
+      paginationNum: [],
+      centerPageNum: [],
+      imageUrl: { imageUrl: '' },
     });
   });
 });

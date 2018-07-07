@@ -1,5 +1,5 @@
 import React from 'react';
-import PropType from "prop-types";
+import PropType from 'prop-types';
 
 import PaginationComponent from 'react-js-pagination';
 import DisplayCenters from '../centerSelection/DisplayCenters';

@@ -1,33 +1,54 @@
 import axios from 'axios';
 import toastr from 'toastr';
 
-import { ADD_NEW_USER } from '../common/types';
+import { checkPageStatus, successMessage, errorMessage } from '../common/DispatchMessage';
+import {
+  ADD_NEW_USER,
+  SUCCESS_MESSAGE,
+  CHECK_PAGE_LOADING_STATUS,
+  ERROR_MESSAGE,
+} from '../common/types';
 
-// const CLIENT_ROOT_URL = process.env.ROOT_URL || 'http://localhost:8000';
-// const CLIENT_ROOT_URL = 'https://andela-event-manager-app.herokuapp.com';
+/**
+ * @description This dispatches add new user
+ * @param {object} userData
+ * @returns {string} type
+ * @returns {object} payload
+ */
 
 export const addNewUserAsync = userData => ({
   type: ADD_NEW_USER,
   payload: userData,
 });
 
-const addNewUser = (userData, history) => dispatch => axios
-  .post('/api/v1/users/signUp', userData)
-  .then((res) => {
-    localStorage.setItem('message', res.data.message);
-    const {
-      firstName, lastName, email, message,
-    } = res.data;
+/**
+ * @description This method add new user to the database
+ * @param {object} userData
+ * @param {object} history
+ * @returns {promise}
+ */
 
-    toastr.success('Account successfully created');
+const addNewUser = (userData, history) => (dispatch) => {
+  dispatch(checkPageStatus(CHECK_PAGE_LOADING_STATUS));
+  return axios
+    .post('/api/v1/users/signUp', userData)
+    .then((res) => {
+      localStorage.setItem('message', res.data.message);
+      const {
+        firstName, lastName, email, message,
+      } = res.data;
 
-    dispatch(addNewUserAsync({
-      firstName, lastName, email, message,
-    }));
-    history.push('/');
-  })
-  .catch(() => {
-    toastr.warning('Email Already Registered to an Account');
-  });
-  
+      toastr.success('Account successfully created');
+
+      dispatch(addNewUserAsync({
+        firstName, lastName, email, message,
+      }));
+      dispatch(successMessage(SUCCESS_MESSAGE));
+      history.push('/');
+    })
+    .catch(() => {
+      dispatch(errorMessage(ERROR_MESSAGE));
+      toastr.warning('Email Already Registered to an Account');
+    });
+};
 export default addNewUser;

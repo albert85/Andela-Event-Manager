@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="1"
+            failures="2"
+            tests="1">
+
+  <testsuite name="eventTest.eventTest"
+    errors="1" failures="2" hostname="" id="" package="eventTest" skipped="0"
+    tests="1" time="7.363" timestamp="">
+  
+    <testcase name="EventHomePage e2e test" classname="eventTest.eventTest" time="7.363" assertions="19">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+      <failure message="Timed out while waiting for element &lt;#centerName&gt; to be present for 1000 milliseconds. - expected [0;32m&#34;visible&#34;[0m but got: [0;31m&#34;not found&#34;[0m">    at Object.EventHomePageE2eTest [as EventHomePage e2e test] (/Users/andeladeveloper/Documents/andelaproject/Andela-Event-Manager/client/__test__/e2e_test/eventTest/eventTest.js:63:8)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:118:7)</failure>
+
+      <failure message="Testing if element &lt;#centerName&gt; is visible. Element could not be located. - expected [0;32m&#34;true&#34;[0m but got: [0;31m&#34;null&#34;[0m">    at Object.EventHomePageE2eTest [as EventHomePage e2e test] (/Users/andeladeveloper/Documents/andelaproject/Andela-Event-Manager/client/__test__/e2e_test/eventTest/eventTest.js:64:15)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:118:7)</failure>
+
+    <failure message="    at Object.EventHomePageE2eTest [as EventHomePage e2e test] (/Users/andeladeveloper/Documents/andelaproject/Andela-Event-Manager/client/__test__/e2e_test/eventTest/eventTest.js:64:15)">    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:118:7)</failure>
+    </testcase>
+  
+
+  
+
+  
+  </testsuite>
+</testsuites>

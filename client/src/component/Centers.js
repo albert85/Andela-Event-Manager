@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PaginationComponent from 'react-js-pagination';
 import toastr from 'toastr';
+import PropType from 'prop-types';
 
 import getAllCenterAction from '../action/getAllCentersAction';
+import DisplayLoading from './loadingBar/LoadingBar';
 import addNewCenterAction from '../action/addNewCenterAction';
 import UploadCenterImage from '../action/uploadCenterImage';
 import Footer from './Footer';
@@ -32,6 +34,7 @@ export class Centers extends Component {
       recordLimit: 5,
       imageUpload: '',
       clearImagePath: '',
+      imageUrl: '',
     };
   }
 
@@ -58,11 +61,7 @@ export class Centers extends Component {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', `${process.env.CLOUDINARY_PRESET}`);
-
-    this.props.UploadCenterImage(formData)
-      .then((res) => {
-        this.setState({ imageUpload: res });
-      });
+    this.props.UploadCenterImage(formData);
   }
 
   handleChangeName(e) {
@@ -84,13 +83,13 @@ export class Centers extends Component {
 
   addNewCenter(center) {
     center.preventDefault();
-    if (this.state.imageUpload.length !== 0) {
+    if (this.props.imageUrl.imageUrl.length !== 0) {
       const newCenter = {
         name: center.target[0].value,
         location: center.target[1].value,
         capacity: center.target[2].value,
         amount: center.target[3].value,
-        centerUrl: this.state.imageUpload,
+        centerUrl: this.props.imageUrl.imageUrl,
       };
       this.props.addNewCenterAction(newCenter)
         .then(() => {
@@ -107,6 +106,7 @@ export class Centers extends Component {
     } else {
       toastr.error('Please Reselect the image to upload and check your network');
     }
+    return true;
   }
 
   render() {
@@ -177,13 +177,18 @@ export class Centers extends Component {
                                 {/* Create a form that will be used to enter new center details */}
                                     <form className="p-2" onSubmit={this.addNewCenter} id='addNewCenterForm'>
                                         <div className="bg-danger text-center text-white p-2 mb-3">
-                                            <h4>ADD NEW EVENT CENTER</h4>
+                                            <h4>
+                                                {
+                                                    this.props.messageStatus.checkStatus.isLoading && (<DisplayLoading/>)
+                                                }
+                                                ADD NEW EVENT CENTER
+                                            </h4>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="eventname"> Name:</label>
                                             <input type="text"
-                                            id="eventname"
+                                            id="centerName"
                                             className="form-control"
                                             placeholder="Event Centre's name"
                                             value = {this.state.centerName}
@@ -195,6 +200,7 @@ export class Centers extends Component {
                                             <label htmlFor="eventcenterlocation"> Location:</label>
                                             <input type="text"
                                             name="eventcenterlocation"
+                                            id="centerLocation"
                                             className="form-control"
                                             onChange = {this.handleChangeLocation}
                                             value = {this.state.centerLocation}
@@ -239,7 +245,7 @@ export class Centers extends Component {
 
                                         </div>
 
-                                        <button type="submit" className="btn btn-success btn-sm btn-block mb-3">
+                                        <button id="addCenter" type="submit" className="btn btn-success btn-sm btn-block mb-3" disabled={this.props.messageStatus.checkStatus.isLoading}>
                                             <h4 className="text-white">
                                                 <i className="fa fa-save"></i> Add Center </h4>
                                         </button>
@@ -262,6 +268,8 @@ export class Centers extends Component {
 const mapStateToProps = state => ({
   centerState: state.centerState,
   centerPageNo: state.centerPageNum,
+  messageStatus: state.messageStatus,
+  imageUrl: state.imageUrl,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -269,6 +277,15 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   addNewCenterAction,
   UploadCenterImage,
 }, dispatch);
+
+Centers.proptype = {
+  centerState: PropType.arrayOf(PropType.object),
+  centerPageNo: PropType.object,
+  messageStatus: PropType.object,
+  getAllCenters: PropType.func.isRequired,
+  addNewCenterAction: PropType.func.isRequired,
+  UploadCenterImage: PropType.func.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Centers);
 
