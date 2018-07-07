@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="0"
+            tests="1">
+
+  <testsuite name="eventHomepage.eventTest"
+    errors="0" failures="0" hostname="" id="" package="eventHomepage" skipped="0"
+    tests="1" time="14.89" timestamp="">
+  
+    <testcase name="EventHomePage e2e test" classname="eventHomepage.eventTest" time="14.89" assertions="19">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+
+  
+
+  
+  </testsuite>
+</testsuites>

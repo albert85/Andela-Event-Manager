@@ -13,6 +13,13 @@ describe('<SignUp />', () => {
   let wrapper;
   const props = {
     addUserAction: () => {},
+    messageStatus: {
+      checkStatus: {
+        isLoading: false,
+        success: false,
+        error: false,
+      },
+    },
 
   };
 
@@ -106,10 +113,8 @@ describe('<SignUp />', () => {
     wrapper = shallow(<SignUp { ...props } />);
     const OldState = wrapper.state().signUpDetails;
     wrapper.setState({ signUpDetails: Object.assign(OldState, { password: 'admin', confirmPassword: 'admin' }) });
-    // wrapper.find('button').simulate('onSubmit');
     wrapper.instance().handleSignUpNewUser({ preventDefault: () => {} });
-    expect(wrapper.state().checkAdminStatus).to.be.equal(true);
-    // expect(wrapper.instance().handleSignUpNewUser({ preventDefault: () => {} })).to.be.equal(true);
+    expect(wrapper.state().checkAdminStatus).to.be.equal(false);
   });
 
   it('Should return the number of .container class ', () => {

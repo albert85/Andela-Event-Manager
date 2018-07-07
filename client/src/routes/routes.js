@@ -12,7 +12,7 @@ import bookingDetails from '../component/ViewBookings';
 import editEvents from '../component/EditEvent';
 import editCenter from '../component/EditCenter';
 
-const AuthRoute = ({ component: Component, ...prop }) => (  
+export const AuthRoute = ({ component: Component, ...prop }) => (  
   <Route {...prop} render={props => (
     localStorage.getItem('token') ? (
       <Component {...props}/>

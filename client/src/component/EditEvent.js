@@ -7,6 +7,8 @@ import PaginationComponent from 'react-js-pagination';
 import getAllCenterAction from '../action/getAllCentersAction';
 import getUsersAllEventAction from '../action/getUsersAllEventAction';
 import editAnEventAction from '../action/editAnEventAction';
+import ModalComponent from './modalComponent/ModalComponent';
+import DisplayLoading from './loadingBar/LoadingBar';
 
 
 import '../../style.scss';
@@ -25,6 +27,9 @@ export class EditEvent extends Component {
       editEventLocation: 'Centre Location',
       currentPage: 1,
       eventItemsCountPerPage: 4,
+      recordLimit: 2,
+      currentCenterPage: 1,
+      centerId: 1,
     };
 
     this.handleEditEvent = this.handleEditEvent.bind(this);
@@ -33,34 +38,90 @@ export class EditEvent extends Component {
     this.handleCenter = this.handleCenter.bind(this);
     this.handleEventDate = this.handleEventDate.bind(this);
     this.handlePagination = this.handlePagination.bind(this);
+    this.handleCenterPagination = this.handleCenterPagination.bind(this);
+    this.handleSelectCenter = this.handleSelectCenter.bind(this);
   }
 
 
   componentDidMount() {
-    this.props.getAllCenters(1);
-    this.props.getUsersAllEventAction(localStorage.getItem('userIdNo'), 1);
+    this.props.getAllCenters(1, this.state.recordLimit);
+    this.props.getUsersAllEventAction(1, localStorage.getItem('userIdNo'), 1);
   }
+
+  /**
+   * @description This method select the center where events are to be editted
+   * @param {object} id
+   * @returns {object} center
+   */
+
+  handleSelectCenter(e) {
+    this.props.centerState.map((item) => {
+      if (Number(e.target.id) === item.id) {
+        this.props.getUsersAllEventAction(item.id, localStorage.getItem('userIdNo'), 1);
+        this.setState({ ...this.state, centerId: item.id });
+      }
+      return item;
+    });
+  }
+
+  /**
+   * @description This method controls center pagination
+   * @param {Integer} pageNum
+   */
+
+  handleCenterPagination(pageNumNo) {
+    this.setState({ ...this.state, currentCenterPage: pageNumNo });
+    this.props.getAllCenters(pageNumNo, this.state.recordLimit);
+  }
+
+
+  /**
+   * @description This method handle change of event date and saves it to state
+   * @param {Integer} eventDate
+   * @returns {boolean}
+   */
 
   handleEventDate(e) {
     this.setState({ editEventDate: e.target.value });
     return true;
   }
 
+  /**
+   * @description This method handle change of center's name and saves it to state
+   * @param {object} centerName
+   * @returns {boolean}
+   */
   handleCenter(e) {
     this.setState({ editEventCenter: e.target.value });
     return true;
   }
 
+  /**
+   * @description This method handle change of event centre's location and saves it to state
+   * @param {object} CenterLocation
+   * @returns {boolean}
+   */
   handleEventLocation(e) {
     this.setState({ editLocation: e.target.value });
     return true;
   }
 
+  /**
+   * @description This method handle change of event name and saves it to state
+   * @param {object} eventName
+   * @returns {boolean}
+   */
 
   handleEventName(e) {
     this.setState({ editEventName: e.target.value });
     return true;
   }
+
+
+  /**
+   * @description This method handle moviong from one page to another for pagination
+   * @param {Integer} pageNum
+   */
 
   // handles pagination
   handlePagination(pageNum) {
@@ -68,6 +129,11 @@ export class EditEvent extends Component {
     this.props.getUsersAllEventAction(localStorage.getItem('userIdNo'), pageNum);
   }
 
+  /**
+   * @description This method handle editing operation
+   * @param {object} editDetails
+   * @returns {boolean}
+   */
 
   handleEditEvent(editDetails) {
     editDetails.preventDefault();
@@ -89,6 +155,12 @@ export class EditEvent extends Component {
   }
 
 
+  /**
+   * @description This method handle getting the event to be edited
+   * @param {Integer} index
+   * @returns {boolean}
+   */
+
   handleStoringId(index) {
     localStorage.setItem('index', index);
     this.props.eventState.map((event) => {
@@ -102,7 +174,6 @@ export class EditEvent extends Component {
         });
 
         this.setState({ editEventDate: event.eventDate });
-        // window.document.getElementById('eventdateEdit').value = event.eventDate;
       }
     });
     return true;
@@ -112,6 +183,7 @@ export class EditEvent extends Component {
   render() {
     return (
             <div >
+               
 
                 <EditEventHeader />
 
@@ -141,6 +213,10 @@ export class EditEvent extends Component {
                                                 </tr>
                                             </thead>
                                             <tbody>
+
+                                                {
+                                                    !this.props.centerPageNo.checkIfRecordExist && (<p>You don't any event here</p>)
+                                                }
 
                                                 {/* populate the row of the table with events */}
                                                 {
@@ -206,7 +282,12 @@ export class EditEvent extends Component {
 
                                     <form className="p-2" onSubmit={this.handleEditEvent} id='addEventFormEdit' >
                                         <div className="bg-danger text-center text-white p-2 mb-3">
-                                            <h4>EDIT EVENT</h4>
+                                            <h4>
+                                               {
+                                                    this.props.messageStatus.checkStatus.isLoading && (<DisplayLoading/>)
+                                                }
+                                                EDIT EVENT
+                                            </h4>
                                         </div>
 
                                         <div className="form-group">
@@ -229,6 +310,7 @@ export class EditEvent extends Component {
                                                 placeholder="Event Centre"
                                                 onChange={this.handleCenter}
                                                 value={this.state.editEventCenter} />
+                                                <a className="btn btn-sm btn-primary text-white" data-toggle="modal" data-target="#selectCenter">SELECT</a>
                                         </div>
 
                                         <div className="form-group">
@@ -253,12 +335,21 @@ export class EditEvent extends Component {
                                             /><br />
                                             <span id='dateAvailableModal' className='text-danger'></span>
                                         </div>
-                                        <button type="submit" className="btn btn-success btn-sm btn-block mb-3">
+                                        <button id="saveBtn" type="submit" className="btn btn-success btn-sm btn-block mb-3">
                                             <h4 className="text-white"><i className="fa fa-save" aria-hidden="true"> Save</i></h4>
                                         </button>
 
 
                                     </form>
+
+                                    <ModalComponent
+                                    id="selectCenter"
+                                    currentPage = {this.state.currentCenterPage}
+                                    numOfPages={this.props.centerPaginationNum}
+                                    centerArray = {this.props.centerState}
+                                    handleCenterPagination = {this.handleCenterPagination}
+                                    handleSelectCenter = {this.handleSelectCenter}
+                                    />
 
                                 </div>
                             </div>
@@ -276,6 +367,8 @@ const mapStateToProps = state => ({
   centerState: state.centerState,
   eventState: state.eventState,
   centerPageNo: state.paginationNum,
+  centerPaginationNum: state.centerPageNum,
+  messageStatus: state.messageStatus,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -288,6 +381,8 @@ EditEvent.PropType = {
   centerState: PropType.arrayOf(PropType.object),
   eventState: PropType.arrayOf(PropType.object),
   centerPageNo: PropType.object,
+  messageStatus: PropType.object,
+  centerPaginationNum: PropType.object,
   getAllCenters: PropType.func.isRequired,
   getAllCenterAction: PropType.func.isRequired,
   getUsersAllEventAction: PropType.func.isRequired,

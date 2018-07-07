@@ -6,7 +6,7 @@ import configureMockStore from 'redux-mock-store';
 import Adapter from 'enzyme-adapter-react-16';
 import { configure } from 'enzyme';
 
-import { GET_USER_ALL_EVENTS } from '../src/common/types';
+import { GET_USER_ALL_EVENTS, ERROR_MESSAGE } from '../src/common/types';
 import mockData from '../__mockData__/mockData';
 import getAllUserEventAction from '../src/action/getUsersAllEventAction';
 
@@ -29,20 +29,45 @@ describe('Get All Events Action', () => {
         response: {
           message: 'successfully login',
           token: 'e1e2e3rfefgsghrhdfsgdgddgdg',
-          eventDetails: mockData.geteventResponse,
+          eventDetails: [mockData.getEventResponse],
         },
       });
     });
 
     const expectedResponse = {
       type: GET_USER_ALL_EVENTS,
-      payload: mockData.geteventResponse,
+      payload: [mockData.getEventResponse],
     };
 
     const store = mockStore({});
-    store.dispatch(getAllUserEventAction(1))
+    store.dispatch(getAllUserEventAction())
       .then(() => {
-        expect(store.getActions()[0]).toEqual(expectedResponse);
+        expect(store.getActions()[1]).toEqual(expectedResponse);
+        done();
+      });
+  });
+  it('should dispatch an error message when an error occur', (done) => {
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent();
+      request.respondWith({
+        status: 404,
+        response: {
+          message: 'successfully login',
+          token: 'e1e2e3rfefgsghrhdfsgdgddgdg',
+          eventDetails: mockData.getEventResponse,
+        },
+      });
+    });
+
+    const expectedResponse = {
+      type: GET_USER_ALL_EVENTS,
+      payload: mockData.getEventResponse,
+    };
+
+    const store = mockStore({});
+    store.dispatch(getAllUserEventAction())
+      .then(() => {
+        expect(store.getActions()[1]).toEqual({ type: ERROR_MESSAGE });
         done();
       });
   });

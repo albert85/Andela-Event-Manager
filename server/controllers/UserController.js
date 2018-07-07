@@ -3,6 +3,12 @@ import bcrypt from 'bcrypt';
 import db from '../models/index';
 
 export default class UserController {
+  /**
+   * @description This endpoint can be used to sign up a new user
+   * @param {object} req
+   * @param {object} res
+   * @returns {object}
+   */
   static signUp(req, res) {
     // check if email exist
     // console.log(db.user);
@@ -45,6 +51,7 @@ export default class UserController {
    * @description This endpoint can be used to change role from user to admin and vice versa
    * @param {object} req
    * @param {object} res
+   * @returns {object}
    */
   static changeRole(req, res) {
     // find user by Id

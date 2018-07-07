@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropType from 'prop-types';
+import PaginationComponent from 'react-js-pagination';
 
+import DisplayLoading from './loadingBar/LoadingBar';
 import getAllCenterAction from '../action/getAllCentersAction';
 import getACenterAction from '../action/getACenterAction';
 import getAllEventsAction from '../action/getAllEventsAction';
@@ -22,11 +24,13 @@ export class CenterDetails extends Component {
       centreAmount: '',
       centreCapacity: '',
       centreLocation: '',
-      checkifAnyRecordExist: true,
       currentCenterPage: 1,
       recordLimit: 2,
       centerId: 0,
+      currentPage: 1,
+      eventRecordLimit: 4,
     };
+    this.handlePagination = this.handlePagination.bind(this);
     this.handleLocation = this.handleLocation.bind(this);
     this.handleCenterPagination = this.handleCenterPagination.bind(this);
     this.handleSelectCenter = this.handleSelectCenter.bind(this);
@@ -34,18 +38,17 @@ export class CenterDetails extends Component {
 
   componentDidMount() {
     this.props.getAllCenterAction(1, this.state.recordLimit);
-
-    this.props.getUserEmailAction();
   }
 
+  handlePagination(pageNum) {
+    this.setState({ currentPage: pageNum });
+    this.props.getAllEventsAction(this.state.centerId, pageNum);
+  }
 
   handleSelectCenter(e) {
-    // window.console.log('id', e.target.id);
-    // window.console.log('center', this.props.centerState);
     this.props.centerState.map((item) => {
       if (Number(e.target.id) === item.id) {
         this.props.getAllEventsAction(item.id, 1);
-        // window.console.log(item.id);
         this.setState({
           centerId: item.id,
           centreName: item.name,
@@ -54,7 +57,6 @@ export class CenterDetails extends Component {
           centreCapacity: item.capacity,
         });
       }
-      return item;
     });
   }
 
@@ -63,46 +65,32 @@ export class CenterDetails extends Component {
     this.props.getAllCenterAction(pageNumNo, this.state.recordLimit);
   }
 
-
-  handleReBooking(eventId) {
-    this.props.getACenterState.map((events) => {
-      if (events.id === eventId) {
-        const changeBooking = {
-          bookingStatus: 1,
-          eventDate: events.eventDate,
-        };
-        this.props.cancelBookingAction(changeBooking, eventId, events.id);
-      }
-    });
-  }
-
   handleCancelBooking(eventId) {
-    this.props.getACenterState.map((events) => {
+    this.props.eventState.map((events) => {
       if (events.id === eventId) {
         const changeBooking = {
           bookingStatus: 0,
           eventDate: events.eventDate,
         };
-        this.props.userEmailState.map((user) => {
-          if (user.id === events.userId) {
+
+          // get email email
+        this.props.getUserEmailAction(events.userId)
+          .then((usersDetails) => {
             const userEmail = {
-              email: user.email,
-              messageBody: `Dear ${user.firstName},
-              
-            We regret to inform you that the ${events.name} event you booked, which was slated for ${events.eventDate} has been cancelled for some unavoidable reason.
-              
-            We are very sorry for any inconviences this might caused you.
-              
-            Yours faithfully,
-            The Event Manager`,
+              email: usersDetails.email,
+              messageBody: `Dear ${usersDetails.name},
+        
+                  We regret to inform you that the ${events.name} event you booked, which was slated for ${events.eventDate} has been cancelled for some unavoidable reason.
+        
+                  We are very sorry for any inconviences this might caused you.
+        
+                  Yours faithfully,
+                  The Event Manager`,
             };
             this.props.sendMailNotificationAction(userEmail);
-          }
-          return user;
-        });
-        return this.props.cancelBookingAction(changeBooking, eventId, events.id);
+            this.props.cancelBookingAction(changeBooking, eventId, events.id);
+          });
       }
-      return events;
     });
   }
 
@@ -112,6 +100,7 @@ export class CenterDetails extends Component {
         this.props.getACenterAction(center.id);
         this.setState({ centreAmount: center.amount, centreCapacity: center.capacity, centreLocation: center.location });
       }
+      return center;
     });
   }
 
@@ -143,7 +132,7 @@ export class CenterDetails extends Component {
                                             value={this.state.centreName}
                                             required
                                             onChange={this.handleLocation}/>
-                                              <a className="btn btn-sm btn-primary text-white" data-toggle="modal" data-target="#selectCenter">SELECT</a>
+                                              <a id="selectEventCenter" className="btn btn-sm btn-primary text-white" data-toggle="modal" data-target="#selectCenter">SELECT</a>
                                         </div>
 
                                         <div className="form-group">
@@ -199,13 +188,16 @@ export class CenterDetails extends Component {
 
                                 <div className="col-md-7 col-sm-12 mb-4 pt-2">
                                     <div className="text-center bg-danger text-white p-2 mb-2">
-                                        <h4>EVENTS ACTIVITIES</h4>
+                                        <h4>
+                                            {
+                                                this.props.messageStatus.checkStatus.isLoading && (<DisplayLoading/>)
+                                            }
+                                            EVENTS ACTIVITIES
+                                        </h4>
                                     </div>
 
                                     <div className="eventlist bg-primary text-center text-dark p-3" >
-                                    {
-                                                    (!this.props.eventPageNo.checkIfRecordExist || !this.props.messageStatus.checkStatus.success) && (<p className="text-white">No Record Exist</p>)
-                                                }
+
                                         {
                                                 this.props.messageStatus.checkStatus.success && (<table className="table text-center table-hover mx-auto bg-white table-responsive-sm table-striped">
                                                     <thead className="text-center text-white bg-info border border-white">
@@ -221,20 +213,20 @@ export class CenterDetails extends Component {
                                                         {
                                                             // If record exist, populate
                                                             (this.props.messageStatus.checkStatus.success) &&
-                                                            (this.props.eventState.map((centers, i) =>
+                                                            (this.props.eventState.map((events, i) =>
                                                                 <tr id="#1" key={i} className="border border-white">
                                                                     <td scope="row">{i + 1}</td>
-                                                                    <td>{centers.name}</td>
-                                                                    <td>{centers.eventDate}</td>
+                                                                    <td>{events.name}</td>
+                                                                    <td>{events.eventDate}</td>
 
-                                                                    {(centers.bookingStatus === 1) ? <td className="text-primary">Booked <i className="fa fa-book" aria-hidden="true"></i> </td> : <td className="text-danger">Canceled <i className="fa fa-close text-danger" aria-hidden="true"></i> </td>}
+                                                                    {(events.bookingStatus === 1) ? <td className="text-primary">Booked <i className="fa fa-book" aria-hidden="true"></i> </td> : <td className="text-danger">Canceled <i className="fa fa-close text-danger" aria-hidden="true"></i> </td>}
                                                                     <td>
                                                                         <div className="row">
                                                                             <div className="col">
                                                                                 <button type="button" className="btn btn-danger btn-block"
                                                                                 index={i}
                                                                                 id='cancelBookingBtn'
-                                                                                onClick={this.handleCancelBooking.bind(this, centers.id)} >
+                                                                                onClick={this.handleCancelBooking.bind(this, events.id)} >
                                                                                     <i className="fa fa-close" aria-hidden="true"></i>
                                                                                 </button>
                                                                             </div>
@@ -247,10 +239,25 @@ export class CenterDetails extends Component {
                                                 }
 
                                             </tbody>
-                            
+
                                         </table>)
                                         }
+                                        {
+                                            (!this.props.eventPageNo.checkIfRecordExist || !this.props.messageStatus.checkStatus.success) && (<p className="text-white">No Record Exist</p>)
+                                        }
                                     </div>
+                                    {
+                                        (this.props.eventPageNo.checkIfRecordExist && !this.props.messageStatus.checkStatus.error) &&
+                                    (<PaginationComponent
+                                        activePage={this.state.currentPage}
+                                            itemsCountPerPage={this.state.eventRecordLimit}
+                                            totalItemsCount={this.props.eventPageNo.totalNumOfPages}
+                                            pageRangeDisplayed={5}
+                                            itemClass = "page-item"
+                                            linkClass = "page-link"
+                                            onChange = {this.handlePagination}
+                                        />)
+                                        }
 
                                 </div>
                             </div>
