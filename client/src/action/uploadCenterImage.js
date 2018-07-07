@@ -27,7 +27,7 @@ const uploadImageAsync = imageUrl => ({
 
 const uploadImage = centerData => (dispatch) => {
   dispatch(checkPageStatus(CHECK_PAGE_LOADING_STATUS));
-  axios({
+  return axios({
     url: process.env.CLOUDINARY_URL,
     method: 'POST',
     transformRequest: [(data, headers) => {

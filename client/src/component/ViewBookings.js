@@ -119,15 +119,11 @@ export class BookingDetails extends Component {
                                                 placeholder = "Please select center"
                                                 onChange={this.handleCenterName}/>
 
-                                                {
+                                            {
                                                 this.state.displayNameError && (<span className="text-danger"> Please Indicate Location</span>)
                                             }
 
-                                                {/* <option>Please select center</option>
-                                                {this.props.centerState.map((center, i) => <option key={i} i={i} value={center.name}>{center.name}</option>)} */}
-
-
-                                        <button type="button" className="center-btn-search" onClick={this.handleLocation}>
+                                        <button type="button" id="searchBtn" className="center-btn-search" onClick={this.handleLocation}>
                                         SEARCH
                                         </button>
 
@@ -169,7 +165,7 @@ export class BookingDetails extends Component {
                                             required />
                                         </div>
 
-                                        <a className="btn btn-success btn-sm btn-block mb-3" href="/event-home-page">
+                                        <a id="eventHome" className="btn btn-success btn-sm btn-block mb-3" href="/event-home-page">
                                             <h4 className="text-white">
                                                 <i className="fa fa-home" aria-hidden="true"></i>
                                             </h4>

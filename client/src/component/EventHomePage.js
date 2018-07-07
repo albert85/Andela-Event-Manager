@@ -24,7 +24,7 @@ export class EventHomePage extends Component {
       addEventDetails: {
         eventName: '',
         eventLocation: 'Location',
-        eventVenue: 'Please select center',
+        eventVenue: '',
         eventDate: '',
       },
       eventLocation: '',
@@ -188,7 +188,6 @@ export class EventHomePage extends Component {
                                                     !this.props.centerPageNo.checkIfRecordExist && (<p>No Record Exist</p>)
                                                 }
 
-                                                {/* populate the row of the table with events */}
                                                 {
 
                                                     // map through array of events and insert into the rows of the table
@@ -218,7 +217,7 @@ export class EventHomePage extends Component {
 
 
                                                                     {/* Execute delete operation */}
-                                                                    <div className="col"><button type="button" onClick={this.handleDeleteEvent.bind(this, event.id)} className="btn btn-danger btn-block">
+                                                                    <div className="col"><button id="delBtn" type="button" onClick={this.handleDeleteEvent.bind(this, event.id)} className="btn btn-danger btn-block">
                                                                         <i className="fa fa-trash-o" aria-hidden="true"></i>
                                                                     </button></div>
                                                                 </div>
@@ -276,7 +275,7 @@ export class EventHomePage extends Component {
                                                 value = {this.state.addEventDetails.eventVenue}
                                                 placeholder="Select An Event Center"
                                                 />
-                                                <a className="btn btn-sm btn-primary text-white" data-toggle="modal" data-target="#selectCenter">SELECT</a>
+                                                <a id="achorSelectCenter" className="btn btn-sm btn-primary text-white" data-toggle="modal" data-target="#selectCenter">SELECT</a>
 
 
                                             </span>
@@ -306,6 +305,7 @@ export class EventHomePage extends Component {
                                             <span id='dateAvailable' value = "" className='text-danger'></span>
                                         </div>
                                         <button type="submit"
+                                        id="eventAddBtn"
                                         className="btn btn-success btn-sm btn-block mb-3">
                                             <h4 className="text-white"><i className="fa fa-save" aria-hidden="true"> Add Event</i></h4>
                                         </button>

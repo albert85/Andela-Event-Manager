@@ -87,6 +87,13 @@ const endPointTestData = {
     amount: 30000.00,
     centerUrl: 'http://example.com',
   },
+  centerData5: {
+    name: 'Hollan',
+    location: 'Surulere',
+    capacity: 200,
+    amount: 30000.00,
+    centerUrl: 'http://example.com',
+  },
 
   updateCenterData: {
     name: 'Andela',

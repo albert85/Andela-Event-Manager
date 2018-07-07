@@ -335,7 +335,7 @@ export class EditEvent extends Component {
                                             /><br />
                                             <span id='dateAvailableModal' className='text-danger'></span>
                                         </div>
-                                        <button type="submit" className="btn btn-success btn-sm btn-block mb-3">
+                                        <button id="saveBtn" type="submit" className="btn btn-success btn-sm btn-block mb-3">
                                             <h4 className="text-white"><i className="fa fa-save" aria-hidden="true"> Save</i></h4>
                                         </button>
 

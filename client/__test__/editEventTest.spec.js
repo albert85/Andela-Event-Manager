@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { shallow, configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-import { EditEvent } from '../src/component/EditEvent'
+import { EditEvent } from '../src/component/EditEvent';
 
 
 configure({ adapter: new Adapter() });
@@ -36,14 +36,19 @@ describe('<EditEvent />', () => {
     getUsersAllEventAction: () => { },
     editAnEventAction: () => { },
     history: { push: () => { } },
+    messageStatus: {
+      checkStatus: {
+        isLoading: false,
+        success: false,
+        error: false,
+      },
+    },
+    centerPageNo: {
+      checkIfRecordExist: false,
+    },
 
   };
 
-
-  // beforeEach(() => {
-  //  // const spy = sinon.spy(EditEvent.prototype, 'onClick')
-  //   wrapper = shallow(<EditEvent {...props} />);
-  // });
 
   it('Should return number of div field on Edit Event component', () => {
     wrapper = shallow(<EditEvent {...props} />);
@@ -85,7 +90,7 @@ describe('<EditEvent />', () => {
     wrapper.setProps({
       eventState: [newEvent],
       centerState: [newCenter],
-    })
+    });
     expect(wrapper.find('td')).to.have.length(7);
   });
 
@@ -139,7 +144,6 @@ describe('<EditEvent />', () => {
     wrapper.find('#editButton').simulate('click');
     expect(spy.called).to.be.equal(true);
     spy.restore();
-  
   });
 
   it('Should return true when button was clicked on Edit Event component', () => {
@@ -150,16 +154,15 @@ describe('<EditEvent />', () => {
     });
 
     wrapper.setState({
-      editEventName: "Wedding",
-            editLocation: "Ikeja",
-            editEventDate: "2018-11-01",
-            editEventCenter: "Andela",
-            editEventLocation: "Ikeja"
-    })
-    wrapper.find('#addEventFormEdit').simulate('submit',{preventDefault:()=>{}});
+      editEventName: 'Wedding',
+      editLocation: 'Ikeja',
+      editEventDate: '2018-11-01',
+      editEventCenter: 'Andela',
+      editEventLocation: 'Ikeja',
+    });
+    wrapper.find('#addEventFormEdit').simulate('submit', { preventDefault: () => {} });
     expect(spy.called).to.be.equal(true);
     spy.restore();
-  
   });
 
   it('Should return true when Center is Editted on Edit Event component', () => {
@@ -202,5 +205,39 @@ describe('<EditEvent />', () => {
     expect(wrapper.state().editEventCenter).to.be.equal('Apollan Event Centre');
   });
 
+  it('Should check if handleSelectCenter is called', () => {
+    wrapper.setProps({
+      centerState: [newCenter],
+    });
+    wrapper.instance().handleSelectCenter({ target: { id: 1 } });
+    expect(wrapper.state('centerId')).to.be.eqls(newCenter.id);
+  });
 
+  it('Should check if handleCenterPagination was called', () => {
+    wrapper.instance().handleCenterPagination(15);
+    expect(wrapper.state('currentCenterPage')).to.be.eqls(15);
+  });
+  it('Should update event date in the state', () => {
+    wrapper.instance().handleEventDate({ target: { value: '2018-12-03' } });
+    expect(wrapper.state('editEventDate')).to.be.eqls('2018-12-03');
+  });
+  it('Should update event center in the state', () => {
+    wrapper.instance().handleCenter({ target: { value: 'Andela' } });
+    expect(wrapper.state('editEventCenter')).to.be.eqls('Andela');
+  });
+
+  it('Should update event location in the state', () => {
+    wrapper.instance().handleEventLocation({ target: { value: 'Ikeja' } });
+    expect(wrapper.state('editLocation')).to.be.eqls('Ikeja');
+  });
+
+  it('Should update event name in the state', () => {
+    wrapper.instance().handleEventName({ target: { value: 'Wedding' } });
+    expect(wrapper.state('editEventName')).to.be.eqls('Wedding');
+  });
+
+  it('Should check if handlePagination was called', () => {
+    wrapper.instance().handlePagination(10);
+    expect(wrapper.state('currentPage')).to.be.eqls(10);
+  });
 });

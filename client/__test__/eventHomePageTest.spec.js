@@ -2,15 +2,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { shallow, configure, mount } from 'enzyme';
-// global.window = {};
+// import renderer from 'react-test-renderer';
+import { shallow, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-// import localStorage from 'mock-local-storage';
 
 import { EventHomePage } from '../src/component/EventHomePage';
-import Footer from '../src/component/Footer';
-
-// window.localStorage = global.localStorage;
 
 configure({ adapter: new Adapter() });
 
@@ -21,9 +17,24 @@ describe('<EventHomePage />', () => {
     centerState: [],
     getAllCenters: () => { },
     getUsersAllEventAction: (event) => { },
-    deleteAnEventAction: () => { },
-    addNewEvent: () => {},
-
+    deleteAnEventAction: jest.fn(() => Promise.resolve({})),
+    addNewEvent: jest.fn(() => Promise.resolve({})),
+    messageStatus: {
+      checkStatus: {
+        isLoading: false,
+        success: false,
+        error: false,
+      },
+    },
+    centerPageNo: {
+      checkIfRecordExist: true,
+      totalNumOfPages: 1,
+      numOfPages: 1,
+    },
+    history: {
+      push: () => {},
+    },
+    
   };
 
   const newEvent = {
@@ -38,6 +49,16 @@ describe('<EventHomePage />', () => {
     name: 'Anike Event Centre',
     id: 1,
     location: 'Ikeja',
+    capacity: 1000,
+    amount: 20000,
+  };
+
+  const secondCenter = {
+    name: 'Anike Event Centre',
+    id: 2,
+    location: 'Ikeja',
+    capacity: 1000,
+    amount: 20000,
   };
 
 
@@ -54,7 +75,7 @@ describe('<EventHomePage />', () => {
 
   it('Should return number of anchor a on event homepage page', () => {
     wrapper = shallow(<EventHomePage {...props} />);
-    expect(wrapper.find('a')).to.have.length(0);
+    expect(wrapper.find('a')).to.have.length(2);
   });
 
   it('Should return number of div on event homepage page', () => {
@@ -69,7 +90,7 @@ describe('<EventHomePage />', () => {
 
   it('Should return number of span on event homepage page', () => {
     wrapper = shallow(<EventHomePage {...props} />);
-    expect(wrapper.find('span')).to.have.length(1);
+    expect(wrapper.find('span')).to.have.length(2);
   });
 
   it('Should return number of label on event homepage page', () => {
@@ -86,7 +107,6 @@ describe('<EventHomePage />', () => {
     wrapper = shallow(<EventHomePage {...props} />);
     const OldState = wrapper.state().addEventDetails;
     wrapper.setState({ addEventDetails: Object.assign(OldState, { eventName: 'Wedding' }) });
-    // console.log(wrapper.instance());
     expect(wrapper.state().addEventDetails.eventName).to.be.equal('Wedding');
   });
 
@@ -123,27 +143,18 @@ describe('<EventHomePage />', () => {
 
   it('Should handle delete event', () => {
     wrapper = shallow(<EventHomePage {...props} />);
-    expect(wrapper.instance().handleDeleteEvent()).to.be.equal(true);
-  });
-
-  it('Should return number of option available for field option', () => {
-    wrapper = shallow(<EventHomePage {...props} />);
     wrapper.setProps({
-      centerState: [newCenter],
+      eventState: [],
     });
-    expect(wrapper.find('option')).to.have.length(2);
+    wrapper.instance().handleDeleteEvent(1);
+    expect(wrapper.state('checkifAnyRecordExist')).to.be.eql(false);
   });
-
 
   it('Should return the number of table ', () => {
     wrapper = shallow(<EventHomePage {...props} />);
     expect(wrapper.find('table')).to.have.length(1);
   });
 
-  it('Should return the number of select field ', () => {
-    wrapper = shallow(<EventHomePage {...props} />);
-    expect(wrapper.find('select')).to.have.length(1);
-  });
 
   it('Should return the number of table row ', () => {
     wrapper = shallow(<EventHomePage {...props} />);
@@ -162,23 +173,13 @@ describe('<EventHomePage />', () => {
     expect(wrapper.find('tr')).to.have.length(2);
   });
 
-  it('Should return true when select option was selected on Homepage component', () => {
-    const spy = sinon.spy(EventHomePage.prototype, 'handleLocation');
-    wrapper = shallow(<EventHomePage {...props} />);
-    wrapper.setProps({
-      centerState: [newCenter],
-    });
-
-    wrapper.find('#eventCentre').simulate('change', { target: { value: 'Anike Event Centre' } });
-    expect(spy.called).to.be.equal(true);
-    spy.restore();
-  });
 
   it('Should return true when select option was selected on Homepage component', () => {
     const spy = sinon.spy(EventHomePage.prototype, 'handleAddEvent');
     wrapper = shallow(<EventHomePage {...props} />);
     wrapper.setProps({
       centerState: [newCenter],
+      eventState: [newEvent],
     });
 
     wrapper.setState({
@@ -190,7 +191,62 @@ describe('<EventHomePage />', () => {
     });
 
     wrapper.find('#addEventForm').simulate('submit', { preventDefault: () => {} });
+    expect(wrapper.state('checkifAnyRecordExist')).to.be.eql(true);
     expect(spy.called).to.be.equal(true);
+    spy.restore();
+  });
+
+  it('Should check if handlePagination was called', () => {
+    wrapper.instance().handlePagination(10);
+    expect(wrapper.state('currentPage')).to.be.eqls(10);
+  });
+
+  it('Should check if handleCenterPagination was called', () => {
+    wrapper.instance().handleCenterPagination(15);
+    expect(wrapper.state('currentCenterPage')).to.be.eqls(15);
+  });
+
+  it('Should event name in the state', () => {
+    wrapper.instance().handleEventName({ target: { value: 'Ikeja' } });
+    // console.log(wrapper.state());
+    expect(wrapper.state().addEventDetails.eventName).to.be.eqls('Ikeja');
+  });
+
+  it('Should event date in the state', () => {
+    wrapper.instance().handleEventDate({ target: { value: '2018-12-03' } });
+    expect(wrapper.state().addEventDetails.eventDate).to.be.eqls('2018-12-03');
+  });
+
+  it('Should check if handleSelectCenter is called', () => {
+    wrapper.setProps({
+      centerState: [newCenter],
+    });
+    wrapper.instance().handleSelectCenter({ target: { id: 1 } });
+    expect(wrapper.state().eventCentreName).to.be.eqls(newCenter.name);
+  });
+
+  it('Should check if componentDidMount was called', () => {
+    const spy = sinon.spy(EventHomePage.prototype, 'componentDidMount');
+    wrapper = shallow(<EventHomePage { ...props } />);
+
+    wrapper.instance().handleLogout();
+    expect(spy.called).to.be.equal(true);
+    spy.restore();
+  });
+
+  it('Should check if the center selected has an event', () => {
+    const spy = sinon.spy(EventHomePage.prototype, 'componentDidMount');
+    wrapper = shallow(<EventHomePage { ...props } />);
+
+    wrapper.instance().componentDidMount();
+    
+    wrapper.setProps({
+      centerState: [secondCenter],
+      getAllCenters: [newCenter],
+      eventState: [newEvent],
+    });
+    expect(spy.called).to.be.equal(true);
+    expect(wrapper.state('checkifAnyRecordExist')).to.be.eql(false);
     spy.restore();
   });
 });

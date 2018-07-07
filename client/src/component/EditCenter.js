@@ -27,6 +27,8 @@ export class EditCenter extends Component {
       currentPage: 1,
       centreUrl: '',
       disablesavebtn: false,
+      clearImagePath: '',
+      files: {},
     };
 
     this.handleEditCenterDetails = this.handleEditCenterDetails.bind(this);
@@ -63,11 +65,13 @@ export class EditCenter extends Component {
   // store image url
   handleImageUpload(e) {
     const file = e.target.files[0];
+    this.setState({ clearImagePath: e.target.value });
     // Create a form data
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', `${process.env.CLOUDINARY_PRESET}`);
     this.props.UploadCenterImage(formData);
+    this.setState({ files: file });
   }
 
   // Stores Centre Location
@@ -106,6 +110,7 @@ export class EditCenter extends Component {
           centreCapacity: '',
           centreAmount: '',
           centerUrl: '',
+          clearImagePath: '',
         });
       });
   }
@@ -213,7 +218,7 @@ export class EditCenter extends Component {
                                         <div className="form-group">
                                             <label htmlFor="eventnameEdit"> Name:</label>
                                             <input type="text"
-                                                id="eventnameEdit"
+                                                id="centernameEdit"
                                                 className="form-control"
                                                 placeholder="Event Centre Name"
                                                 onChange={this.handleChangeCentreName}
@@ -258,7 +263,7 @@ export class EditCenter extends Component {
                                             <input type="file"
                                             id="eventcenterupload"
                                             className="form-control"
-                                            value = {this.state.centerUrl}
+                                            value = {this.state.clearImagePath}
                                             onChange={this.handleImageUpload}
                                             required />
 
@@ -275,6 +280,7 @@ export class EditCenter extends Component {
 
 
                                         <a href="/centers"
+                                        id="editCloseBtn"
                                         disabled={this.props.messageStatus.checkStatus.isLoading}
                                         className="btn btn-danger btn-sm btn-block mb-3" >
                                             <h4 className="text-white">

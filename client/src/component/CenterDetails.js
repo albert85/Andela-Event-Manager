@@ -57,7 +57,6 @@ export class CenterDetails extends Component {
           centreCapacity: item.capacity,
         });
       }
-      return item;
     });
   }
 
@@ -79,7 +78,7 @@ export class CenterDetails extends Component {
           .then((usersDetails) => {
             const userEmail = {
               email: usersDetails.email,
-              messageBody: `Dear ${usersDetails.firstName},
+              messageBody: `Dear ${usersDetails.name},
         
                   We regret to inform you that the ${events.name} event you booked, which was slated for ${events.eventDate} has been cancelled for some unavoidable reason.
         
@@ -89,10 +88,9 @@ export class CenterDetails extends Component {
                   The Event Manager`,
             };
             this.props.sendMailNotificationAction(userEmail);
+            this.props.cancelBookingAction(changeBooking, eventId, events.id);
           });
-        return this.props.cancelBookingAction(changeBooking, eventId, events.id);
       }
-      return events;
     });
   }
 
@@ -134,7 +132,7 @@ export class CenterDetails extends Component {
                                             value={this.state.centreName}
                                             required
                                             onChange={this.handleLocation}/>
-                                              <a className="btn btn-sm btn-primary text-white" data-toggle="modal" data-target="#selectCenter">SELECT</a>
+                                              <a id="selectEventCenter" className="btn btn-sm btn-primary text-white" data-toggle="modal" data-target="#selectCenter">SELECT</a>
                                         </div>
 
                                         <div className="form-group">

@@ -212,6 +212,7 @@ export class SignUp extends Component {
 
                         <button
                           type="submit"
+                          id="signupbtn"
                           className="btn btn-primary btn-lg btn-block"
 
                         >
@@ -227,7 +228,7 @@ export class SignUp extends Component {
                       </div>
 
                       <div className="mx-auto">
-                        Already have an account <a href="/" className="text-danger"> <strong>Sign In</strong></a>
+                        Already have an account <a href="/" id="signLink" className="text-danger"> <strong>Sign In</strong></a>
                       </div>
 
                     </div>

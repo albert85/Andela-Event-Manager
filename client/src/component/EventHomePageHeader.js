@@ -9,7 +9,6 @@ const EventHomePageHeader = ({ handleLogout }) => (
 
             <div className="col">
                 <ul className="nav justify-content-end">
-                 
                     {
                         localStorage.getItem('role') === 'Admin' ?
                             <li className="nav-item dropdown">
@@ -20,13 +19,12 @@ const EventHomePageHeader = ({ handleLogout }) => (
                                     ariahaspopup="true"
                                     aria-expanded="false">Centers </a>
                                 <div className="dropdown-menu">
-                                     <a className="dropdown-item" href="/centers"><i className="fa fa-plus-circle"></i>  Add Center</a>
-                                     <a className="dropdown-item" href="/edit-center-details"><i className="fa fa-edit"></i>  Edit Center</a>
-                                    <a className="dropdown-item" href="/center-details"><i className="fa fa-search-plus"></i>  View Center</a>
+                                     <a className="dropdown-item" href="/centers" id="addCenterNav"><i className="fa fa-plus-circle"></i>  Add Center</a>
+                                     <a className="dropdown-item" href="/edit-center-details" id="editCenterNav"><i className="fa fa-edit"></i>  Edit Center</a>
+                                    <a className="dropdown-item" href="/center-details" id="viewCenterNav"><i className="fa fa-search-plus"></i>  View Center</a>
 
                                 </div>
                             </li>
-                        
                         : ''
                     }
 
@@ -39,9 +37,9 @@ const EventHomePageHeader = ({ handleLogout }) => (
                             aria-expanded="false">
                             <i className="fa fa-cog"></i> Setting</a>
                         <div className="dropdown-menu">
-                            <a href="#" className="dropdown-item" onClick={handleLogout}><i className="fa fa-sign-out"></i>  Sign Out</a>
-                            <a className="dropdown-item" href="/edit-event"><i className="fa fa-edit"></i> Edit Event</a>
-                            <a className="dropdown-item" href="/booking-details" ><i className="fa fa-search-plus"></i> Booking</a>
+                            <a href="#" className="dropdown-item" onClick={handleLogout} id="signoutNav"><i className="fa fa-sign-out"></i>  Sign Out</a>
+                            <a className="dropdown-item" href="/edit-event" id="editEventNav"><i className="fa fa-edit"></i> Edit Event</a>
+                            <a className="dropdown-item" href="/booking-details" id="bookingNav"><i className="fa fa-search-plus"></i> Booking</a>
 
                         </div>
                     </li>

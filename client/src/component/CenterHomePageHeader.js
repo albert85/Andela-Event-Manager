@@ -12,17 +12,17 @@ const CenterHomePageHeader = () => (
                                 <li className="nav-item dropdown">
                                     <a className="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" ariahaspopup="true" aria-expanded="false">Events</a>
                                     <div className="dropdown-menu">
-                                        <a className="dropdown-item" href="/event-home-page"><i className="fa fa-plus-circle"></i> Add Event</a>
-                                        <a className="dropdown-item" href="/edit-event"><i className="fa fa-edit"></i> Edit Event</a>
-                                        <a className="dropdown-item" href="/booking-details" > <i className="fa fa-search-plus"></i> Booking</a>
+                                        <a className="dropdown-item" href="/event-home-page" id="addEventNav"><i className="fa fa-plus-circle" ></i> Add Event</a>
+                                        <a className="dropdown-item" href="/edit-event" id="editEventNav"><i className="fa fa-edit"></i> Edit Event</a>
+                                        <a className="dropdown-item" href="/booking-details" id="bookingNav"> <i className="fa fa-search-plus"></i> Booking</a>
                                     </div>
                                 </li>
 
                                 <li className="nav-item dropdown">
                                     <a className="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" ariahaspopup="true" aria-expanded="false">Centers</a>
                                     <div className="dropdown-menu">
-                                        <a className="dropdown-item" href="/edit-center-details"><i className="fa fa-edit"></i>  Edit Center</a>
-                                        <a className="dropdown-item" href="/center-details"><i className="fa fa-search-plus"></i> View Center</a>
+                                        <a className="dropdown-item" href="/edit-center-details" id="editCenterNav"><i className="fa fa-edit"></i>  Edit Center</a>
+                                        <a className="dropdown-item" href="/center-details" id="viewCenterNav"><i className="fa fa-search-plus"></i> View Center</a>
                                     </div>
                                 </li>
 

@@ -122,7 +122,7 @@ export default class LoginController {
           if (error) {
             return res.status(400).json({ success: false, result: 'email not sent' });
           }
-          return res.status(200).json({ success: true, result: 'successful sent' });
+          return res.status(200).json({ success: true, result: 'successfully sent' });
         });
       })
       .catch(() => res.status(400).json({ success: false, result: 'Error in mail' }));

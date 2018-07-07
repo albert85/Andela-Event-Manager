@@ -178,7 +178,6 @@ export default class EventController {
               if (!eventDetails) {
                 return res.status(404).send({ success: false, result: 'Event not found' });
               }
-              console.log(res.body);
               // if the event exist update
               return eventDetails
                 .update({
@@ -261,7 +260,7 @@ export default class EventController {
         // delete the records
         return eventDetails
           .destroy()
-          .then(() => res.status(200).json({ success: true, result: 'Successful deleted', eventDetails }));
+          .then(() => res.status(200).json({ success: true, result: 'Successfully deleted', eventDetails }));
       })
       .catch(() => res.status(401).json({ success: false, result: 'operation failed' }));
   }

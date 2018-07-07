@@ -158,4 +158,25 @@ export default class Validator {
     return req.getValidationResult()
       .then(result => res.status(400).json({ validation: false, result: result.mapped() }));
   }
+
+  /**
+   * @description validate supplied data for sent user's email
+   * @param {object} req
+   * @param {object} res
+   * @returns {oject}
+   */
+
+  static validateMailData(req, res, next) {
+    req.checkBody('messageBody', 'Please include a messsage in the body').notEmpty();
+
+    req.checkBody('email', 'Please supply valid email address')
+      .normalizeEmail().notEmpty().isEmail()
+      .isLength({ max: 256 });
+
+    if (!req.validationErrors()) {
+      return next();
+    }
+    return req.getValidationResult()
+      .then(result => res.status(400).json({ validation: false, result: result.mapped() }));
+  }
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropType from 'prop-types';
 
 const CentreEventList = ({ getCentreEvent }) => (
   getCentreEvent.map((centers, i) =>
@@ -9,5 +10,10 @@ const CentreEventList = ({ getCentreEvent }) => (
 
         </tr>)
 );
+
+CentreEventList.proptype = {
+  getCentreEvent: PropType.arrayOf(PropType.object),
+};
+
 
 export default CentreEventList;

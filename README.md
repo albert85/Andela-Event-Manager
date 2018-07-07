@@ -5,54 +5,57 @@
 # Andela-Event-Manager
 This is an application that manages user's events and event centres
 
-### Getting Started
-Get a copy of the project on local storage either downloading the zip or open up terminal then type: git clone https://github.com/albert85/Andela-Event-Manager.git
+### Hosted Application
+https://andela-full-stack-event-app.herokuapp.com
 
-### Prerequisites
-Install the following software
-- postgresql database or postico
-- POSTMAN
+### API Documentation
+Click [here](https://andela-full-stack-event-app.herokuapp.com/docs) to view detailed API documentation
 
-### Installing
-Open the terninal and make sure you are in the root directory of the project and type 
-- npm install
-- npm install -g sequelize --save
-- sequelize --config ./server/config/config.json --migrations-path ./server/migrations db:migrate
+### Installation
+1.  Install [node](https://nodejs.org/en/download)
+2.  Download [PostgreSQL](https://www.postgresql.org/download)
+3.  Clone the repo and cd into it
+    `git clone https://github/albert85/Andela-Event-Manager.git`
+    `cd Andela-Event-Manager`
+4.  Install all dependencies
+    `npm install`
+5.  Configure Postgres
+    `configure your database setting in ./server/config/config.json`
+6.  Run database migration
+    `sequelize db:migrate`
+7.  Start your app
+    `npm run start`
+8.  Run the application to your browser
+    `https://localhost:8000/`
 
-### Setting Up for Testing
-Type npm run start or npm start on your terminal then open POSTMAN or any API development environment
-
-### How to Use API
-Using **POSTMAN** API development environment
-- To create a new user, create a **POST** method using the route **'localhost:8000/api/v1/users/signUp'** with parameters: firstName,lastName,isAdmin(true or false),password and email **_e.g. firstName:'event', lastName:'manager', isAdmin:true, password:'1234', email:'example@you.com'_**.
-
-- To login a user, create a **POST** method using the route **'localhost:8000/api/v1/user/login'** with parameters: email and password **_e.g. email:example@you.com, password:'1234'_**.
-
-- To create an event, create a **POST** method using the route **'localhost:8000/api/v1/events'** with parameters: name, userId, bookingStatus, centerId and eventDate **_e.g. name: 'wedding', userId: '1', bookingStatus: 0 or 1 (0 means event centre booking while 1 means not booked), centerId:'1', eventDate: 2017/07/01 (yyyy/mm/dd)_**.
-
-- To get all events, create a **GET** method using the route **'localhost:8000/api/v1/events'**.
-
-- To get an event, create a **GET** method using the route **'localhost:8000/api/v1/events/:eventId'** where eventId is the Id of the event to get.
-
-- To get an event for a specific user, create a **GET** method using the route **'localhost:8000/api/v1/user/events/:userIdNo'** where userIdNo is the Id of the userId.
-
-- To edit an event, create a **PUT** method using the route **'localhost:8000/api/v1/events/:eventId'** where eventId is the Id of the event to be editted with paramters:  name, userId, bookingStatus, centerId and eventDate **_e.g. name: 'wedding', userId: '1', bookingStatus: 0 or 1 (0 means event centre booking while 1 means not booked), centerId:'1', eventDate: 2017/07/01 (yyyy/mm/dd)_**.
-
-- To cancel an event by admin, create a **PUT** method using the route **'localhost:8000api/v1/events/admin/:eventId'** where eventId is the Id of the event to be cancelled.
-
-- To delete an event, create a **DELETE* method using the route **'localhost:8000/api/v1/events/:eventId'** where eventId is the Id of the event to be deleted.
-
-- To create an center, create a **POST** method using the route **'localhost:8000/api/v1/centers'** with parameters: name, location, capacity, amount and userId **_e.g. name: 'Adenike', location: 'Ikeja', capacity: 200, amount: 4000, userId:1_**.
-
-- To edit a center, create a **PUT** method using the route **'localhost:8000/api/v1/centers/:centerId'** where centerId is the Id of the center to be editted with paramters:  name, location, capacity, amount and userId **_e.g. name: 'Adenike', location: 'Ikeja', capacity: 200, amount: 4000, userId:1_**.
-
-- To get a center, create a **GET** method using the route **'localhost:8000/api/v1/centers/:centerId'** where eventId is the Id of the event to get.
-
-- To get all centers, create a **GET** method using the route **'localhost:8000/api/v1/centers'**.
+### Features
+- Create an account using first name, last name, email and password
+- Sign in using email and password
+- Create events
+- Edit events
+- Delete events
+- Search a center by name and location
+- View different events in different centers with the date of event
+- Admin can create and edit centers
+- An admin can cancel event bookings
+- User can receive notification by email when any of their booked event is canceled
 
 ### Testing
-Run this command on a terminal
-- npm run test
+The app uses chai for backend testing and enzyme, jest for front-end testing
+- `npm run test` - Backend testing
+- `npm run test:client` - Unit testing
+- `npm run e2eTest` - end-to-end testing
+
+
+### Limitation
+- No user profile
+- No password reset feature currently on the app
+- Users can only use the application when they signup and login
+- Users cannot search center using available facilities
+
+
+### License
+This project is licensed under the MIT license
 
 
 ### Built With
@@ -61,17 +64,17 @@ Run this command on a terminal
 - Morgan
 - Body-Parser
 - Express-validator
+- Sequelize
+- React
+- Boostrap
+- Redux
 
 ### Author
 - Temitope Albert Olarewaju
 
-### Contributors
-- Oreoluwa
-- Ugonna
-- Haruna
-- Taiwo Sunday
-- Anaeze Nsoffor
-- Lawal Olayemi
-
-### Limitation
-- Pagination was not implemented for tables which shows the list of events or centers
+### Acknowledgements
+- Bootstrap
+- ReactJS
+- ReductJS
+- Cloudinary
+- Jquery

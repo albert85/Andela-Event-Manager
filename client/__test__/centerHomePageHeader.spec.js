@@ -16,7 +16,7 @@ describe('<CenterHomePageHeader />', () => {
   });
 
   it('Should return number of div field on Center HomePage Header component', () => {
-    expect(wrapper.find('div')).to.have.length(5);
+    expect(wrapper.find('div')).to.have.length(7);
   });
 
   it('Should return number of h3 field on Center HomePage Header component', () => {
@@ -28,11 +28,11 @@ describe('<CenterHomePageHeader />', () => {
   });
 
   it('Should return number of li field on Center HomePage Header component', () => {
-    expect(wrapper.find('li')).to.have.length(1);
+    expect(wrapper.find('li')).to.have.length(3);
   });
 
   it('Should return number of a field on Center HomePage Header component', () => {
-    expect(wrapper.find('a')).to.have.length(4);
+    expect(wrapper.find('a')).to.have.length(9);
   });
-
 });
+

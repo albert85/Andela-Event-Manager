@@ -61,7 +61,6 @@ export class Centers extends Component {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', `${process.env.CLOUDINARY_PRESET}`);
-
     this.props.UploadCenterImage(formData);
   }
 
@@ -107,6 +106,7 @@ export class Centers extends Component {
     } else {
       toastr.error('Please Reselect the image to upload and check your network');
     }
+    return true;
   }
 
   render() {
@@ -188,7 +188,7 @@ export class Centers extends Component {
                                         <div className="form-group">
                                             <label htmlFor="eventname"> Name:</label>
                                             <input type="text"
-                                            id="eventname"
+                                            id="centerName"
                                             className="form-control"
                                             placeholder="Event Centre's name"
                                             value = {this.state.centerName}
@@ -200,6 +200,7 @@ export class Centers extends Component {
                                             <label htmlFor="eventcenterlocation"> Location:</label>
                                             <input type="text"
                                             name="eventcenterlocation"
+                                            id="centerLocation"
                                             className="form-control"
                                             onChange = {this.handleChangeLocation}
                                             value = {this.state.centerLocation}
@@ -244,7 +245,7 @@ export class Centers extends Component {
 
                                         </div>
 
-                                        <button type="submit" className="btn btn-success btn-sm btn-block mb-3" disabled={this.props.messageStatus.checkStatus.isLoading}>
+                                        <button id="addCenter" type="submit" className="btn btn-success btn-sm btn-block mb-3" disabled={this.props.messageStatus.checkStatus.isLoading}>
                                             <h4 className="text-white">
                                                 <i className="fa fa-save"></i> Add Center </h4>
                                         </button>

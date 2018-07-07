@@ -21,7 +21,7 @@ app.put('/api/v1/admin-role/:userId', validator.validateUserChangeRole, auth.che
 app.get('/api/v1/user/email/:userId', loginController.userEmail);
 
 // send email notification
-app.post('/api/v1/user/recipientEmail', auth.checkIfAuthorize, loginController.sendEmailNotifications);
+app.post('/api/v1/user/recipientEmail', validator.validateMailData, auth.checkIfAuthorize, loginController.sendEmailNotifications);
 
 // creating a new Event
 app.post('/api/v1/events', validator.createEventValidation, auth.checkIfAuthorize, eventDetails.create);

@@ -21,7 +21,6 @@ export class Home extends React.Component {
     this.handleUserLogin = this.handleUserLogin.bind(this);
     this.handleChangeEmailInput = this.handleChangeEmailInput.bind(this);
     this.handleChangePasswordInput = this.handleChangePasswordInput.bind(this);
-    // sthis.checkIfExist = this.checkIfExist.bind(this);
   }
 
   /**
@@ -108,6 +107,7 @@ export class Home extends React.Component {
                           <div className="row text-center">
                             <div className="col-md-12 col-sm-12">
                               <button type="button"
+                              id="loginbtn"
                               className="btn btn-primary btn-lg btn-block mb-2"
                               onClick = { this.handleUserLogin }
                               >
@@ -116,7 +116,7 @@ export class Home extends React.Component {
                               }
                               SIGN IN
                               </button>
-                                Create a New Account? <a href="/signup" className="text-danger">SIGN UP</a>
+                                Create a New Account? <a href="/signup" id="signupLink" className="text-danger">SIGN UP</a>
                             </div>
                             {/* <div className="col-md-12 col-sm-12">
                             </div> */}

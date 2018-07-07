@@ -1,5 +1,6 @@
 import React from 'react';
 import PaginationComponent from 'react-js-pagination';
+import PropType from 'prop-types';
 
 class Pagination extends React.Component {
   constructor(props) {
@@ -24,5 +25,12 @@ class Pagination extends React.Component {
     );
   }
 }
+
+Pagination.proptype = {
+  numOfPages: PropType.number,
+  totalNumOfPages: PropType.number,
+  currentPage: PropType.number,
+  handlePagination: PropType.func.isRequired,
+};
 
 export default Pagination;

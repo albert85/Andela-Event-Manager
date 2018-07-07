@@ -2,7 +2,7 @@ import React from 'react';
 import Adapter from 'enzyme-adapter-react-16';
 import { shallow, configure } from 'enzyme';
 
-import centerTableRow from '../src/utility/centerTableRow';
+import CenterTableRow from '../src/utility/centerTableRow';
 
 let isComponentMounted;
 
@@ -17,11 +17,13 @@ describe('Index Routes', () => {
       amount: '',
       capacity: '',
     },
+    handleCenterDetails: () => {},
+    handleEditCenterDetails: () => {},
   };
 
   const getComponentStatus = () => {
     if (!isComponentMounted) {
-      isComponentMounted = shallow(<centerTableRow {...props} />);
+      isComponentMounted = shallow(<CenterTableRow {...props} />);
     }
     return isComponentMounted;
   };
@@ -31,7 +33,6 @@ describe('Index Routes', () => {
   });
 
   it('should successfully rendered', () => {
-    console.log(getComponentStatus());
     expect(getComponentStatus()).toHaveLength(1);
   });
 });
