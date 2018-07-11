@@ -66,7 +66,7 @@ export default class Eventmanager {
     eventDatabase.events.forEach((val) => {
       if (val.id === parseInt(req.params.eventid, 10)) {
         eventDatabase.events.splice(val.id, 1);
-        res.status(200).json({
+        return res.status(200).json({
           Message: 'User deleted',
           Error: false,
           deleteOutput: val,
@@ -75,7 +75,7 @@ export default class Eventmanager {
     });
 
 
-    res.status(409).json({
+    return res.status(409).json({
       Message: 'User id not found',
       Error: true,
     });

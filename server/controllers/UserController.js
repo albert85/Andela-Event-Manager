@@ -38,7 +38,7 @@ export default class UserController {
         })
         .then((userDetails) => {
           const { firstName, lastName, email } = userDetails;
-          res.status(201).send({
+          return res.status(201).send({
             success: true, result: 'sucessful', firstName, lastName, email,
           });
         })
@@ -72,7 +72,7 @@ export default class UserController {
             lastName: req.body.lastName || userDetails.lastName,
           }).then(() => {
             // display success message
-            res.status(200).json({ success: true, result: `${userDetails.firstName}'s role has updated as ${userDetails.isAdmin ? 'an Admin' : ' a user'}`, role: userDetails.isAdmin ? 'Admin' : 'User' });
+            return res.status(200).json({ success: true, result: `${userDetails.firstName}'s role has updated as ${userDetails.isAdmin ? 'an Admin' : ' a user'}`, role: userDetails.isAdmin ? 'Admin' : 'User' });
           }).catch(() => res.status(400).json({ success: false, result: 'Please check your details' }));
       }).catch(() => {
         res.status(400).json({ success: false, result: 'Operation failed' });

@@ -33,88 +33,108 @@ describe('Testing of data on Postgress database', () => {
   let userTokenId = '';
   let adminTokenId = '';
 
+  before((done) => {
+    chai.request(server)
+      .post('/api/v1/users/signUp')
+      .send(signUpData);
 
-  describe('User Controller', () => {
-    it('it should return a predefined error message when the databse is empty', (done) => {
-      // Login
-      chai.request(server)
-        .get('/api/v1/user/email/1')
-        .send(changeRole)
-        .set('Authorization', `Bearer ${adminTokenId}`)
-        .end((err, res) => {
-          expect(res).to.have.status(404);
-          done();
-        });
-    });
+    chai.request(server)
+      .post('/api/v1/users/signUp')
+      .send(secondUserSignUp)
+      .end((err, res) => {
+        done(err);
+      });
 
-    it('it should return a predefined error message when an invalid page is supplied', (done) => {
-      // Login
-      chai.request(server)
-        .get('/api/v1/user/email/hello&2')
-        .send(changeRole)
-        .set('Authorization', `Bearer ${adminTokenId}`)
-        .end((err, res) => {
-          expect(res).to.have.status(404);
-          expect(res.body).to.have.property('success').eql(false);
-          done();
-        });
-    });
-
-    it('it should return user\'s details', (done) => {
-      // Sign up
-      chai.request(server)
-        .post('/api/v1/users/signUp')
-        .send(signUpData)
-        .end((err, res) => {
-          expect(res).to.have.status(201);
-          expect(res.body).to.have.property('firstName').eql(signUpData.firstName);
-          expect(res.body).to.have.property('lastName').eql(signUpData.lastName);
-          expect(res.body).to.have.property('email').eql(signUpData.email);
-          done(err);
-        });
-    });
-
-    it('it should return user\'s details', (done) => {
-      // Sign up
-      chai.request(server)
-        .post('/api/v1/users/signUp')
-        .send(secondUserSignUp)
-        .end((err, res) => {
-          expect(res).to.have.status(201);
-          expect(res.body).to.have.property('firstName').eql(secondUserSignUp.firstName);
-          expect(res.body).to.have.property('lastName').eql(secondUserSignUp.lastName);
-          expect(res.body).to.have.property('email').eql(secondUserSignUp.email);
-          done(err);
-        });
-    });
-
-    it('it should return a predefine error message if signing up with an existing email', (done) => {
-      // Sign up
-      chai.request(server)
-        .post('/api/v1/users/signUp')
-        .send(signUpData)
-        .end((err, res) => {
-          expect(res).to.have.status(400);
-          expect(res.body).to.have.property('result').eql(signUpPredefineError);
-          expect(res.body).to.have.property('success').eql(false);
-          done();
-        });
-    });
-
-    it('it should signup for admin role', (done) => {
-      // Sign up
-      chai.request(server)
-        .post('/api/v1/users/signUp')
-        .send(adminSignUpData)
-        .end((err, res) => {
-          expect(res).to.have.status(201);
-          expect(res.body).to.have.property('firstName').eql(adminSignUpData.firstName);
-          expect(res.body).to.have.property('lastName').eql(adminSignUpData.lastName);
-          expect(res.body).to.have.property('email').eql(adminSignUpData.email);
-          done();
-        });
-    });
+    chai.request(server)
+      .post('/api/v1/users/signUp')
+      .send(adminSignUpData)
+      .end((err, res) => {
+        done();
+      });
   });
+
+
+  // describe('User Controller', () => {
+  //   it('it should return a predefined error message when the databse is empty', (done) => {
+  //     // Login
+  //     chai.request(server)
+  //       .get('/api/v1/user/email/1')
+  //       .send(changeRole)
+  //       .set('Authorization', `Bearer ${adminTokenId}`)
+  //       .end((err, res) => {
+  //         expect(res).to.have.status(404);
+  //         done();
+  //       });
+  //   });
+
+  //   it('it should return a predefined error message when an invalid page is supplied', (done) => {
+  //     // Login
+  //     chai.request(server)
+  //       .get('/api/v1/user/email/hello&2')
+  //       .send(changeRole)
+  //       .set('Authorization', `Bearer ${adminTokenId}`)
+  //       .end((err, res) => {
+  //         expect(res).to.have.status(404);
+  //         expect(res.body).to.have.property('success').eql(false);
+  //         done();
+  //       });
+  //   });
+
+  //   it('it should return user\'s details', (done) => {
+  //     // Sign up
+  //     chai.request(server)
+  //       .post('/api/v1/users/signUp')
+  //       .send(signUpData)
+  //       .end((err, res) => {
+  //         expect(res).to.have.status(201);
+  //         expect(res.body).to.have.property('firstName').eql(signUpData.firstName);
+  //         expect(res.body).to.have.property('lastName').eql(signUpData.lastName);
+  //         expect(res.body).to.have.property('email').eql(signUpData.email);
+  //         done(err);
+  //       });
+  //   });
+
+  //   it('it should return user\'s details', (done) => {
+  //     // Sign up
+  //     chai.request(server)
+  //       .post('/api/v1/users/signUp')
+  //       .send(secondUserSignUp)
+  //       .end((err, res) => {
+  //         expect(res).to.have.status(201);
+  //         expect(res.body).to.have.property('firstName').eql(secondUserSignUp.firstName);
+  //         expect(res.body).to.have.property('lastName').eql(secondUserSignUp.lastName);
+  //         expect(res.body).to.have.property('email').eql(secondUserSignUp.email);
+  //         done(err);
+  //       });
+  //   });
+
+  //   it('it should return a predefine error message if signing up with an existing email', (done) => {
+  //     // Sign up
+  //     chai.request(server)
+  //       .post('/api/v1/users/signUp')
+  //       .send(signUpData)
+  //       .end((err, res) => {
+  //         expect(res).to.have.status(400);
+  //         expect(res.body).to.have.property('result').eql(signUpPredefineError);
+  //         expect(res.body).to.have.property('success').eql(false);
+  //         done();
+  //       });
+  //   });
+
+  //   it('it should signup for admin role', (done) => {
+  //     // Sign up
+  //     chai.request(server)
+  //       .post('/api/v1/users/signUp')
+  //       .send(adminSignUpData)
+  //       .end((err, res) => {
+  //         expect(res).to.have.status(201);
+  //         expect(res.body).to.have.property('firstName').eql(adminSignUpData.firstName);
+  //         expect(res.body).to.have.property('lastName').eql(adminSignUpData.lastName);
+  //         expect(res.body).to.have.property('email').eql(adminSignUpData.email);
+  //         done();
+  //       });
+  //   });
+  // });
 
   describe('Login Controller ', () => {
     it('it should return users login token', (done) => {

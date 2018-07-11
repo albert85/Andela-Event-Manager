@@ -9,14 +9,14 @@
     "start": "babel-watch ./client/clientServer/prodServer.js || true",
     "start:dev": "nodemon --exec npm run babel-node server/app.js",
     "js": "npm run db:migrate && nyc --reporter=html --reporter=text mocha --compilers js:babel-register --require babel-polyfill --recursive server/test --timeout 15000 --exit",
-    "test": "npm run db:migrate && nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register --require babel-polyfill --recursive server/test/ --timeout 15000 --exit",
+    "test": "npm run db:migrate && nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register --require babel-polyfill --recursive server/test/test/ --timeout 15000 --exit",
     "test:client": "jest ./client --coverage",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "db:migrate": "sequelize --config ./server/config/config.json --migrations-path ./server/migrations db:migrate:undo:all && sequelize --config ./server/config/config.json --migrations-path ./server/migrations db:migrate",
     "prod": "webpack-dev-server --config webpack.prod.js",
-    "web:webpack": "webpack --watch",
+    "web:webpack": "webpack --watch --config webpack.dev.js",
     "product2": "babel-node -- ./client/clientServer/prodServer.js",
-    "postinstall": "webpack -p",
+    "postinstall": "webpack -p --config webpack.prod.js",
     "e2eTest": "./node_modules/.bin/nightwatch"
   },
   "jest": {
@@ -136,6 +136,6 @@
     "webpack-dev-middleware": "^3.1.3",
     "webpack-dev-server": "^2.9.7",
     "webpack-livereload-plugin": "^2.1.1",
-    "webpack-merge": "^4.1.1"
+    "webpack-merge": "^4.1.3"
   }
 }

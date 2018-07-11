@@ -133,7 +133,7 @@ describe('<EditCenter />', () => {
       centerState: [newCenter],
     });
 
-    wrapper.find('#eventnameEdit').simulate('change', { target: { value: 'Andela' } });
+    wrapper.find('#centernameEdit').simulate('change', { target: { value: 'Andela' } });
     expect(spy.called).to.be.equal(true);
     spy.restore();
   });

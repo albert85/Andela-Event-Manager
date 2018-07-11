@@ -8,6 +8,14 @@ const endPointTestData = {
     lastName: 'Adeniji',
   },
 
+  newSignUpData: {
+    firstName: 'Shemilore',
+    email: 'android@gmail.com',
+    password: '123456',
+    isAdmin: true,
+    lastName: 'Adeniji',
+  },
+
   changeRole: {
     firstName: 'Shemilore',
     email: 'adenike@gmail.com',

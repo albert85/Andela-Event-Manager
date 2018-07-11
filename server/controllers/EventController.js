@@ -57,9 +57,9 @@ export default class EventController {
       .findById(req.params.eventId)
       .then((eventDetails) => {
         if (!eventDetails) {
-          res.status(404).json({ success: false, result: 'Event not found!!!' });
+          return res.status(404).json({ success: false, result: 'Event not found!!!' });
         }
-        res.status(200).json({ success: true, result: eventDetails });
+        return res.status(200).json({ success: true, result: eventDetails });
       })
       .catch(() => res.status(404).json({ success: false, result: 'Event not found!!!' }));
   }
@@ -78,7 +78,6 @@ export default class EventController {
     if (!decoded) {
       return res.status(403).json({ success: false, result: 'Token expired please login to generate new token' });
     }
-    console.log('*********', db.Event);
 
     return db.Event
       .findAndCountAll({
