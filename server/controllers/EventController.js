@@ -131,7 +131,7 @@ export default class EventController {
       })
       .then((result) => {
         if (result.count === 0) {
-          return res.status(200).json({ success: true, result: 'No Events in the user\'s record', eventDetails: [] });
+          return res.status(404).json({ success: true, result: 'No Events in the user\'s record', eventDetails: [] });
         }
         const numOfPage = Math.ceil(result.count / req.params.limit);
         const suppliedPageNo = req.params.page;

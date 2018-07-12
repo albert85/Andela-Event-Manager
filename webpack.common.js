@@ -9,6 +9,8 @@ module.exports = {
     path: `${__dirname}/client/public/`,
     publicPath: '/',
   },
+  devtool: 'inline-source-map',
+
   module: {
     rules: [
       {

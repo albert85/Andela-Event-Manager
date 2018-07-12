@@ -166,12 +166,6 @@ export class CenterDetails extends Component {
                                             required />
                                         </div>
 
-                                        <a className="btn btn-success btn-sm btn-block mb-3" href="/centers">
-                                            <h4 className="text-white">
-                                                <i className="fa fa-home" aria-hidden="true"></i>
-                                            </h4>
-                                        </a>
-
                                     </form>
 
                                     <ModalComponent

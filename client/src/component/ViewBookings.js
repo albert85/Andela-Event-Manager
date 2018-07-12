@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PaginationComponent from 'react-js-pagination';
 import PropType from 'prop-types';
+import toastr from 'toastr';
 
 import DisplayLoading from './loadingBar/LoadingBar';
 import getAllCenterAction from '../action/getAllCentersAction';
@@ -22,8 +23,6 @@ export class BookingDetails extends Component {
       centreAmount: '',
       centreName: '',
       checkRecordIfExist: false,
-      displayNameError: false,
-      displayLocationError: false,
       currentPage: 1,
       eventItemsCountPerPage: 4,
       checkifTableEmpty: false,
@@ -33,23 +32,45 @@ export class BookingDetails extends Component {
     this.handleCenterLocation = this.handleCenterLocation.bind(this);
     this.handleCenterName = this.handleCenterName.bind(this);
     this.handlePagination = this.handlePagination.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
-  handleCenterLocation(e) {
-    this.setState({ centreLocation: e.target.value });
+  /**
+   * @description This method sign out user from account
+   */
+  handleLogout() {
+    localStorage.clear();
+    this.props.history.push('/');
   }
 
+  /**
+   * @description This method get and save centre location to the state
+   * @param {object} centerLocation
+   */
+  handleCenterLocation(centerLocation) {
+    this.setState({ centreLocation: centerLocation.target.value });
+  }
+  /**
+   * @description This method handle pagination
+   * @param {int} pageNum
+   */
   // handles pagination
   handlePagination(pageNum) {
     this.setState({ currentPage: pageNum });
     this.props.getACenterAction(this.state.centerId, pageNum);
   }
 
-
-  handleCenterName(e) {
-    this.setState({ centreName: e.target.value });
+  /**
+   * @description This method handle saving center name into the state
+   * @param {object} centerName
+   */
+  handleCenterName(centerName) {
+    this.setState({ centreName: centerName.target.value });
   }
 
+  /**
+   * @description This method handle viewing of centre bookings
+   */
   handleLocation() {
     if ((this.state.centreName).length !== 0 && (this.state.centreLocation).length !== 0) {
       // Don't display error
@@ -80,13 +101,13 @@ export class BookingDetails extends Component {
         });
     } else {
       if (this.state.centreName.length === 0) {
-        this.setState({ displayNameError: true });
-        this.setState({ checkRecordIfExist: false });
+        toastr.warning('Please Supply the Center\'s Name');
+        toastr.clear();
       }
 
       if (this.state.centreLocation.length === 0) {
-        this.setState({ displayLocationError: true });
-        this.setState({ checkRecordIfExist: false });
+        toastr.warning('Please Supply the Center\'s Location');
+        toastr.clear();
       }
     }
   }
@@ -95,53 +116,78 @@ export class BookingDetails extends Component {
     return (
             <div>
                 {/* Setup the header  */}
-                <ViewBookingHeaderComponent />
+                <ViewBookingHeaderComponent handleLogout = {this.handleLogout} />
                 {/* Create two columns for the management content  */}
                 {/* create a section  */}
                 <div className="section">
                     <div className="section-cover-viewcenter">
-                        <div className="container">
-                            <div className="row event-body">
+                        <div className="container event-body">
+                            <div className="container">
+                                <form>
+                                <div className="form-row">
+                                    <div className="col-5 form-inline">
+                                    <input
+                                    name="searchedCenter"
+                                    className="form-control center-input-field"
+                                    id="centerName"
+                                    type="search"
+                                    required
+                                    onChange={this.handleCenterName}
+                                    placeholder="Centre Name" />
+
+                                    </div>
+                                    <div className="col-5 form-inline">
+                                    <input
+                                    type="text"
+                                    id="eventCenterLocation"
+                                    name="searchedLocation"
+                                    className="form-control center-input-field"
+                                    onChange = {this.handleCenterLocation}
+                                    value={this.state.centreLocation}
+                                    placeholder="Centre Location" />
+
+                                    </div>
+                                    <div className="col">
+                                    <button
+                                    type="button"
+                                    id="searchBtn"
+                                    onClick={this.handleLocation}
+                                    className="center-btn-search bg-primary text-white"
+                                    > SEARCH </button>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                            <hr/>
+                            <div className="row">
                                 <div className="col-md-5 col-sm-12 pl-4 pr-4 pb-4 mb-3">
                                     <form className="p-2 text-dark">
                                         <div className="bg-danger text-center text-white p-2 mb-3">
-                                            <h4>EVENT CENTER</h4>
+                                            <h4>VIEW CENTER DETAILS</h4>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="centerName">Center Name</label>
-                                        <div className="form-inline">
+
                                             <input type='search'
                                             name="searchedCenter"
-                                                className="form-control center-input-field"
-                                                id="centerName"
+                                                className="form-control"
+                                                readOnly
                                                 required
-                                                placeholder = "Please select center"
-                                                onChange={this.handleCenterName}/>
+                                                placeholder = "Center name"
+                                                value={this.state.centreName}
+                                                />
 
-                                            {
-                                                this.state.displayNameError && (<span className="text-danger"> Please Indicate Location</span>)
-                                            }
-
-                                        <button type="button" id="searchBtn" className="center-btn-search" onClick={this.handleLocation}>
-                                        SEARCH
-                                        </button>
-
-                                        </div>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="eventCenterLocation"> Location:</label>
                                             <input type="text"
-                                            id="eventCenterLocation"
+                                            readOnly
                                             className="form-control"
                                             placeholder="Location"
-                                            name="searchedLocation"
-                                            onChange = {this.handleCenterLocation}
-                                            value={this.state.centreLocation}/>
-                                            {
-                                                this.state.displayLocationError && (<span className="text-danger"> Please Indicate Location</span>)
-                                            }
+                                            value={this.state.centreLocation}
+                                            />
                                         </div>
 
                                         <div className="form-group">
@@ -160,16 +206,11 @@ export class BookingDetails extends Component {
                                             <input type="numbers"
                                             id="eventcenteramountEdit"
                                             className="form-control"
+                                            readOnly
                                             placeholder="Amount"
                                             value={this.state.centreAmount}
                                             required />
                                         </div>
-
-                                        <a id="eventHome" className="btn btn-success btn-sm btn-block mb-3" href="/event-home-page">
-                                            <h4 className="text-white">
-                                                <i className="fa fa-home" aria-hidden="true"></i>
-                                            </h4>
-                                        </a>
 
                                     </form>
 

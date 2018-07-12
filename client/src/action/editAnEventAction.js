@@ -45,12 +45,14 @@ const updateAnEvents = (modifiedData, eventId, history) => (dispatch) => {
       
       if (res.data.result === 'sucessfully updated') {
         toastr.success('sucessfully updated');
+        toastr.clear();
         history.push('/event-home-page');
       }
     })
     .catch(() => {
       dispatch(errorMessage(ERROR_MESSAGE));
       toastr.error('Date not Available for booking');
+      toastr.clear();
     });
 };
 export default updateAnEvents;

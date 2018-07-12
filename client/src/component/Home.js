@@ -77,8 +77,8 @@ export class Home extends React.Component {
 
                         <label htmlFor="inputEmail">Email</label>
                         <div className="input-group">
-                        <div class="input-group-prepend">
-                        <div class="input-group-text bg-primary"><i className="fa fa-envelope text-white"></i></div>
+                        <div className="input-group-prepend">
+                        <div className="input-group-text bg-primary"><i className="fa fa-envelope text-white"></i></div>
                         </div>
                         <input type="email"
                         className="form-control"
@@ -92,8 +92,8 @@ export class Home extends React.Component {
                         <div className="form-group">
                           <label htmlFor="inputPassword">Password</label>
                           <div className="input-group">
-                          <div class="input-group-prepend">
-                          <div class="input-group-text bg-primary"><i className="fa fa-lock text-white"></i></div>
+                          <div className="input-group-prepend">
+                          <div className="input-group-text bg-primary"><i className="fa fa-lock text-white"></i></div>
                           </div>
                           <input type="password"
                           className="form-control"
@@ -118,8 +118,6 @@ export class Home extends React.Component {
                               </button>
                                 Create a New Account? <a href="/signup" id="signupLink" className="text-danger">SIGN UP</a>
                             </div>
-                            {/* <div className="col-md-12 col-sm-12">
-                            </div> */}
                          </div>
                   </form>
                 </div>

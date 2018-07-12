@@ -1,4 +1,5 @@
 import axios from 'axios';
+import toastr from 'toastr';
 
 import { checkPageStatus, successMessage, errorMessage } from '../common/DispatchMessage';
 import {
@@ -41,9 +42,13 @@ const updateBookingStatus = (bookingStatusData, eventId, index) => (dispatch) =>
       localStorage.setItem('message', res.data.message);
       dispatch(updateBookingStatusAsync(bookingStatusData.bookingStatus, eventId, index));
       dispatch(successMessage(SUCCESS_MESSAGE));
+      toastr.success('Booking have cancelled successfully');
+      toastr.clear();
     })
     .catch(() => {
       dispatch(errorMessage(ERROR_MESSAGE));
+      toastr.error('Booking cancelling was not sucessfully');
+      toastr.clear();
     });
 };
 export default updateBookingStatus;

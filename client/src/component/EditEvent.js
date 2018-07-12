@@ -40,12 +40,21 @@ export class EditEvent extends Component {
     this.handlePagination = this.handlePagination.bind(this);
     this.handleCenterPagination = this.handleCenterPagination.bind(this);
     this.handleSelectCenter = this.handleSelectCenter.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
 
   componentDidMount() {
     this.props.getAllCenters(1, this.state.recordLimit);
     this.props.getUsersAllEventAction(1, localStorage.getItem('userIdNo'), 1);
+  }
+
+  /**
+   * @description This method sign out user from account
+   */
+  handleLogout() {
+    localStorage.clear();
+    this.props.history.push('/');
   }
 
   /**
@@ -183,9 +192,9 @@ export class EditEvent extends Component {
   render() {
     return (
             <div >
-               
 
-                <EditEventHeader />
+
+                <EditEventHeader handleLogout = {this.handleLogout}/>
 
                 {/* Create two columns for the management content */}
                 {/* create a section  */}
@@ -200,70 +209,74 @@ export class EditEvent extends Component {
 
                                     {/* Create a table and populate it with events from the database */}
                                     <div className="eventlist bg-primary text-center text-dark p-3">
-                                        <table className="table-sm text-center table-hover mx-auto table-responsive-sm table-striped bg-white">
-                                            <thead className="text-center bg-info border border-white text-white">
-                                                <tr className="p-3">
-                                                    <th scope="col" className="border border-white"> S/N</th>
-                                                    <th scope="col" className="border border-white">Event Name</th>
-                                                    <th scope="col" className="border border-white">Venue</th>
-                                                    <th scope="col" className="border border-white">Location</th>
-                                                    <th scope="col" className="border border-white">Date</th>
-                                                    <th scope="col" className="border border-white">Status</th>
-                                                    <th scope="col"></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
+                                    {
+                                        !this.props.centerPageNo.checkIfRecordExist && (<p className="text-white">You don't any event here</p>)
+                                    }
+                                    {
 
-                                                {
-                                                    !this.props.centerPageNo.checkIfRecordExist && (<p>You don't any event here</p>)
-                                                }
+                                            this.props.centerPageNo.checkIfRecordExist &&
+                                            (<table className="table-sm text-center table-hover mx-auto table-responsive-sm table-striped bg-white">
+                                                <thead className="text-center bg-info border border-white text-white">
+                                                    <tr className="p-3">
+                                                        <th scope="col" className="border border-white"> S/N</th>
+                                                        <th scope="col" className="border border-white">Event Name</th>
+                                                        <th scope="col" className="border border-white">Venue</th>
+                                                        <th scope="col" className="border border-white">Location</th>
+                                                        <th scope="col" className="border border-white">Date</th>
+                                                        <th scope="col" className="border border-white">Status</th>
+                                                        <th scope="col"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
 
-                                                {/* populate the row of the table with events */}
-                                                {
-                                                    // map through array of events and insert into the rows of the table
-                                                    this.props.eventState.map((event, index) =>
 
-                                                        // return tthe rows generated
+                                                    {/* populate the row of the table with events */}
+                                                    {
+                                                        // map through array of events and insert into the rows of the table
+                                                        this.props.eventState.map((event, index) =>
 
-                                                        <tr key={index} index={index} addre={event.id} className="border border-white">
-                                                            <td scope="row">{index + 1}</td>
-                                                            <td>{event.name}</td>
-                                                            <td>{this.props.centerState.map((center) => {
-                                                                if (center.id === event.centerId) {
-                                                                    return center.name;
-                                                                }
-                                                            })}</td>
-                                                            <td>{this.props.centerState.map((center) => {
-                                                                if (center.id === event.centerId) {
-                                                                    return center.location;
-                                                                }
-                                                            })}</td>
-                                                            <td>{event.eventDate}</td>
-                                                            {(event.bookingStatus === 1) ? <td className="text-primary">Booked
-                                                                <i className="fa fa-book" aria-hidden="true"></i>
-                                                            </td> : <td className="text-danger">Canceled <i className="fa fa-close text-danger" aria-hidden="true"></i> </td>}
+                                                            // return tthe rows generated
 
-                                                            <td>
-                                                                <div className="row">
+                                                            <tr key={index} index={index} addre={event.id} className="border border-white">
+                                                                <td scope="row">{index + 1}</td>
+                                                                <td>{event.name}</td>
+                                                                <td>{this.props.centerState.map((center) => {
+                                                                    if (center.id === event.centerId) {
+                                                                        return center.name;
+                                                                    }
+                                                                })}</td>
+                                                                <td>{this.props.centerState.map((center) => {
+                                                                    if (center.id === event.centerId) {
+                                                                        return center.location;
+                                                                    }
+                                                                })}</td>
+                                                                <td>{event.eventDate}</td>
+                                                                {(event.bookingStatus === 1) ? <td className="text-primary">Booked
+                                                                    <i className="fa fa-book" aria-hidden="true"></i>
+                                                                </td> : <td className="text-danger">Canceled <i className="fa fa-close text-danger" aria-hidden="true"></i> </td>}
 
-                                                                    {/* Execute edit operation */}
-                                                                    <div className="col mb-2">
-                                                                        <button type="button"
-                                                                        id="editButton"
-                                                                        onClick={this.handleStoringId.bind(this, event.id)}
-                                                                        className="btn btn-success btn-block">
-                                                                            <i className="fa fa-pencil" aria-hidden="true"></i>
-                                                                        </button>
+                                                                <td>
+                                                                    <div className="row">
+
+                                                                        {/* Execute edit operation */}
+                                                                        <div className="col mb-2">
+                                                                            <button type="button"
+                                                                            id="editButton"
+                                                                            onClick={this.handleStoringId.bind(this, event.id)}
+                                                                            className="btn btn-success btn-block">
+                                                                                <i className="fa fa-pencil" aria-hidden="true"></i>
+                                                                            </button>
+                                                                        </div>
+
                                                                     </div>
 
-                                                                </div>
+                                                                </td>
 
-                                                            </td>
-
-                                                        </tr>)
-                                                }
-                                            </tbody>
-                                        </table>
+                                                            </tr>)
+                                                    }
+                                                </tbody>
+                                            </table>)
+                                    }
                                     </div>
 
                                     <PaginationComponent

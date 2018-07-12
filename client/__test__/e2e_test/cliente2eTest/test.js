@@ -49,8 +49,8 @@ export default
       .setValue('input[type=password]', '123456')
       .waitForElementVisible('button[id=loginbtn]', 1000)
       .click('button[id=loginbtn]')
-      .waitForElementVisible('table.table-sm', 1000)
-      .assert.visible('table.table-sm')
+      .waitForElementVisible('div.eventlist', 1000)
+      .assert.visible('div.eventlist')
 
       // Add an event
       .assert.visible('form#addEventForm')
@@ -107,7 +107,10 @@ export default
       .click('#searchBtn')
 
       // delete an event
-      .click('#eventHome')
+      .execute(() => {
+        document.querySelector('#addEventNav').click();
+      })
+      .pause(3000)
       .click('#delBtn')
       .end();
   },

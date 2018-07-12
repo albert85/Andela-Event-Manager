@@ -42,7 +42,7 @@ const endPointTestData = {
 
 
   loginData: {
-    email: 'adenike@gmail.com',
+    email: 'android@gmail.com',
     password: '123456',
   },
 
@@ -122,6 +122,12 @@ const endPointTestData = {
     bookingStatus: 0,
     centerId: 1,
     eventDate: new Date('2019-12-25'),
+  },
+  eventData3: {
+    name: 'Wedding',
+    bookingStatus: 0,
+    centerId: 1,
+    eventDate: new Date('2019-12-29'),
   },
 
   updateEventData: {

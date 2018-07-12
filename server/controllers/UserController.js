@@ -70,10 +70,9 @@ export default class UserController {
             password: userDetails.password,
             isAdmin: req.body.isAdmin || userDetails.isAdmin,
             lastName: req.body.lastName || userDetails.lastName,
-          }).then(() => {
+          }).then(() =>
             // display success message
-            return res.status(200).json({ success: true, result: `${userDetails.firstName}'s role has updated as ${userDetails.isAdmin ? 'an Admin' : ' a user'}`, role: userDetails.isAdmin ? 'Admin' : 'User' });
-          }).catch(() => res.status(400).json({ success: false, result: 'Please check your details' }));
+            res.status(200).json({ success: true, result: `${userDetails.firstName}'s role has updated as ${userDetails.isAdmin ? 'an Admin' : ' a user'}`, role: userDetails.isAdmin ? 'Admin' : 'User' })).catch(() => res.status(400).json({ success: false, result: 'Please check your details' }));
       }).catch(() => {
         res.status(400).json({ success: false, result: 'Operation failed' });
       });

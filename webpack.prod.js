@@ -1,7 +1,6 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('./webpack.common');
-//   const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 require('dotenv').config();
 
@@ -22,10 +21,6 @@ module.exports = merge(common, {
       comments: false,
       sourceMap: true,
       minimize: false,
-    }),
-
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production'),
     }),
 
   ],
