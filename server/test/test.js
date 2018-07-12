@@ -75,7 +75,6 @@ describe('API for Centers and Events', () => {
         amount: 100,
       };
       chai.request(server)
-      
         .put('/api/v1/admin/centers/1')
         .send(newData)
         .end((err, res) => {
@@ -124,7 +123,6 @@ describe('API for Centers and Events', () => {
         eventDate: '22/11/2007',
       };
       chai.request(server)
-
         .put('/api/v1/users/events/1')
         .send(newData)
         .end((err, res) => {

@@ -108,9 +108,42 @@ export default class Validator {
 
   static updateCenterValidation(req, res, next) {
     req.checkBody('name', 'Name of the center is required').notEmpty().isLength({ max: 256 });
-    req.checkBody('location', 'Please indicate location of the event center').notEmpty().isLength({ max: 256 });
-    req.checkBody('amount', 'Cost for booking the center').notEmpty().isInt({ min: 0 });
-    req.checkBody('capacity', 'capacity of the event').notEmpty().isInt({ min: 1 });
+    req.checkBody('location', 'Please indicate location of the event center (type: string)').notEmpty().isLength({ max: 256 });
+    req.checkBody('amount', 'Please supply a valid integer for amount').notEmpty().isInt({ min: 0 });
+    req.checkBody('capacity', 'Please supply a valid integer for capacity').notEmpty().isInt({ min: 1 });
+    req.checkParams('centerId', 'Please supply a valid integer for centerId').notEmpty().isInt({ min: 1 });
+    if (!req.validationErrors()) {
+      return next();
+    }
+    return res.status(400).json({ validation: false, result: req.validationErrors() });
+  }
+
+  /**
+   * @description validates details supplied to get a center
+   * @param {object} req request
+   * @param {object} res response
+   * @returns {object}
+   */
+
+  static validateCenterId(req, res, next) {
+    req.checkParams('centerId', 'Please supply a valid integer for centerId').notEmpty().isInt({ min: 1 });
+    if (!req.validationErrors()) {
+      return next();
+    }
+    return res.status(400).json({ validation: false, result: req.validationErrors() });
+  }
+
+  /**
+   * @description validates details supplied to get a center's event details
+   * @param {object} req request
+   * @param {object} res response
+   * @returns {object}
+   */
+
+  static validateCenterEventDetail(req, res, next) {
+    req.checkParams('centerId', 'Please supply a valid integer for centerId').notEmpty().isInt({ min: 1 });
+    req.checkParams('page', 'Please supply a valid integer for page number').notEmpty().isInt({ min: 1 });
+    req.checkParams('limit', 'Please supply a valid integer for the maximum record to be sent').notEmpty().isInt({ min: 1 });
     if (!req.validationErrors()) {
       return next();
     }
@@ -135,6 +168,54 @@ export default class Validator {
   }
 
   /**
+   * @description validates details supplied to get the event of a specific user
+   * @param {object} req request
+   * @param {object} res response
+   * @returns {object}
+   */
+
+  static validateParamsUserEvent(req, res, next) {
+    req.checkParams('centerId', 'Please supply a valid integer for centerId').notEmpty().isInt({ min: 1 });
+    req.checkParams('userIdNo', 'Please supply a valid integer for user id number').notEmpty().isInt({ min: 1 });
+    req.checkParams('page', 'Please supplied the page number (integer with a minimum value of 1) to populate ').notEmpty().isInt({ min: 1 });
+    req.checkParams('limit', 'Please indicate number of events to return').notEmpty().isInt({ min: 1 });
+    if (!req.validationErrors()) {
+      return next();
+    }
+    return res.status(400).json({ validation: false, result: req.validationErrors() });
+  }
+
+  /**
+   * @description validates details supplied for event id
+   * @param {object} req request
+   * @param {object} res response
+   * @returns {object}
+   */
+
+  static validateParamsEventId(req, res, next) {
+    req.checkParams('eventId', 'Please supply a valid integer for event id').notEmpty().isInt({ min: 1 });
+    if (!req.validationErrors()) {
+      return next();
+    }
+    return res.status(400).json({ validation: false, result: req.validationErrors() });
+  }
+
+  /**
+   * @description validates details supplied for user id
+   * @param {object} req request
+   * @param {object} res response
+   * @returns {object}
+   */
+
+  static validateParamsUserId(req, res, next) {
+    req.checkParams('userId', 'Please supply a valid integer for user id').notEmpty().isInt({ min: 1 });
+    if (!req.validationErrors()) {
+      return next();
+    }
+    return res.status(400).json({ validation: false, result: req.validationErrors() });
+  }
+
+  /**
    * @description validate supplied data to updates user's role
    * @param {object} req
    * @param {object} res
@@ -147,6 +228,8 @@ export default class Validator {
     req.checkBody('lastName', 'Supply your lastname ').notEmpty().isLength({ max: 256 });
 
     req.checkBody('isAdmin', 'Please supply the role of the user (true or false) as admin').notEmpty().isBoolean();
+
+    req.checkParams('userId', 'Please supply a valid integer for user id').notEmpty().isInt({ min: 1 });
 
     req.checkBody('email', 'Please supply a valid email address')
       .normalizeEmail().notEmpty().isEmail()

@@ -54,28 +54,28 @@ export default class Centermanager {
   static editACenter(req, res) {
     // check if the validity of the input
     if (!req.body.name || !req.body.location || !req.body.capacity || !req.body.amount) {
-      res.json({
+      return res.json({
         message: 'Please supply name, location capacity and amount of the center',
         Error: true,
       });
-    } else {
-      // Update the center using center id
-      centerDatabase.centers.forEach((value) => {
-        if (value.id === parseInt(req.params.centerid, 10)) {
-          centerDatabase.centers[req.params.centerid].name = req.body.name;
-          centerDatabase.centers[req.params.centerid].location = req.body.location;
-          centerDatabase.centers[req.params.centerid].capacity = req.body.capacity;
-          centerDatabase.centers[req.params.centerid].amount = req.body.amount;
-
-          return res.json({
-            Message: `User ${value.id} updated`,
-            error: false,
-            user: centerDatabase.centers[req.params.centerid],
-
-          });
-        }
-      });
     }
+    // Update the center using center id
+    centerDatabase.centers.forEach((value) => {
+      if (value.id === parseInt(req.params.centerid, 10)) {
+        centerDatabase.centers[req.params.centerid].name = req.body.name;
+        centerDatabase.centers[req.params.centerid].location = req.body.location;
+        centerDatabase.centers[req.params.centerid].capacity = req.body.capacity;
+        centerDatabase.centers[req.params.centerid].amount = req.body.amount;
+
+        return res.json({
+          Message: `User ${value.id} updated`,
+          error: false,
+          user: centerDatabase.centers[req.params.centerid],
+
+        });
+      }
+    });
+
 
     return res.status(404).json({
       status: 'User not found',

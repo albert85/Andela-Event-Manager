@@ -49,9 +49,11 @@ hr{
 }
 
 .section-cover-user{
-    background: #222 url('./public/img/eventCenter2.jpg') center center no-repeat;
+    background: #222 url('./public/img/eventCentreMainHall.jpg') center center no-repeat;
     background-size: cover;
-    min-height: 88vh;
+    min-height: 86vh;
+    padding-top: 20px;
+
 
 }
         .eventlist{
@@ -62,26 +64,30 @@ hr{
 .event-body{
     background: rgba(255,255,255,0.8);
     color: #000000;
+    padding-top: 20px;
 }
 
 .section-cover-admin-home-page{
     background: #222 url('./public/img/eventCenter3.jpg') center center no-repeat;
     background-size: cover;
+    padding-top: 10px;
     min-height: 88vh;
 }
 
 .section-cover-viewcenter{
-    background: #222 url('./public/img/eventCenter2.jpg') center center no-repeat;
+    background: #222 url('./public/img/eventCentreMainHall.jpg') center center no-repeat;
     background-size: cover;
-    min-height: 88vh;
+    min-height: 86vh;
+    padding-top: 30px;
 
     .center-input-field{
-        width: 77% !important; 
+        width: 100% !important; 
         margin-right: 6px;
        }
 
     .center-btn-search{
-        height: 34px;
+        height: 37px;
+        width: 120px;
     }
 }
 .pagination {

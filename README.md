@@ -69,8 +69,25 @@ This project is licensed under the MIT license
 - Boostrap
 - Redux
 
+### Contributing
+If you are interested in contributing to development of this project, follow the instructions below to contribute.
+
+Fork the repository
+
+Make your change
+
+Commit your change to your forked repository
+
+Provide a detailed commit description
+
+Raise a pull request against the develop branch
+
+Please see [Project wiki](https://github.com/andela/bestpractices/wiki/Git-naming-conventions-and-best-practices) for project conventions
+
+
 ### Author
-- Temitope Albert Olarewaju
+- ##### Temitope Albert Olarewaju
+
 
 ### Acknowledgements
 - Bootstrap

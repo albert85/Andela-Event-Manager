@@ -37,6 +37,7 @@ const addNewEvent = newEventDetails => (dispatch) => {
       dispatch(successMessage(SUCCESS_MESSAGE));
       toastr.success('sucessfully created');
       toastr.clear();
+      return res.data.success;
     })
     .catch(() => {
       dispatch(errorMessage(ERROR_MESSAGE));

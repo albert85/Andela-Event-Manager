@@ -14,7 +14,7 @@ class ModalComponent extends React.Component {
     } = this.props;
 
     return (
-    <div className="modal fade" id={id} tabindex="-1" role="dialog" aria-labelledby="selectModalLabel" aria-hidden="true">
+    <div className="modal fade" id={id} tabIndex="-1" role="dialog" aria-labelledby="selectModalLabel" aria-hidden="true">
   <div className="modal-dialog modal-lg" role="document">
     <div className="modal-content">
       <div className="modal-header bg-primary">

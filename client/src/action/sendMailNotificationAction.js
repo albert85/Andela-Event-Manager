@@ -1,4 +1,5 @@
 import axios from 'axios';
+import toastr from 'toastr';
 
 import { checkPageStatus, successMessage, errorMessage } from '../common/DispatchMessage';
 import {
@@ -34,9 +35,13 @@ const sendEmail = userEmailAddress => (dispatch) => {
       localStorage.setItem('message', res.data.message);
       dispatch(sendEmailAsync(userEmailAddress));
       dispatch(successMessage(SUCCESS_MESSAGE));
+      toastr.success('Notification have been sent');
+      toastr.clear();
     })
     .catch(() => {
       dispatch(errorMessage(ERROR_MESSAGE));
+      toastr.error('Notification was not sent');
+      toastr.clear();
     });
 };
 

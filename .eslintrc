@@ -38,7 +38,7 @@
         "no-param-reassign": 0,
         "array-callback-return": 0,
         "func-names": 0,
-        "no-undef": 0,
+        "no-undef": 2,
         "import/no-unresolved": [
             2,
             {

@@ -119,20 +119,22 @@ export class EventHomePage extends Component {
 
     // Add new event
     this.props.addNewEvent(eventToAdd)
-      .then(() => {
+      .then((res) => {
         // call api to refresh state
         this.props.getUsersAllEventAction(this.state.centerId, localStorage.getItem('userIdNo'), 1);
+        if (res) {
+          this.setState({
+            addEventDetails: Object.assign(this.state.addEventDetails, {
+              eventName: '',
+              eventLocation: 'Location',
+              eventVenue: 'Please select center',
+              eventDate: '',
+
+            }),
+          });
+        }
       });
 
-    this.setState({
-      addEventDetails: Object.assign(this.state.addEventDetails, {
-        eventName: '',
-        eventLocation: 'Location',
-        eventVenue: 'Please select center',
-        eventDate: '',
-
-      }),
-    });
 
     if (this.props.eventState.length > 0) {
       this.setState({ ...this.state, checkifAnyRecordExist: true });
@@ -168,8 +170,13 @@ export class EventHomePage extends Component {
 
                                     {/* Create a table and populate it with events from the database */}
                                     <div className="eventlist bg-primary text-center text-dark p-3">
+                                    {
+                                                    !this.props.centerPageNo.checkIfRecordExist && (<p className="text-white">No Record Exist</p>)
+                                    }
 
-                                        <table className="table-sm text-center table-hover mx-auto table-responsive-sm table-striped bg-white">
+                                    {
+                                        this.props.centerPageNo.checkIfRecordExist &&
+                                        (<table className="table-sm text-center table-hover mx-auto table-responsive-sm table-striped bg-white">
                                             <thead className="text-center bg-info border border-white text-white">
                                                 <tr className="p-3">
                                                     <th scope="col" className="border border-white"> S/N</th>
@@ -184,9 +191,6 @@ export class EventHomePage extends Component {
 
                                             <tbody>
 
-                                                {
-                                                    !this.props.centerPageNo.checkIfRecordExist && (<p>No Record Exist</p>)
-                                                }
 
                                                 {
 
@@ -201,13 +205,11 @@ export class EventHomePage extends Component {
                                                                 if (center.id === event.centerId) {
                                                                     return center.name;
                                                                 }
-                                                                return center;
                                                             })}</td>
                                                             <td>{this.props.centerState.map((center) => {
                                                                 if (center.id === event.centerId) {
                                                                     return center.location;
                                                                 }
-                                                                return center;
                                                             })}</td>
                                                             <td>{event.eventDate}</td>
                                                             {(event.bookingStatus === 1) ? <td className="text-primary">Booked <i className="fa fa-book" aria-hidden="true"></i> </td> : <td className="text-danger">Canceled <i className="fa fa-close text-danger" aria-hidden="true"></i> </td>}
@@ -229,7 +231,10 @@ export class EventHomePage extends Component {
 
                                             </tbody>
 
-                                        </table>
+                                        </table>)
+
+                                    }
+
                                     </div>
                                     {
                                         this.props.centerPageNo.checkIfRecordExist &&
@@ -261,7 +266,6 @@ export class EventHomePage extends Component {
                                                 className="form-control"
                                                 placeholder="Event Name"
                                                 value = {this.state.addEventDetails.eventName}
-                                                defaultValue = ""
                                                 onChange={this.handleEventName} />
                                         </div>
 
